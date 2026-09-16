@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>SwapFOSS — slide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" />
+<style>
+  body { margin: 0; background: var(--bg); }
+  .export-card.intro, .export-card.outro {
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .eyebrow {
+    font-size: 22px; color: var(--text-muted); font-family: var(--font-body);
+  }
+  .intro h1, .outro h1 {
+    font-family: var(--font-display); font-weight: 700; font-size: 64px;
+    line-height: 1.08; margin: 0; max-width: 13ch;
+  }
+  .intro p, .outro p { font-size: 26px; color: var(--text-muted); max-width: 26ch; margin: 0; }
+  .brandmark {
+    font-family: var(--font-display); font-weight: 700; font-size: 22px;
+  }
+  .brandmark span { color: var(--media); }
+</style>
+</head>
+<body>
+  <div id="stage"></div>
+  <script src="js/slide.js"></script>
+</body>
+</html>
