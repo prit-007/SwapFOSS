@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SwapFOSS — free, open-source alternatives to the apps you use</title>
+<meta name="description" content="A growing collection of free, open-source alternatives to the apps everyone already uses — one swap at a time." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">Swap<span>FOSS</span></div>
+    <nav class="site-nav">
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      <a href="#grid">Browse</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Free, open-source swaps for the apps you already use</h1>
+    <p>No subscriptions. No one watching what you watch, hear, or send. Same jobs done, none of the strings attached — one tool at a time.</p>
+  </div>
+</section>
+
+<main class="wrap" id="grid-section">
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid">
+    <p style="color:var(--text-faint)">Loading tools…</p>
+  </div>
+
+  <div class="caption-box">
+    <span class="caption-label">Suggested post caption</span>
+    <p id="caption-text">I built a visual directory for FOSS tools that normal people can actually use. What tool should I add next?</p>
+    <button id="copy-caption-btn">Copy caption</button>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    Built and maintained in the open. Spot a great FOSS tool that belongs here? Open a PR.
+  </div>
+</footer>
+
+<script src="js/data-loader.js"></script>
+</body>
+</html>
