@@ -14,6 +14,7 @@
   "difficulty": "easy",
   "link": "https://www.stremio.com",
   "repo": "https://github.com/Stremio",
-  "logo": "assets/logos/streamio.svg",
-  "screenshot": "assets/screenshots/streamio.png"
+  "logo": "assets/logos/stremio.svg",
+  "screenshot": "assets/screenshots/stremio.png",
+  "screenshotType": "landscape"
 }

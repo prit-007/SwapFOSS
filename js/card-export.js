@@ -10,26 +10,29 @@ async function loadJSON(path) {
 function exportCardHTML(tool, cat) {
   const hasLogo = !!tool.logo;
   const hasScreenshot = !!tool.screenshot;
+  const isPortrait = tool.screenshotType === "portrait";
+  const frameClass = isPortrait ? "device-frame portrait" : "device-frame landscape";
   return `
     <div class="export-card" id="export-target" style="--cat-color:${cat.color}">
-      <div>
-        <div class="export-top-row">
-          ${hasLogo ? `<img class="export-logo" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
+      <div class="export-top">
+        ${hasLogo ? `<img class="export-logo" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
+        <div class="export-top-text">
           <span class="tag">${cat.label}</span>
+          <span class="tool-name">${tool.name}</span>
+          <span class="swap-line"><span class="strike">${tool.insteadOf}</span> → ${tool.name}</span>
         </div>
-        ${hasScreenshot ? `<div class="export-screenshot"><img src="${tool.screenshot}" alt="${tool.name} screenshot" /></div>` : ""}
-        <div style="margin-top:32px;">
-          <div class="swap-from">${tool.insteadOf}</div>
-          <div class="swap-arrow" style="margin:8px 0;">↓</div>
-          <div class="swap-to">${tool.name}</div>
-        </div>
-        <p class="hook" style="margin-top:28px;">${tool.hook}</p>
       </div>
-      <div>
-        <ul class="bullets">
-          ${tool.bullets.map(b => `<li>${b}</li>`).join("")}
-        </ul>
-        <div class="card-footer" style="margin-top:32px;">
+      <div class="${frameClass}">
+        <div class="chrome-bar">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="screenshot-area ${hasScreenshot ? "" : "no-screenshot"}">
+          ${hasScreenshot ? `<img src="${tool.screenshot}" alt="${tool.name} screenshot" />` : tool.name}
+        </div>
+      </div>
+      <div class="export-bottom">
+        <p class="export-hook">${tool.hook}</p>
+        <div class="export-footer">
           <span class="meta">${tool.link.replace(/^https?:\/\//, "")}</span>
           <span class="meta">SwapFOSS</span>
         </div>

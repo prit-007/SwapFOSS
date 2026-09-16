@@ -501,6 +501,68 @@ a { color: inherit; }
   color: var(--media);
 }
 
+/* ---------- Card media (screenshot + logo badge) ---------- */
+.card-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--surface-raised), var(--surface));
+  margin-bottom: 4px;
+}
+
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.swap-card:hover .card-media img {
+  transform: scale(1.03);
+}
+
+.card-media .logo-badge {
+  position: absolute;
+  bottom: -18px;
+  left: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 2px solid var(--bg);
+  padding: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  object-fit: contain;
+}
+
+.card-media.no-screenshot {
+  aspect-ratio: 16 / 10;
+}
+
+.card-media.no-screenshot::after {
+  content: attr(data-fallback-text);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--cat-color);
+  background: linear-gradient(135deg, var(--surface-raised), var(--surface));
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 8px;
+}
+
 /* ---------- Card export target (fixed size, used by card.html) ---------- */
 .export-card {
   width: 1080px;
@@ -508,10 +570,9 @@ a { color: inherit; }
   background: var(--surface-solid);
   border: 1px solid var(--border);
   border-radius: 32px;
-  padding: 72px;
+  padding: 56px 64px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   position: relative;
   overflow: hidden;
 }
@@ -524,51 +585,12 @@ a { color: inherit; }
   background: var(--cat-color, var(--dev));
 }
 
-.export-card .tag { font-size: 20px; padding: 8px 18px; }
-.export-card .swap-from { font-size: 28px; }
-.export-card .swap-arrow { font-size: 28px; }
-.export-card .swap-to { font-size: 64px; }
-.export-card .hook { font-size: 30px; max-width: 18ch; line-height: 1.3; }
-.export-card .bullets { font-size: 24px; gap: 14px; }
-.export-card .card-footer .meta,
-.export-card .card-footer a.link-btn { font-size: 20px; }
-
-/* ---------- Card logos + screenshots ---------- */
-.card-screenshot {
-  margin: -22px -22px 0;
-  border-radius: var(--radius) var(--radius) 0 0;
-  overflow: hidden;
-  max-height: 180px;
-}
-
-.card-screenshot img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.card-header-row {
+/* Export card: top section */
+.export-top {
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-
-.card-logo {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  object-fit: contain;
-  background: var(--surface-raised);
-  padding: 4px;
-}
-
-/* ---------- Export card logos + screenshots ---------- */
-.export-top-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 20px;
+  margin-bottom: 32px;
 }
 
 .export-logo {
@@ -578,21 +600,139 @@ a { color: inherit; }
   object-fit: contain;
   background: var(--surface-raised);
   padding: 8px;
+  flex-shrink: 0;
 }
 
-.export-screenshot {
-  margin: 16px -72px 0;
-  border-radius: 16px;
+.export-top-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.export-top-text .tool-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 42px;
+  color: var(--cat-color, var(--dev));
+  line-height: 1.1;
+}
+
+.export-top-text .swap-line {
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+.export-top-text .swap-line .strike {
+  text-decoration: line-through;
+  color: var(--text-faint);
+}
+
+/* Export card: device frame */
+.device-frame {
+  border-radius: 14px;
   overflow: hidden;
-  max-height: 320px;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.export-screenshot img {
+.device-frame .chrome-bar {
+  height: 28px;
+  background: #2A2F38;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  flex-shrink: 0;
+}
+
+.device-frame .chrome-bar span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.device-frame .screenshot-area {
+  flex: 1;
+  min-height: 0;
+  background: var(--surface-raised);
+}
+
+.device-frame .screenshot-area img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   display: block;
+}
+
+.device-frame .screenshot-area.no-screenshot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 36px;
+  color: var(--cat-color, var(--dev));
+  background: linear-gradient(135deg, var(--surface-raised), var(--surface));
+}
+
+/* Export card: bottom section */
+.export-bottom {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.export-hook {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  max-width: 24ch;
+  margin: 0;
+}
+
+.export-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.export-footer .meta {
+  font-size: 18px;
+  color: var(--text-faint);
+}
+
+.export-card .tag {
+  font-size: 16px;
+  padding: 6px 14px;
+}
+
+/* Portrait screenshot handling */
+.device-frame.portrait {
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.device-frame.portrait .screenshot-area img {
+  object-fit: contain;
+  object-position: top center;
+  background: var(--surface-raised);
+}
+
+/* Landscape screenshot handling */
+.device-frame.landscape .screenshot-area img {
+  object-fit: cover;
+  object-position: top center;
 }
 
 @media (max-width: 640px) {

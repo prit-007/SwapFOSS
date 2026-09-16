@@ -13,33 +13,35 @@ function cardHTML(tool, categories) {
   const hasScreenshot = !!tool.screenshot;
   return `
     <article class="swap-card" style="--cat-color:${cat.color}" data-category="${tool.category}">
-      ${hasScreenshot ? `<div class="card-screenshot"><img src="${tool.screenshot}" alt="${tool.name} screenshot" loading="lazy" /></div>` : ""}
-      <div class="card-header-row">
-        ${hasLogo ? `<img class="card-logo" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
+      <div class="card-media ${hasScreenshot ? "" : "no-screenshot"}" data-fallback-text="${tool.name}">
+        ${hasScreenshot ? `<img src="${tool.screenshot}" alt="${tool.name} screenshot" loading="lazy" />` : ""}
+        ${hasLogo ? `<img class="logo-badge" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
+      </div>
+      <div class="card-body">
         <span class="tag">${cat.label || tool.category}</span>
-      </div>
-      <div class="swap-row">
-        <span class="swap-from">${tool.insteadOf}</span>
-        <span class="swap-arrow">→</span>
-        <span class="swap-to">${tool.name}</span>
-      </div>
-      <p class="hook">${tool.hook}</p>
-      <ul class="bullets">
-        ${tool.bullets.map(b => `<li>${b}</li>`).join("")}
-      </ul>
-      ${hasDetails ? `
-      <div class="details-expand">
-        <button class="details-toggle" data-details="${tool.id}">Read more ↓</button>
-        <div class="details-body" id="details-${tool.id}">
-          <p>${tool.details}</p>
+        <div class="swap-row">
+          <span class="swap-from">${tool.insteadOf}</span>
+          <span class="swap-arrow">→</span>
+          <span class="swap-to">${tool.name}</span>
         </div>
-      </div>
-      ` : ""}
-      <div class="card-footer">
-        <span class="meta">${tool.setup}</span>
-        <div style="display:flex; gap:8px;">
-          <button class="export-btn" data-export="${tool.id}">Export card</button>
-          <a class="link-btn" href="${tool.link}" target="_blank" rel="noopener">Visit ↗</a>
+        <p class="hook">${tool.hook}</p>
+        <ul class="bullets">
+          ${tool.bullets.map(b => `<li>${b}</li>`).join("")}
+        </ul>
+        ${hasDetails ? `
+        <div class="details-expand">
+          <button class="details-toggle" data-details="${tool.id}">Read more ↓</button>
+          <div class="details-body" id="details-${tool.id}">
+            <p>${tool.details}</p>
+          </div>
+        </div>
+        ` : ""}
+        <div class="card-footer">
+          <span class="meta">${tool.setup}</span>
+          <div style="display:flex; gap:8px;">
+            <button class="export-btn" data-export="${tool.id}">Export card</button>
+            <a class="link-btn" href="${tool.link}" target="_blank" rel="noopener">Visit ↗</a>
+          </div>
         </div>
       </div>
     </article>
@@ -67,7 +69,10 @@ async function init() {
   const cats = ["all", ...Object.keys(categories)];
   filterBar.innerHTML = cats.map(c => {
     const label = c === "all" ? "All" : categories[c].label;
-    return `<button class="filter-btn ${c === "all" ? "active" : ""}" data-filter="${c}" style="${c !== "all" ? `border-color:${categories[c].color}` : ""}">${label}</button>`;
+    const style = c === "all"
+      ? "border-color:var(--text-muted);"
+      : `border-color:${categories[c].color};`;
+    return `<button class="filter-btn ${c === "all" ? "active" : ""}" data-filter="${c}" style="${style}">${label}</button>`;
   }).join("");
 
   filterBar.addEventListener("click", (e) => {

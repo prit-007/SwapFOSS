@@ -15,5 +15,6 @@
   "link": "https://jellyfin.org",
   "repo": "https://github.com/jellyfin/jellyfin",
   "logo": "assets/logos/jellyfin.svg",
-  "screenshot": "assets/screenshots/jellyfin.png"
+  "screenshot": "assets/screenshots/jellyfin.png",
+  "screenshotType": "landscape"
 }
