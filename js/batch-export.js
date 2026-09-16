@@ -85,7 +85,7 @@ function toolCardHTML(tool, cat, preset, lightTheme) {
   return `
     <div class="export-card" style="--cat-color:${cat.color}; background:${bg}; color:${text}; width:${preset.width}px; height:${preset.height}px;">
       <div class="export-top" style="position:relative;">
-        <span class="tag" style="position:absolute;top:0;right:0;background:${lightTheme ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.06)'};border-color:${border};color:${muted};font-size:13px;padding:5px 14px;">${cat.label}</span>
+        <span class="tag" style="position:absolute;top:0;right:0;white-space:nowrap;background:${lightTheme ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.06)'};border-color:${border};color:${muted};font-size:13px;padding:5px 14px;">${cat.label}</span>
         ${hasLogo ? `<img class="export-logo" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
         <div class="export-top-text">
           <span class="tool-name" style="color:${cat.color}">${tool.name}</span>
