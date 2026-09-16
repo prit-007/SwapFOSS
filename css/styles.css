@@ -634,13 +634,14 @@ a { color: inherit; }
 
 .feature-pill {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   padding: 3px 10px;
-  border-radius: 999px;
+  border-radius: 9999px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--cat-color, var(--dev));
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ---------- Setup steps ---------- */
@@ -1074,17 +1075,24 @@ a { color: inherit; }
 .export-features {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 8px 10px;
+  margin-top: 14px;
+  align-items: center;
 }
 
 .export-feature-pill {
-  font-size: 15px;
-  font-weight: 600;
-  padding: 5px 16px;
-  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 8px 14px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #F5F3ED;
+  border-radius: 9999px;
+  color: #e2e8f0;
 }
 
 /* Export card: setup steps */
