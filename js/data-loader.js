@@ -8,6 +8,7 @@ async function loadJSON(path) {
 
 function cardHTML(tool, categories) {
   const cat = categories[tool.category] || {};
+  const hasDetails = !!tool.details;
   return `
     <article class="swap-card" style="--cat-color:${cat.color}" data-category="${tool.category}">
       <span class="tag">${cat.label || tool.category}</span>
@@ -20,6 +21,14 @@ function cardHTML(tool, categories) {
       <ul class="bullets">
         ${tool.bullets.map(b => `<li>${b}</li>`).join("")}
       </ul>
+      ${hasDetails ? `
+      <div class="details-expand">
+        <button class="details-toggle" data-details="${tool.id}">Read more ↓</button>
+        <div class="details-body" id="details-${tool.id}">
+          <p>${tool.details}</p>
+        </div>
+      </div>
+      ` : ""}
       <div class="card-footer">
         <span class="meta">${tool.setup}</span>
         <div style="display:flex; gap:8px;">
@@ -71,6 +80,17 @@ async function init() {
     const btn = e.target.closest("[data-export]");
     if (!btn) return;
     window.open(`card.html?tool=${btn.dataset.export}`, "_blank");
+  });
+
+  // Details expand/collapse
+  grid.addEventListener("click", (e) => {
+    const toggle = e.target.closest("[data-details]");
+    if (!toggle) return;
+    const id = toggle.dataset.details;
+    const body = document.getElementById(`details-${id}`);
+    const isOpen = body.classList.contains("open");
+    body.classList.toggle("open");
+    toggle.textContent = isOpen ? "Read more ↓" : "Read less ↑";
   });
 
   // Caption copy

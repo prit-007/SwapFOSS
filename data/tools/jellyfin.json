@@ -9,6 +9,7 @@
     "Free forever, no premium tier hiding behind a paywall",
     "Works on TV, phone, browser — even offline downloads"
   ],
+  "details": "Jellyfin is a free, open-source media server that puts you in control of your entire media library. Unlike Netflix or Plex, there are no subscription tiers, no tracking, and no content restrictions. You host it on your own hardware — a NAS, old laptop, or Raspberry Pi — and it organizes your movies, shows, music, and live TV into a beautiful, Netflix-like interface. It supports hundreds of client apps across every platform, handles multiple user profiles with parental controls, and can transcode media on the fly for any device. The community-driven development means new features land regularly, and you own your data completely.",
   "setup": "Self-hosted (needs a server or old PC/NAS)",
   "difficulty": "medium",
   "link": "https://jellyfin.org",

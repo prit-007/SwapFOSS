@@ -9,6 +9,7 @@
     "One interface for movies, shows, and live TV",
     "No pop-ups, no redirect chains, no malware roulette"
   ],
+  "details": "Stremio is a modern media center that aggregates content from multiple sources through a clean, unified interface. Instead of jumping between sketchy websites with pop-up ads and malware risks, you install one app and add the sources you trust via its add-on system. It supports community-built add-ons for torrents, legal streaming services, and more. Stremio tracks your viewing progress across all devices, sends you new episode alerts, and recommends content based on your habits. The app is lightweight, works on desktop and mobile, and the open-source core means you can inspect exactly what it does. It's the sane way to stream in 2024.",
   "setup": "Install the app, no server needed",
   "difficulty": "easy",
   "link": "https://www.stremio.com",
