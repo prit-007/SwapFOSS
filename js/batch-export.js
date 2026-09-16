@@ -104,7 +104,7 @@ function toolCardHTML(tool, cat, preset, lightTheme) {
         <p class="export-hook" style="color:${text}">${tool.hook}</p>
         ${hasFeatures ? `
         <div class="export-features">
-          ${tool.features.map(f => `<span class="export-feature-pill" style="background:${pillBg};border-color:${borderStrong};color:${lightTheme ? text : '#F5F3ED'};font-weight:600;">${f}</span>`).join("")}
+          ${tool.features.map(f => `<span class="export-feature-pill" style="white-space:nowrap;flex-shrink:0;background:${pillBg};border-color:${borderStrong};color:${lightTheme ? text : '#F5F3ED'};font-weight:500;">${f}</span>`).join("")}
         </div>
         ` : ""}
         ${hasSetupSteps ? `
