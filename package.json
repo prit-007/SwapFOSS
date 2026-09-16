@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Free, open-source alternatives to the apps everyone already uses — site + carousel card generator.",
   "scripts": {
-    "serve": "http-server . -p 8080",
+    "serve": "http-server . -p 3000",
     "carousel": "node scripts/generate-carousel.mjs"
   },
   "devDependencies": {
