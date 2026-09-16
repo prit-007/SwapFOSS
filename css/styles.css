@@ -1035,7 +1035,9 @@ a { color: inherit; }
 .export-card .tag {
   font-size: 16px;
   padding: 6px 14px;
-  white-space: nowrap;
+  white-space: nowrap !important;
+  flex-shrink: 0;
+  display: inline-block;
 }
 
 /* Portrait screenshot handling — phone-like frame */
@@ -1129,7 +1131,9 @@ a { color: inherit; }
   font-size: 13px;
   padding: 5px 14px;
   z-index: 2;
-  white-space: nowrap;
+  white-space: nowrap !important;
+  flex-shrink: 0;
+  display: inline-block;
 }
 
 /* ---------- Batch export page ---------- */
