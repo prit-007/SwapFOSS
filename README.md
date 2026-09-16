@@ -1,5 +1,8 @@
 # SwapFOSS
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Contributions Welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](CONTRIBUTING.md)
+
 Free, open-source alternatives to the apps everyone already uses — one swap at a time.
 
 A static site (GitHub Pages, no build step) + a card generator for turning each
@@ -38,7 +41,7 @@ That's it — no code changes needed. It shows up on the site automatically.
 
 ```bash
 npm install
-npm run serve        # serves the site at http://localhost:8080
+npm run serve        # serves the site at http://localhost:3000
 ```
 
 Open `index.html` via that server (not `file://`) since the page fetches
@@ -63,8 +66,10 @@ Open `card.html?tool=jellyfin` in a browser (on the deployed site or local
 server) and hit "Download PNG" — this is the fast path for a one-off card,
 no Node/Playwright required.
 
-## Deploying
+## Contributing
 
-Push to `main` — `.github/workflows/pages.yml` auto-deploys to GitHub Pages.
-Enable Pages in the repo settings (Source: GitHub Actions) once, after the
-first push.
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 — see the [LICENSE](LICENSE) file for details.
