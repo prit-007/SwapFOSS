@@ -1081,10 +1081,10 @@ a { color: inherit; }
 }
 
 .export-feature-pill {
-  display: inline-flex;
+  display: inline-flex !important;
   align-items: center;
-  white-space: nowrap;
-  flex-shrink: 0;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
   font-size: 13px;
   font-weight: 500;
   line-height: 1;
