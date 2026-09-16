@@ -160,24 +160,24 @@ a { color: inherit; }
   font-size: 13px;
   padding: 7px 14px;
   border-radius: 999px;
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--pill-color, var(--glass-border));
+  background: transparent;
   color: var(--text-muted);
   cursor: pointer;
   transition: all 0.25s ease;
 }
 
 .filter-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   color: var(--text);
   transform: translateY(-1px);
 }
 
 .filter-btn.active {
+  background: var(--pill-color, var(--text-muted));
   color: var(--bg);
-  border-color: transparent;
+  border-color: var(--pill-color, var(--text-muted));
+  font-weight: 600;
 }
 
 /* ---------- Swap card grid ---------- */
@@ -508,10 +508,11 @@ a { color: inherit; }
   overflow: hidden;
   border-radius: 12px;
   background: linear-gradient(135deg, var(--surface-raised), var(--surface));
-  margin-bottom: 4px;
+  margin-bottom: 0;
+  cursor: pointer;
 }
 
-.card-media img {
+.card-media img.screenshot-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -520,22 +521,23 @@ a { color: inherit; }
   transition: transform 0.4s ease;
 }
 
-.swap-card:hover .card-media img {
+.card-media:hover img.screenshot-img {
   transform: scale(1.03);
 }
 
 .card-media .logo-badge {
   position: absolute;
-  bottom: -18px;
-  left: 16px;
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
+  bottom: 12px;
+  left: 12px;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
   background: var(--surface);
-  border: 2px solid var(--bg);
+  border: 2px solid rgba(255, 255, 255, 0.12);
   padding: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   object-fit: contain;
+  z-index: 2;
 }
 
 .card-media.no-screenshot {
@@ -559,8 +561,170 @@ a { color: inherit; }
 .card-body {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding-top: 8px;
+  gap: 10px;
+  padding-top: 12px;
+}
+
+/* ---------- Card title row (logo + tag + swap) ---------- */
+.card-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.card-logo-inline {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: var(--surface-raised);
+  padding: 4px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.card-title-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+/* ---------- Feature pills ---------- */
+.feature-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.feature-pill {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  color: var(--cat-color, var(--dev));
+  white-space: nowrap;
+}
+
+/* ---------- Setup steps ---------- */
+.setup-steps {
+  margin-top: 2px;
+}
+
+.setup-toggle {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--cat-color, var(--dev));
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.setup-toggle:hover {
+  opacity: 0.8;
+}
+
+.setup-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.setup-body.open {
+  max-height: 200px;
+  opacity: 1;
+}
+
+.setup-body ol {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.setup-body ol li {
+  margin-bottom: 2px;
+}
+
+/* ---------- Lightbox ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.lightbox-content {
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 75vh;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  object-fit: contain;
+}
+
+.lightbox-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.lightbox-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.lightbox-sub {
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.lightbox-close:hover {
+  background: var(--surface-raised);
+  border-color: var(--text-muted);
 }
 
 /* ---------- Card export target (fixed size, used by card.html) ---------- */
@@ -733,6 +897,48 @@ a { color: inherit; }
 .device-frame.landscape .screenshot-area img {
   object-fit: cover;
   object-position: top center;
+}
+
+/* Export card: feature pills */
+.export-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.export-feature-pill {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  color: var(--cat-color, var(--dev));
+}
+
+/* Export card: setup steps */
+.export-setup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.export-setup-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.export-setup ol {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.export-setup ol li {
+  margin-bottom: 2px;
 }
 
 @media (max-width: 640px) {

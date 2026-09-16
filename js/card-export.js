@@ -10,6 +10,8 @@ async function loadJSON(path) {
 function exportCardHTML(tool, cat) {
   const hasLogo = !!tool.logo;
   const hasScreenshot = !!tool.screenshot;
+  const hasFeatures = tool.features && tool.features.length > 0;
+  const hasSetupSteps = tool.setupSteps && tool.setupSteps.length > 0;
   const isPortrait = tool.screenshotType === "portrait";
   const frameClass = isPortrait ? "device-frame portrait" : "device-frame landscape";
   return `
@@ -32,6 +34,19 @@ function exportCardHTML(tool, cat) {
       </div>
       <div class="export-bottom">
         <p class="export-hook">${tool.hook}</p>
+        ${hasFeatures ? `
+        <div class="export-features">
+          ${tool.features.map(f => `<span class="export-feature-pill">${f}</span>`).join("")}
+        </div>
+        ` : ""}
+        ${hasSetupSteps ? `
+        <div class="export-setup">
+          <span class="export-setup-label">How to use:</span>
+          <ol>
+            ${tool.setupSteps.map(s => `<li>${s}</li>`).join("")}
+          </ol>
+        </div>
+        ` : ""}
         <div class="export-footer">
           <span class="meta">${tool.link.replace(/^https?:\/\//, "")}</span>
           <span class="meta">SwapFOSS</span>

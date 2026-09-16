@@ -11,23 +11,42 @@ function cardHTML(tool, categories) {
   const hasDetails = !!tool.details;
   const hasLogo = !!tool.logo;
   const hasScreenshot = !!tool.screenshot;
+  const hasFeatures = tool.features && tool.features.length > 0;
+  const hasSetupSteps = tool.setupSteps && tool.setupSteps.length > 0;
   return `
     <article class="swap-card" style="--cat-color:${cat.color}" data-category="${tool.category}">
       <div class="card-media ${hasScreenshot ? "" : "no-screenshot"}" data-fallback-text="${tool.name}">
-        ${hasScreenshot ? `<img src="${tool.screenshot}" alt="${tool.name} screenshot" loading="lazy" />` : ""}
+        ${hasScreenshot ? `<img src="${tool.screenshot}" alt="${tool.name} screenshot" loading="lazy" data-full="${tool.screenshot}" class="screenshot-img" />` : ""}
         ${hasLogo ? `<img class="logo-badge" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
       </div>
       <div class="card-body">
-        <span class="tag">${cat.label || tool.category}</span>
-        <div class="swap-row">
-          <span class="swap-from">${tool.insteadOf}</span>
-          <span class="swap-arrow">→</span>
-          <span class="swap-to">${tool.name}</span>
+        <div class="card-title-row">
+          ${hasLogo ? `<img class="card-logo-inline" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
+          <div class="card-title-text">
+            <span class="tag">${cat.label || tool.category}</span>
+            <div class="swap-row">
+              <span class="swap-from">${tool.insteadOf}</span>
+              <span class="swap-arrow">→</span>
+              <span class="swap-to">${tool.name}</span>
+            </div>
+          </div>
         </div>
         <p class="hook">${tool.hook}</p>
-        <ul class="bullets">
-          ${tool.bullets.map(b => `<li>${b}</li>`).join("")}
-        </ul>
+        ${hasFeatures ? `
+        <div class="feature-pills">
+          ${tool.features.map(f => `<span class="feature-pill">${f}</span>`).join("")}
+        </div>
+        ` : ""}
+        ${hasSetupSteps ? `
+        <div class="setup-steps">
+          <button class="setup-toggle" data-setup="${tool.id}">How to use ↓</button>
+          <div class="setup-body" id="setup-${tool.id}">
+            <ol>
+              ${tool.setupSteps.map(s => `<li>${s}</li>`).join("")}
+            </ol>
+          </div>
+        </div>
+        ` : ""}
         ${hasDetails ? `
         <div class="details-expand">
           <button class="details-toggle" data-details="${tool.id}">Read more ↓</button>
@@ -45,6 +64,21 @@ function cardHTML(tool, categories) {
         </div>
       </div>
     </article>
+  `;
+}
+
+function lightboxHTML(tool) {
+  return `
+    <div class="lightbox" id="lightbox">
+      <button class="lightbox-close" id="lightbox-close">✕</button>
+      <div class="lightbox-content">
+        <img src="${tool.screenshot}" alt="${tool.name} screenshot" />
+        <div class="lightbox-caption">
+          <span class="lightbox-name">${tool.name}</span>
+          <span class="lightbox-sub">screenshot preview</span>
+        </div>
+      </div>
+    </div>
   `;
 }
 
@@ -69,10 +103,8 @@ async function init() {
   const cats = ["all", ...Object.keys(categories)];
   filterBar.innerHTML = cats.map(c => {
     const label = c === "all" ? "All" : categories[c].label;
-    const style = c === "all"
-      ? "border-color:var(--text-muted);"
-      : `border-color:${categories[c].color};`;
-    return `<button class="filter-btn ${c === "all" ? "active" : ""}" data-filter="${c}" style="${style}">${label}</button>`;
+    const color = c === "all" ? "var(--text-muted)" : categories[c].color;
+    return `<button class="filter-btn ${c === "all" ? "active" : ""}" data-filter="${c}" style="--pill-color:${color}">${label}</button>`;
   }).join("");
 
   filterBar.addEventListener("click", (e) => {
@@ -86,11 +118,47 @@ async function init() {
     });
   });
 
-  // Export buttons open card.html in a new tab pre-filled with the tool id
+  // Screenshot click → lightbox
+  grid.addEventListener("click", (e) => {
+    const img = e.target.closest(".screenshot-img");
+    if (!img) return;
+    const card = img.closest(".swap-card");
+    const toolId = card.querySelector("[data-export]")?.dataset.export;
+    const tool = tools.find(t => t.id === toolId);
+    if (!tool) return;
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = lightboxHTML(tool);
+    document.body.appendChild(wrapper.firstElementChild);
+    const lb = document.getElementById("lightbox");
+    lb.addEventListener("click", (ev) => {
+      if (ev.target === lb || ev.target.id === "lightbox-close") {
+        lb.remove();
+      }
+    });
+    document.addEventListener("keydown", function esc(ev) {
+      if (ev.key === "Escape") {
+        lb.remove();
+        document.removeEventListener("keydown", esc);
+      }
+    });
+  });
+
+  // Export buttons open card.html in a new tab
   grid.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-export]");
     if (!btn) return;
     window.open(`card.html?tool=${btn.dataset.export}`, "_blank");
+  });
+
+  // Setup steps expand/collapse
+  grid.addEventListener("click", (e) => {
+    const toggle = e.target.closest("[data-setup]");
+    if (!toggle) return;
+    const id = toggle.dataset.setup;
+    const body = document.getElementById(`setup-${id}`);
+    const isOpen = body.classList.contains("open");
+    body.classList.toggle("open");
+    toggle.textContent = isOpen ? "How to use ↓" : "How to use ↑";
   });
 
   // Details expand/collapse

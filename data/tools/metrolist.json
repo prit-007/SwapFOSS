@@ -9,6 +9,13 @@
     "Background play and downloads, no premium required",
     "Clean, fast Android app — nothing bloated"
   ],
+  "features": ["Ad-free", "Background play", "Offline downloads", "YouTube Music", "Material Design"],
+  "setupSteps": [
+    "Download the APK from GitHub or F-Droid",
+    "Install on your Android device",
+    "Open and sign in with your Google account",
+    "Search, play, download — no premium needed"
+  ],
   "details": "Metrolist is a lightweight Android music client that pulls content from YouTube Music's massive catalog — without ads, without premium subscriptions, and without the bloat Spotify ships. You get background playback, offline downloads, and a clean Material Design interface that stays out of your way. The app doesn't track your listening habits, doesn't serve you targeted ads, and doesn't nag you to upgrade. It's built by the open-source community for people who just want to listen to music without being the product. Works with YouTube Music playlists, albums, and search, so you don't lose any content.",
   "setup": "Install the Android app, no server needed",
   "difficulty": "easy",
