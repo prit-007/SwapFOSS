@@ -466,6 +466,11 @@ a { color: inherit; }
   transform: translateY(-2px);
 }
 
+.dev-avatar-link {
+  text-decoration: none;
+  display: block;
+}
+
 .dev-avatar {
   width: 52px;
   height: 52px;
