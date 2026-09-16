@@ -51,7 +51,7 @@ function toolHTML(tool, cat) {
   return `
     <div class="export-card" id="export-target" style="--cat-color:${cat.color}">
       <div class="export-top" style="position:relative;">
-        <span class="tag" style="position:absolute;top:0;right:0;">${cat.label}</span>
+        <span class="tag" style="position:absolute;top:0;right:0;white-space:nowrap;">${cat.label}</span>
         ${hasLogo ? `<img class="export-logo" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
         <div class="export-top-text">
           <span class="tool-name">${tool.name}</span>
