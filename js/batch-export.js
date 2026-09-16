@@ -58,7 +58,7 @@ function outroCardHTML(post, preset, lightTheme) {
       <div style="display:flex;flex-direction:column;align-items:center;gap:24px;position:relative;z-index:2;margin-top:auto;margin-bottom:auto;max-width:700px;">
         <h1 style="font-family:var(--font-display);font-weight:700;font-size:52px;line-height:1.1;margin:0;max-width:15ch;color:${text};">${post.outro.headline}</h1>
         <p style="font-size:20px;color:${muted};max-width:30ch;margin:0;line-height:1.5;">${post.outro.subhead}</p>
-        <div style="margin-top:8px;padding:16px 36px;border-radius:999px;border:1px solid ${border};font-family:var(--font-body);font-size:16px;font-weight:600;color:${text};background:${lightTheme ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.06)'};">Follow for more swaps</div>
+        <div style="margin-top:8px;padding:16px 36px;border-radius:999px;border:1px solid ${border};font-family:var(--font-body);font-size:16px;font-weight:600;color:${text};background:${lightTheme ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.06)'};white-space:nowrap;">Follow for more swaps</div>
       </div>
     </div>
   `;
