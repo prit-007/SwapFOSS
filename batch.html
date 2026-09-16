@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SwapFOSS — batch export</title>
+<meta name="description" content="Download post-ready bundles of free, open-source alternative cards." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">Swap<span>FOSS</span></div>
+    <nav class="site-nav">
+      <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener">GitHub</a>
+      <a href="index.html">Home</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Batch export</h1>
+    <p>Download post-ready bundles — intro card, tool cards, and outro — as a ZIP. Enter the PIN to unlock downloads.</p>
+  </div>
+</section>
+
+<main class="wrap" id="posts-section">
+  <div class="posts-grid" id="posts-grid">
+    <p style="color:var(--text-faint)">Loading posts…</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    Built for sharing free software with the world.
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+<script src="js/batch-export.js"></script>
+<script>
+async function init() {
+  const [manifest, categories] = await Promise.all([
+    loadJSON("data/posts-manifest.json"),
+    loadJSON("data/categories.json"),
+  ]);
+
+  const posts = await Promise.all(
+    manifest.posts.map(id => loadJSON(`data/posts/${id}.json`))
+  );
+
+  const allTools = await Promise.all(
+    [...new Set(posts.flatMap(p => p.tools))].map(id => loadJSON(`data/tools/${id}.json`))
+  );
+  const toolMap = Object.fromEntries(allTools.map(t => [t.id, t]));
+
+  const grid = document.getElementById("posts-grid");
+  grid.innerHTML = posts.map(post => {
+    const tools = post.tools.map(id => toolMap[id]).filter(Boolean);
+    const cats = [...new Set(tools.map(t => t.category))];
+    const catBadges = cats.map(c => {
+      const cat = categories[c];
+      return `<span class="batch-cat-badge" style="--pill-color:${cat.color}">${cat.label}</span>`;
+    }).join("");
+    const toolThumbs = tools.map(t =>
+      t.logo ? `<img class="batch-tool-thumb" src="${t.logo}" alt="${t.name}" title="${t.name}" />` : ""
+    ).join("");
+    return `
+      <div class="batch-post-card" data-post="${post.id}">
+        <div class="batch-post-header">
+          <h2 class="batch-post-title">${post.title}</h2>
+          <span class="batch-post-count">${tools.length} tool${tools.length !== 1 ? "s" : ""}</span>
+        </div>
+        <div class="batch-post-intro">
+          <span class="batch-intro-eyebrow">${post.intro.eyebrow}</span>
+          <p class="batch-intro-headline">${post.intro.headline}</p>
+          <p class="batch-intro-subhead">${post.intro.subhead}</p>
+        </div>
+        <div class="batch-post-tools">
+          <span class="batch-tools-label">Tools included:</span>
+          <div class="batch-tool-thumbs">${toolThumbs}</div>
+        </div>
+        <div class="batch-post-badges">${catBadges}</div>
+        <div class="batch-post-controls">
+          <div class="batch-control-row">
+            <label class="batch-label" for="preset-${post.id}">Preset</label>
+            <select class="batch-select" id="preset-${post.id}">
+              <option value="linkedin">LinkedIn (1080×1350)</option>
+              <option value="instagram">Instagram (1080×1080)</option>
+              <option value="twitter">Twitter / X (1200×675)</option>
+            </select>
+          </div>
+          <div class="batch-control-row">
+            <label class="batch-label">Theme</label>
+            <button class="batch-theme-toggle" data-theme="${post.id}" aria-pressed="false">
+              <span class="batch-theme-icon">◐</span> Light
+            </button>
+          </div>
+          <div class="batch-control-row batch-pin-row">
+            <label class="batch-label" for="pin-${post.id}">PIN</label>
+            <input class="batch-pin-input" id="pin-${post.id}" type="password" placeholder="Enter PIN" />
+          </div>
+          <button class="batch-download-btn" data-post="${post.id}">
+            <span class="batch-download-text">Download ZIP</span>
+            <span class="batch-download-progress" id="progress-${post.id}">
+              <span class="batch-progress-bar"><span class="batch-progress-fill" id="fill-${post.id}"></span></span>
+              <span class="batch-progress-label" id="label-${post.id}"></span>
+            </span>
+          </button>
+          <button class="batch-caption-btn" data-post="${post.id}">Generate caption</button>
+          <div class="batch-caption-box" id="caption-${post.id}" style="display:none">
+            <p class="batch-caption-text" id="caption-text-${post.id}"></p>
+            <button class="batch-caption-copy" data-caption="${post.id}">Copy</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  // Theme toggles
+  const themeStates = {};
+  grid.addEventListener("click", (e) => {
+    const toggle = e.target.closest("[data-theme]");
+    if (!toggle) return;
+    const id = toggle.dataset.theme;
+    themeStates[id] = !themeStates[id];
+    toggle.setAttribute("aria-pressed", themeStates[id]);
+    toggle.classList.toggle("active", themeStates[id]);
+  });
+
+  // PIN validation + download
+  grid.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".batch-download-btn");
+    if (!btn) return;
+    const postId = btn.dataset.post;
+    const pinInput = document.getElementById(`pin-${postId}`);
+    if (pinInput.value !== PIN) {
+      pinInput.classList.add("batch-pin-error");
+      setTimeout(() => pinInput.classList.remove("batch-pin-error"), 1500);
+      return;
+    }
+
+    const presetKey = document.getElementById(`preset-${postId}`).value;
+    const lightTheme = themeStates[postId] || false;
+    const fill = document.getElementById(`fill-${postId}`);
+    const label = document.getElementById(`label-${postId}`);
+    const text = btn.querySelector(".batch-download-text");
+
+    btn.disabled = true;
+    text.style.display = "none";
+    document.getElementById(`progress-${postId}`).style.display = "flex";
+
+    try {
+      await downloadPostZIP(postId, presetKey, lightTheme, (cur, tot, msg) => {
+        fill.style.width = `${(cur / tot) * 100}%`;
+        label.textContent = `${msg} ${cur}/${tot}`;
+      });
+      label.textContent = "Done!";
+      setTimeout(() => {
+        btn.disabled = false;
+        text.style.display = "";
+        document.getElementById(`progress-${postId}`).style.display = "none";
+        fill.style.width = "0%";
+        label.textContent = "";
+      }, 1500);
+    } catch (err) {
+      label.textContent = "Error — try again";
+      btn.disabled = false;
+      setTimeout(() => {
+        text.style.display = "";
+        document.getElementById(`progress-${postId}`).style.display = "none";
+        fill.style.width = "0%";
+        label.textContent = "";
+      }, 2000);
+    }
+  });
+
+  // Generate caption
+  grid.addEventListener("click", (e) => {
+    const btn = e.target.closest(".batch-caption-btn");
+    if (!btn) return;
+    const postId = btn.dataset.post;
+    const post = posts.find(p => p.id === postId);
+    const tools = post.tools.map(id => toolMap[id]).filter(Boolean);
+    const caption = generateCaption(post, tools);
+    const box = document.getElementById(`caption-${postId}`);
+    const textEl = document.getElementById(`caption-text-${postId}`);
+    textEl.textContent = caption;
+    box.style.display = "block";
+  });
+
+  // Copy caption
+  grid.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".batch-caption-copy");
+    if (!btn) return;
+    const postId = btn.dataset.caption;
+    const text = document.getElementById(`caption-text-${postId}`).textContent;
+    await navigator.clipboard.writeText(text);
+    btn.textContent = "Copied!";
+    setTimeout(() => (btn.textContent = "Copy"), 1500);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
