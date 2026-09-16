@@ -1,14 +1,14 @@
 {
   "id": "post-001",
-  "title": "Your entertainment stack, but free",
+  "title": "Stop renting your software. Start owning your media.",
   "intro": {
-    "eyebrow": "Free alternatives you didn't know existed",
-    "headline": "Swap your entertainment stack for free, open-source apps",
-    "subhead": "3 tools. No subscriptions. No one watching what you watch."
+    "eyebrow": "Built by the community, for you",
+    "headline": "Stop renting your software. Start owning your media.",
+    "subhead": "A developer's guide to the best Free & Open Source entertainment tools. 100% free. 0% trackers."
   },
   "tools": ["jellyfin", "streamio", "metrolist"],
   "outro": {
-    "headline": "More swaps every week",
-    "subhead": "Follow along as the list grows"
+    "headline": "The FOSS list is just getting started.",
+    "subhead": "From media servers to local-first apps — I'm breaking down the best open-source tools every week. What should I cover next?"
   }
 }

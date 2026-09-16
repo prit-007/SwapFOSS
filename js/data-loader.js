@@ -58,7 +58,7 @@ function cardHTML(tool, categories) {
         <div class="card-footer">
           <span class="meta">${tool.setup}</span>
           <div style="display:flex; gap:8px;">
-            <button class="export-btn" data-export="${tool.id}">Export card</button>
+            <button class="share-btn" data-export="${tool.id}">Share ↗</button>
             <a class="link-btn" href="${tool.link}" target="_blank" rel="noopener">Visit ↗</a>
           </div>
         </div>
@@ -143,11 +143,25 @@ async function init() {
     });
   });
 
-  // Export buttons open card.html in a new tab
-  grid.addEventListener("click", (e) => {
+  // Share buttons — render PNG + Web Share API (fallback: download)
+  grid.addEventListener("click", async (e) => {
     const btn = e.target.closest("[data-export]");
     if (!btn) return;
-    window.open(`card.html?tool=${btn.dataset.export}`, "_blank");
+    btn.disabled = true;
+    btn.textContent = "Sharing…";
+    try {
+      const result = await shareCard(btn.dataset.export);
+      if (result.reason === "cancelled") {
+        btn.textContent = "Share ↗";
+      } else {
+        btn.textContent = "Shared!";
+        setTimeout(() => { btn.textContent = "Share ↗"; }, 1500);
+      }
+    } catch (err) {
+      btn.textContent = "Share ↗";
+    } finally {
+      btn.disabled = false;
+    }
   });
 
   // Setup steps expand/collapse

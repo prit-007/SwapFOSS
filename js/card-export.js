@@ -69,7 +69,7 @@ async function init() {
 
   document.getElementById("download-btn").addEventListener("click", async () => {
     const target = document.getElementById("export-target");
-    const dataUrl = await htmlToImage.toPng(target, { pixelRatio: 1 });
+    const dataUrl = await htmlToImage.toPng(target, { pixelRatio: 2 });
     const link = document.createElement("a");
     link.download = `swapfoss-${tool.id}.png`;
     link.href = dataUrl;
