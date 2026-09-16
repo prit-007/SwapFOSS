@@ -533,6 +533,68 @@ a { color: inherit; }
 .export-card .card-footer .meta,
 .export-card .card-footer a.link-btn { font-size: 20px; }
 
+/* ---------- Card logos + screenshots ---------- */
+.card-screenshot {
+  margin: -22px -22px 0;
+  border-radius: var(--radius) var(--radius) 0 0;
+  overflow: hidden;
+  max-height: 180px;
+}
+
+.card-screenshot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: var(--surface-raised);
+  padding: 4px;
+}
+
+/* ---------- Export card logos + screenshots ---------- */
+.export-top-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.export-logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  object-fit: contain;
+  background: var(--surface-raised);
+  padding: 8px;
+}
+
+.export-screenshot {
+  margin: 16px -72px 0;
+  border-radius: 16px;
+  overflow: hidden;
+  max-height: 320px;
+  border: 1px solid var(--border);
+}
+
+.export-screenshot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 @media (max-width: 640px) {
   .hero { padding: 48px 0 36px; }
   .site-nav a { margin-left: 14px; }

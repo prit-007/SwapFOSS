@@ -26,10 +26,16 @@ function outroHTML(post) {
 }
 
 function toolHTML(tool, cat) {
+  const hasLogo = !!tool.logo;
+  const hasScreenshot = !!tool.screenshot;
   return `
     <div class="export-card" id="export-target" style="--cat-color:${cat.color}">
       <div>
-        <span class="tag">${cat.label}</span>
+        <div class="export-top-row">
+          ${hasLogo ? `<img class="export-logo" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
+          <span class="tag">${cat.label}</span>
+        </div>
+        ${hasScreenshot ? `<div class="export-screenshot"><img src="${tool.screenshot}" alt="${tool.name} screenshot" /></div>` : ""}
         <div style="margin-top:32px;">
           <div class="swap-from">${tool.insteadOf}</div>
           <div class="swap-arrow" style="margin:8px 0;">↓</div>

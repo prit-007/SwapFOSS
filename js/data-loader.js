@@ -9,9 +9,15 @@ async function loadJSON(path) {
 function cardHTML(tool, categories) {
   const cat = categories[tool.category] || {};
   const hasDetails = !!tool.details;
+  const hasLogo = !!tool.logo;
+  const hasScreenshot = !!tool.screenshot;
   return `
     <article class="swap-card" style="--cat-color:${cat.color}" data-category="${tool.category}">
-      <span class="tag">${cat.label || tool.category}</span>
+      ${hasScreenshot ? `<div class="card-screenshot"><img src="${tool.screenshot}" alt="${tool.name} screenshot" loading="lazy" /></div>` : ""}
+      <div class="card-header-row">
+        ${hasLogo ? `<img class="card-logo" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
+        <span class="tag">${cat.label || tool.category}</span>
+      </div>
       <div class="swap-row">
         <span class="swap-from">${tool.insteadOf}</span>
         <span class="swap-arrow">→</span>

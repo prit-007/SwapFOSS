@@ -66,7 +66,7 @@ let manifest;
 try {
   manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
   if (!Array.isArray(manifest.tools) || manifest.tools.length === 0) {
-    fail("manifest.json must have a non-empty "tools" array");
+    fail('manifest.json must have a non-empty "tools" array');
   } else {
     pass(`${manifest.tools.length} tools registered: ${manifest.tools.join(", ")}`);
   }
