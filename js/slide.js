@@ -12,10 +12,12 @@ function introHTML(post, toolLogos) {
     <div class="export-card intro" id="export-target">
       <div class="watermark-bg">FOSS</div>
       <div class="intro-float-icons">${iconImages}</div>
-      <div class="brandmark">Swap<span>FOSS</span></div>
-      <span class="eyebrow">${post.intro.eyebrow}</span>
-      <h1>${post.intro.headline}</h1>
-      <p>${post.intro.subhead}</p>
+      <div class="brandmark" style="position:absolute;top:64px;left:64px;">Swap<span>FOSS</span></div>
+      <div class="intro-content">
+        <span class="eyebrow">${post.intro.eyebrow}</span>
+        <h1>${post.intro.headline}</h1>
+        <p>${post.intro.subhead}</p>
+      </div>
     </div>
   `;
 }
@@ -24,10 +26,12 @@ function outroHTML(post) {
   return `
     <div class="export-card outro" id="export-target">
       <div class="watermark-bg">SWAP</div>
-      <div class="brandmark">Swap<span>FOSS</span></div>
-      <h1>${post.outro.headline}</h1>
-      <p>${post.outro.subhead}</p>
-      <div class="outro-cta">Follow for more swaps</div>
+      <div class="brandmark" style="position:absolute;top:64px;left:64px;">Swap<span>FOSS</span></div>
+      <div class="outro-content">
+        <h1>${post.outro.headline}</h1>
+        <p>${post.outro.subhead}</p>
+        <div class="outro-cta">Follow for more swaps</div>
+      </div>
       <div class="outro-dots">
         <span class="outro-dot"></span>
         <span class="outro-dot"></span>

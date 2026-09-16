@@ -11,10 +11,10 @@
 
   /* ── Shared intro / outro base ── */
   .export-card.intro, .export-card.outro {
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
-    padding: 72px 64px;
+    padding: 64px;
     position: relative;
     overflow: hidden;
   }
@@ -41,8 +41,8 @@
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+      linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
     background-size: 40px 40px;
     pointer-events: none;
     z-index: 0;
@@ -75,6 +75,18 @@
   }
   .brandmark span { color: var(--media); }
 
+  .intro-content, .outro-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+    z-index: 2;
+    margin-top: auto;
+    margin-bottom: auto;
+    max-width: 700px;
+  }
+
   .eyebrow {
     font-size: 16px;
     color: rgba(255,255,255,0.45);
@@ -82,7 +94,6 @@
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-top: 32px;
     position: relative;
     z-index: 2;
   }
@@ -149,18 +160,19 @@
 
   /* ── Outro CTA + dots ── */
   .outro-cta {
-    margin-top: 32px;
-    padding: 14px 32px;
+    margin-top: 8px;
+    padding: 16px 36px;
     border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.15);
     font-family: var(--font-body);
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     color: #F5F3ED;
-    background: rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.06);
     position: relative;
     z-index: 2;
     cursor: default;
+    transition: background 0.2s ease;
   }
 
   .outro-dots {
