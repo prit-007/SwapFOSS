@@ -3,72 +3,184 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Contributions Welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-Free, open-source alternatives to the apps everyone already uses — one swap at a time.
+**Free, open-source alternatives to the apps you already use — one swap at a time.**
 
-A static site (GitHub Pages, no build step) + a card generator for turning each
-tool into a shareable LinkedIn/Instagram graphic.
+A visual directory that helps you find FOSS (Free & Open Source Software) replacements for everyday apps. Browse by category, share cards to social media, or download full post-ready bundles.
 
-## Structure
+---
+
+## What is this?
+
+SwapFOSS is a static website (no build step, runs on GitHub Pages) that:
+
+- **Shows you** free alternatives to apps like Netflix, Spotify, Plex, and more
+- **Lets you share** any tool as a beautiful 1080×1350 card (ready for LinkedIn, Instagram, or Twitter)
+- **Bundles posts** into downloadable ZIPs with intro + tool cards + outro — ready to upload as a carousel
+
+---
+
+## For everyone
+
+### Browse tools
+
+Visit the [live site](https://prit-007.github.io/SwapFOSS/) and explore tools by category — Media, Music, Dev Tools, Home, and Messaging.
+
+### Share a tool
+
+Click the **Share** button on any card. A share menu pops up — pick WhatsApp, Twitter, LinkedIn, email, or just download the PNG directly.
+
+### Download a full post
+
+Go to the **Batch export** page. Each post bundles an intro card, all tool cards, and an outro card into a single ZIP file. Enter the PIN to download.
+
+### Add a new tool
+
+No coding needed. Just:
+
+1. Copy `data/tools/jellyfin.json` → rename it to your tool name
+2. Fill in the fields (name, category, hook, features, setup steps, etc.)
+3. Add the tool id to `data/manifest.json`
+4. Drop a logo and screenshot into `assets/`
+
+That's it — the site picks it up automatically.
+
+---
+
+## For developers
+
+### Tech stack
+
+| Layer | What |
+|-------|------|
+| Frontend | Vanilla HTML, CSS, JS — no framework, no build step |
+| Styling | CSS custom properties, glassmorphism, responsive grid |
+| Fonts | Space Grotesk (display) + IBM Plex Sans (body) |
+| Export | [html-to-image](https://github.com/bubkoo/html-to-image) (client-side PNG rendering) |
+| ZIP | [JSZip](https://github.com/stuk/jszip) (client-side ZIP bundling) |
+| Hosting | GitHub Pages (static, zero config) |
+
+### Project structure
 
 ```
+index.html                    Main site — browse all tools by category
+batch.html                    Batch export — download post bundles with PIN
+card.html                     Single card preview — card.html?tool=<id>
+slide.html                    Slide preview — slide.html?post=<id>&type=intro|tool|outro
+
+js/
+  data-loader.js              Loads tools + categories, renders grid, wires filters + share
+  share.js                    Share menu (Web Share API + custom fallback)
+  batch-export.js             Batch engine — PIN gate, rendering, ZIP bundling
+  card-export.js              Single card export (card.html)
+  slide.js                    Slide renderer (slide.html)
+
+css/
+  styles.css                  All styles — design tokens, cards, export, batch, share menu
+
 data/
-  categories.json        category labels + colors
-  tools/<id>.json         one file per tool — the source of truth
-  posts/<id>.json         a "post" groups tools into a carousel (default: 3 + intro + outro)
-  manifest.json           list of tool ids the site should load
+  categories.json             Category labels + colors
+  manifest.json               Tool ids the site should load
+  posts-manifest.json         Post ids for the batch page
+  tools/<id>.json             One file per tool (source of truth)
+  posts/<id>.json             Post definitions (intro/outro text + tool list)
 
-index.html                main site — browse all tools by category
-card.html                 export ONE tool as a single PNG card (client-side, html-to-image)
-slide.html + js/slide.js  renders intro/tool/outro slides for the batch carousel script
-
-scripts/generate-carousel.mjs   Playwright script — screenshots a full carousel (intro + N tools + outro)
+assets/
+  logos/                      Tool logos (SVG/PNG)
+  screenshots/                Tool screenshots (PNG)
 ```
 
-## Adding a new tool
-
-1. Copy `data/tools/jellyfin.json`, rename it, fill in the fields.
-2. Add its `id` to `data/manifest.json`.
-3. Drop a logo/screenshot into `assets/` (optional, referenced by path in the tool file).
-
-That's it — no code changes needed. It shows up on the site automatically.
-
-## Adding a new carousel post
-
-1. Copy `data/posts/post-001.json`, rename it, pick 3 (or more) tool ids.
-2. Run the carousel generator (see below) to get numbered PNGs ready to upload.
-
-## Running locally
+### Running locally
 
 ```bash
-npm install
-npm run serve        # serves the site at http://localhost:3000
+# Serve the site (no install needed)
+python3 -m http.server 3000
+# or
+npx serve .
+# or
+npm run serve
+
+# Then open http://localhost:3000
 ```
 
-Open `index.html` via that server (not `file://`) since the page fetches
-JSON data files.
+The site fetches JSON data files, so you must open it via a server (not `file://`).
 
-## Generating a carousel (batch, production quality)
+### Adding a tool
 
-```bash
-npm install
-npx playwright install chromium
-npm run serve &                       # keep the server running
-npm run carousel -- post-001          # screenshots data/posts/post-001.json
+1. Create `data/tools/yourtool.json` — copy an existing tool file and fill in the schema:
+
+```json
+{
+  "id": "yourtool",
+  "name": "Your Tool",
+  "category": "media",
+  "insteadOf": "Netflix / Plex",
+  "hook": "Short tagline for the card",
+  "bullets": ["Bullet point 1", "Bullet point 2"],
+  "features": ["Feature 1", "Feature 2"],
+  "setupSteps": ["Step 1", "Step 2"],
+  "details": "Longer description for the expandable section",
+  "setup": "Self-hosted (needs a server)",
+  "difficulty": "easy | medium | hard",
+  "link": "https://yourtool.com",
+  "repo": "https://github.com/you/yourtool",
+  "logo": "assets/logos/yourtool.svg",
+  "screenshot": "assets/screenshots/yourtool.png",
+  "screenshotType": "landscape | portrait"
+}
 ```
 
-PNGs land in `output/post-001/` — `01-intro.png`, `02-jellyfin.png`,
-`03-streamio.png`, `04-metrolist.png`, `05-outro.png` — ready to upload as a
-LinkedIn or Instagram carousel, in order.
+2. Add `"yourtool"` to `data/manifest.json`
+3. Drop logo + screenshot into `assets/`
 
-## Quick single-card export (no install needed)
+### Adding a carousel post
 
-Open `card.html?tool=jellyfin` in a browser (on the deployed site or local
-server) and hit "Download PNG" — this is the fast path for a one-off card,
-no Node/Playwright required.
+1. Copy `data/posts/post-001.json` → rename it
+2. Set `intro.headline`, `intro.subhead`, `outro.headline`, etc.
+3. List your tool ids in the `tools` array
+4. The batch page picks it up automatically
+
+### Batch export (PIN: `swapfoss2026`)
+
+The batch page at `batch.html` renders all cards off-screen and bundles them as a ZIP:
+
+- **Export presets:** LinkedIn (1080×1350), Instagram (1080×1080), Twitter/X (1200×675)
+- **Light/dark theme toggle** for different platform aesthetics
+- **Progress indicator** during rendering
+- **Caption generator** auto-builds a post caption from the selected tools
+- **Retina quality:** All PNGs captured at 2x pixelRatio
+
+### Single card export
+
+Open `card.html?tool=jellyfin` → click "Download PNG". Quick one-off export, no install needed.
+
+---
+
+## Developer's Paradise
+
+Built by a team that believes in open source:
+
+| Name | Role | GitHub |
+|------|------|--------|
+| **Prit Vasani** | Builder | [LinkedIn](https://www.linkedin.com/in/prit-vasani007) |
+| **Nilay** | AI/ML | [GitHub](https://github.com/NILAY1556) |
+| **Rajvi Adesara** | UX | [GitHub](https://github.com/RajviAdesara) |
+| **Vivek Khunt** | Game Dev | [GitHub](https://github.com/VivekKhunt) |
+| **Bhargav** | Animation | [GitHub](https://github.com/Bhargav-1001) |
+| **Meet** | UI | [GitHub](https://github.com/meet2904) |
+
+---
 
 ## Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+We welcome contributions! You can:
+
+- **Add a tool** — just add a JSON file (see instructions above)
+- **Fix a bug** — open an issue or submit a PR
+- **Suggest a feature** — open an issue
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full guidelines.
+
+---
 
 ## License
 
