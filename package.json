@@ -1,0 +1,14 @@
+{
+  "name": "swapfoss",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Free, open-source alternatives to the apps everyone already uses — site + carousel card generator.",
+  "scripts": {
+    "serve": "http-server . -p 8080",
+    "carousel": "node scripts/generate-carousel.mjs"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "playwright": "^1.47.0"
+  }
+}
