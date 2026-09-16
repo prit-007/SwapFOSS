@@ -19,19 +19,19 @@ function introCardHTML(post, preset, lightTheme) {
   const text = lightTheme ? "#0F1115" : "#F5F3ED";
   const muted = lightTheme ? "#5B616D" : "rgba(255,255,255,0.55)";
   const faint = lightTheme ? "#9AA0AC" : "rgba(255,255,255,0.45)";
-  const gridLine = lightTheme ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.03)";
+  const gridLine = lightTheme ? "rgba(0,0,0,0.03)" : "rgba(255,255,255,0.02)";
   const watermarkColor = lightTheme ? "rgba(0,0,0,0.03)" : "rgba(255,255,255,0.025)";
   const mesh = lightTheme
     ? "radial-gradient(circle at 15% 50%, rgba(99,102,241,0.08), transparent 50%), radial-gradient(circle at 85% 30%, rgba(239,68,68,0.06), transparent 50%)"
     : "radial-gradient(circle at 15% 50%, rgba(99,102,241,0.18), transparent 50%), radial-gradient(circle at 85% 30%, rgba(239,68,68,0.15), transparent 50%), radial-gradient(circle at 50% 90%, rgba(16,185,129,0.10), transparent 45%)";
   const grid = `linear-gradient(to right, ${gridLine} 1px, transparent 1px), linear-gradient(to bottom, ${gridLine} 1px, transparent 1px)`;
   return `
-    <div class="export-card intro" style="--cat-color:#FF5A5F; background-color:${bg}; background-image:${mesh}; color:${text}; width:${preset.width}px; height:${preset.height}px; position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:72px 64px;">
+    <div class="export-card intro" style="--cat-color:#FF5A5F; background-color:${bg}; background-image:${mesh}; color:${text}; width:${preset.width}px; height:${preset.height}px; position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:center; text-align:center; padding:64px;">
       <div style="position:absolute;inset:0;background-image:${grid};background-size:40px 40px;pointer-events:none;z-index:0;"></div>
       <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-display);font-size:280px;font-weight:800;color:${watermarkColor};z-index:0;pointer-events:none;letter-spacing:-0.04em;white-space:nowrap;">FOSS</div>
-      <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="font-family:var(--font-display);font-weight:700;font-size:22px;letter-spacing:-0.02em;color:${text}">Swap<span style="color:#FF5A5F">FOSS</span></div>
-        <span style="font-size:16px;color:${faint};font-family:var(--font-body);font-weight:500;letter-spacing:0.08em;text-transform:uppercase;margin-top:16px;">${post.intro.eyebrow}</span>
+      <div style="position:absolute;top:64px;left:64px;z-index:2;font-family:var(--font-display);font-weight:700;font-size:22px;letter-spacing:-0.02em;color:${text}">Swap<span style="color:#FF5A5F">FOSS</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:24px;position:relative;z-index:2;margin-top:auto;margin-bottom:auto;max-width:700px;">
+        <span style="font-size:16px;color:${faint};font-family:var(--font-body);font-weight:500;letter-spacing:0.08em;text-transform:uppercase;">${post.intro.eyebrow}</span>
         <h1 style="font-family:var(--font-display);font-weight:700;font-size:52px;line-height:1.1;margin:0;max-width:15ch;color:${text};">${post.intro.headline}</h1>
         <p style="font-size:20px;color:${muted};max-width:30ch;margin:0;line-height:1.5;">${post.intro.subhead}</p>
       </div>
@@ -43,22 +43,22 @@ function outroCardHTML(post, preset, lightTheme) {
   const bg = lightTheme ? "#ffffff" : "#0f172a";
   const text = lightTheme ? "#0F1115" : "#F5F3ED";
   const muted = lightTheme ? "#5B616D" : "rgba(255,255,255,0.55)";
-  const gridLine = lightTheme ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.03)";
+  const gridLine = lightTheme ? "rgba(0,0,0,0.03)" : "rgba(255,255,255,0.02)";
   const watermarkColor = lightTheme ? "rgba(0,0,0,0.03)" : "rgba(255,255,255,0.025)";
   const mesh = lightTheme
     ? "radial-gradient(circle at 80% 60%, rgba(99,102,241,0.08), transparent 50%), radial-gradient(circle at 20% 30%, rgba(59,130,246,0.06), transparent 50%)"
     : "radial-gradient(circle at 80% 60%, rgba(99,102,241,0.18), transparent 50%), radial-gradient(circle at 20% 30%, rgba(59,130,246,0.15), transparent 50%), radial-gradient(circle at 50% 10%, rgba(168,85,247,0.10), transparent 45%)";
   const grid = `linear-gradient(to right, ${gridLine} 1px, transparent 1px), linear-gradient(to bottom, ${gridLine} 1px, transparent 1px)`;
-  const border = lightTheme ? "rgba(0,0,0,0.12)" : "rgba(255,255,255,0.12)";
+  const border = lightTheme ? "rgba(0,0,0,0.12)" : "rgba(255,255,255,0.15)";
   return `
-    <div class="export-card outro" style="--cat-color:#4EA8DE; background-color:${bg}; background-image:${mesh}; color:${text}; width:${preset.width}px; height:${preset.height}px; position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:72px 64px;">
+    <div class="export-card outro" style="--cat-color:#4EA8DE; background-color:${bg}; background-image:${mesh}; color:${text}; width:${preset.width}px; height:${preset.height}px; position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:center; text-align:center; padding:64px;">
       <div style="position:absolute;inset:0;background-image:${grid};background-size:40px 40px;pointer-events:none;z-index:0;"></div>
       <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-display);font-size:280px;font-weight:800;color:${watermarkColor};z-index:0;pointer-events:none;letter-spacing:-0.04em;white-space:nowrap;">SWAP</div>
-      <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="font-family:var(--font-display);font-weight:700;font-size:22px;letter-spacing:-0.02em;color:${text}">Swap<span style="color:#4EA8DE">FOSS</span></div>
+      <div style="position:absolute;top:64px;left:64px;z-index:2;font-family:var(--font-display);font-weight:700;font-size:22px;letter-spacing:-0.02em;color:${text}">Swap<span style="color:#4EA8DE">FOSS</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:24px;position:relative;z-index:2;margin-top:auto;margin-bottom:auto;max-width:700px;">
         <h1 style="font-family:var(--font-display);font-weight:700;font-size:52px;line-height:1.1;margin:0;max-width:15ch;color:${text};">${post.outro.headline}</h1>
         <p style="font-size:20px;color:${muted};max-width:30ch;margin:0;line-height:1.5;">${post.outro.subhead}</p>
-        <div style="margin-top:24px;padding:14px 32px;border-radius:999px;border:1px solid ${border};font-family:var(--font-body);font-size:15px;font-weight:600;color:${text};background:${lightTheme ? 'rgba(0,0,0,0.02)' : 'rgba(255,255,255,0.04)'};">Follow for more swaps</div>
+        <div style="margin-top:8px;padding:16px 36px;border-radius:999px;border:1px solid ${border};font-family:var(--font-body);font-size:16px;font-weight:600;color:${text};background:${lightTheme ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.06)'};">Follow for more swaps</div>
       </div>
     </div>
   `;
