@@ -1,0 +1,16 @@
+name: CI — Validate Tools
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate tool data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate tool JSON files
+        run: node scripts/ci/validate-tools.mjs
