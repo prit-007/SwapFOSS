@@ -1,0 +1,18 @@
+{
+  "id": "streamio",
+  "name": "Stremio",
+  "category": "media",
+  "insteadOf": "Random piracy sites & sketchy streaming apps",
+  "hook": "One clean app instead of ten sketchy tabs and pop-up ads.",
+  "bullets": [
+    "Add-on based — plug in the sources you trust",
+    "One interface for movies, shows, and live TV",
+    "No pop-ups, no redirect chains, no malware roulette"
+  ],
+  "setup": "Install the app, no server needed",
+  "difficulty": "easy",
+  "link": "https://www.stremio.com",
+  "repo": "https://github.com/Stremio",
+  "logo": "assets/logos/streamio.svg",
+  "screenshot": "assets/screenshots/streamio.png"
+}

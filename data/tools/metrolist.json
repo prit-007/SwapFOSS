@@ -1,0 +1,18 @@
+{
+  "id": "metrolist",
+  "name": "Metrolist",
+  "category": "music",
+  "insteadOf": "Spotify",
+  "hook": "Stream music free, no ads, no premium nag screens.",
+  "bullets": [
+    "Pulls music straight from YouTube Music, ad-free",
+    "Background play and downloads, no premium required",
+    "Clean, fast Android app — nothing bloated"
+  ],
+  "setup": "Install the Android app, no server needed",
+  "difficulty": "easy",
+  "link": "https://github.com/mostafaalagamy/Metrolist",
+  "repo": "https://github.com/mostafaalagamy/Metrolist",
+  "logo": "assets/logos/metrolist.svg",
+  "screenshot": "assets/screenshots/metrolist.png"
+}

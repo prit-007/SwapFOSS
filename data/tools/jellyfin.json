@@ -1,0 +1,18 @@
+{
+  "id": "jellyfin",
+  "name": "Jellyfin",
+  "category": "media",
+  "insteadOf": "Netflix / Plex",
+  "hook": "Your own streaming server. No subscription, no one watching what you watch.",
+  "bullets": [
+    "Turn your own movie/show library into a Netflix-style app",
+    "Free forever, no premium tier hiding behind a paywall",
+    "Works on TV, phone, browser — even offline downloads"
+  ],
+  "setup": "Self-hosted (needs a server or old PC/NAS)",
+  "difficulty": "medium",
+  "link": "https://jellyfin.org",
+  "repo": "https://github.com/jellyfin/jellyfin",
+  "logo": "assets/logos/jellyfin.svg",
+  "screenshot": "assets/screenshots/jellyfin.png"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "post-001",
+  "title": "Your entertainment stack, but free",
+  "intro": {
+    "eyebrow": "Free alternatives you didn't know existed",
+    "headline": "Swap your entertainment stack for free, open-source apps",
+    "subhead": "3 tools. No subscriptions. No one watching what you watch."
+  },
+  "tools": ["jellyfin", "streamio", "metrolist"],
+  "outro": {
+    "headline": "More swaps every week",
+    "subhead": "Follow along as the list grows"
+  }
+}
