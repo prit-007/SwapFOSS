@@ -1,0 +1,27 @@
+{
+  "id": "forgejo",
+  "name": "Forgejo",
+  "category": "dev",
+  "insteadOf": "GitHub / GitLab",
+  "hook": "Self-hosted Git forge — lightweight, community-governed, privacy-first.",
+  "bullets": [
+    "Runs on a Raspberry Pi — ~170MB RAM vs GitLab's 8GB",
+    "GitHub Actions-compatible CI via Forgejo Actions",
+    "Community-governed by non-profit Codeberg e.V., GPL-3.0 licensed"
+  ],
+  "features": ["Self-hosted", "Forgejo Actions CI", "Package registry", "Lightweight", "Community-governed"],
+  "setupSteps": [
+    "Download the Forgejo binary for your platform",
+    "Run the binary or use Docker: docker run -p 3000:3000 codeberg/forgejo",
+    "Open the web UI and complete the first-run setup",
+    "Create repos, invite collaborators, set up CI runners"
+  ],
+  "details": "Forgejo is a community-governed, self-hosted Git forge — a lightweight alternative to GitHub and GitLab. Written in Go, it provides repositories, issues, pull requests with code review, wikis, a package and container registry, LFS, and Forgejo Actions (CI/CD compatible with GitHub Actions YAML). It idles at ~170MB RAM, runs on anything from a Raspberry Pi to a dedicated server, and is governed by the non-profit Codeberg e.V. — not a corporation. Federation via ActivityPub is actively developed. Licensed under GPL-3.0.",
+  "setup": "Self-hosted (binary, Docker, or packages)",
+  "difficulty": "easy",
+  "link": "https://forgejo.org",
+  "repo": "https://codeberg.org/forgejo/forgejo",
+  "logo": "assets/logos/forgejo.svg",
+  "screenshot": "assets/screenshots/forgejo.webp",
+  "screenshotType": "landscape"
+}
