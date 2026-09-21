@@ -1,0 +1,28 @@
+{
+  "id": "nuclear",
+  "name": "Nuclear",
+  "category": "music",
+  "insteadOf": "Spotify / Apple Music / Tidal",
+  "hook": "Desktop music player that finds free music — plugin-driven, no ads, no tracking.",
+  "bullets": [
+    "Plugin system: add streaming sources, metadata, dashboards via built-in plugin store",
+    "Search and stream from YouTube, SoundCloud, Bandcamp, and more",
+    "18k+ stars, cross-platform (Windows, macOS, Linux), built with Tauri"
+  ],
+  "features": ["Plugin system", "Cross-platform", "No ads", "Multiple themes", "MCP server"],
+  "setupSteps": [
+    "Download Nuclear for your platform from nuclearplayer.com or GitHub",
+    "Install and open — no account required",
+    "Go to Settings > Plugins to browse the plugin store",
+    "Install streaming providers (YouTube, SoundCloud, Bandcamp) and metadata providers (Spotify, Last.fm)",
+    "Go to Sources view in the left sidebar to select and activate your providers"
+  ],
+  "details": "Nuclear is a free, open-source desktop music player that streams music from multiple online sources. Everything is plugin-driven: streaming providers (YouTube, SoundCloud, Bandcamp, Khinsider), metadata providers (Spotify, Last.fm for album art and artist bios), dashboard content, and playlist imports. The built-in plugin store makes it easy to install and manage extensions. Nuclear features multiple themes, queue management with shuffle/repeat, favorites, playlist import/export, and even an MCP server so AI agents can control playback. Built with Tauri (Rust + React) for native performance. Licensed under AGPL-3.0.",
+  "setup": "Install the desktop app, no server needed",
+  "difficulty": "easy",
+  "link": "https://nuclearplayer.com",
+  "repo": "https://github.com/nukeop/nuclear",
+  "logo": "assets/logos/nuclear.png",
+  "screenshot": "assets/screenshots/nuclear.png",
+  "screenshotType": "landscape"
+}

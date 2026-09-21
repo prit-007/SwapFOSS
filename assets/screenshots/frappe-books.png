@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!-- Made with Frappe Builder -->
+<html lang="en" style="background:var(--d9d6201b-d53d-4d10-8402-4734c49ee674)">
+<head>
+	
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="color-scheme" content="light dark">
+	
+	<script>
+	window.process=window.process||{env:{NODE_ENV:"production"}};
+	window.events={dispatch(name,data,target=document){target.dispatchEvent(new CustomEvent(name,{detail:data}))},listen(name,callback,target=document){const handler=event=>callback(event.detail,event);target.addEventListener(name,handler);return()=>target.removeEventListener(name,handler)}}
+	</script>
+	
+	<title>404</title>
+	<link rel="icon" href="/files/frappeio82a788.ico"  media="(prefers-color-scheme: light)"/>
+	<link rel="icon" href="/files/frappeio82a788.ico"  media="(prefers-color-scheme: dark)"/>
+	<meta name="title" content="Page Not Found"><meta name="description" content="Page Not Found"><meta name="image" content="https://frappe.io/files/page-d6b941a4-preview.webp?v=07306"><meta name="language" content="en"><meta property="og:type"  content="article"><meta property="og:title"  content="Page Not Found"><meta property="og:description"  content="Page Not Found"><meta property="og:image"  content="https://frappe.io/files/page-d6b941a4-preview.webp?v=07306"><meta name="twitter:title" content="Page Not Found"><meta name="twitter:description" content="Page Not Found"><meta name="twitter:image" content="https://frappe.io/files/page-d6b941a4-preview.webp?v=07306"><meta name="twitter:card" content="summary_large_image">
+	<link rel="stylesheet" href="/assets/builder/reset.css?v=7" media="screen">
+	<style>
+	:root { color-scheme: light dark }
+	:root { background: transparent; color: CanvasText }
+	:root[data-prefers-color-scheme="light"], :root[data-theme="light"] { color-scheme: light }
+	:root[data-prefers-color-scheme="dark"], :root[data-theme="dark"] { color-scheme: dark }
+	::selection { background: Highlight; color: HighlightText }
+	img { filter: var(--builder-image-dim, none) }
+	picture img { filter: none }
+	@media (prefers-color-scheme: dark) { :root:not([data-prefers-color-scheme="light"]):not([data-theme="light"]) { --builder-image-dim: brightness(0.85) contrast(1.05) } }
+	:root[data-prefers-color-scheme="dark"], :root[data-theme="dark"] { --builder-image-dim: brightness(0.85) contrast(1.05) }
+	</style>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	
+	<style>.fb-e97bb9b5 { align-items: center;display: flex;flex-direction: column;flex-shrink: 0;flex-wrap: wrap;position: static;height: 100%;width: 100%;justify-content: flex-start;background-color: var(--d9d6201b-d53d-4d10-8402-4734c49ee674);color: var(--2560c55e-dda1-42c1-9a18-ddec690f1a4e); }.fb-86e33218 { display: flex;flex-direction: column;flex-shrink: 0;width: 100%;overflow: hidden;position: relative;height: 100vh;justify-content: center;align-items: center;gap: 14px;margin-bottom: 0px; }.fb-3132bccf { font-size: 24px;width: fit-content;height: fit-content;line-height: 1.4;min-width: 10px;position: static;color: var(--345d7323-09ef-40a6-b850-2aaf896a7ee1);font-weight: 600; }.fb-a421cb30 { display: flex;flex-direction: column;flex-shrink: 0;overflow: hidden;position: static;height: 1px;width: 140px;background-color: var(--69070ff3-396f-4012-b746-245057b95271); }.fb-c400d055 { font-size: 14px;width: fit-content;height: fit-content;line-height: 1.4;min-width: 10px;position: static;color: var(--b8263dd0-5d72-463b-862b-9209ebc4bf1f);font-weight: 400; }</style><link rel="stylesheet" href="/builder_assets/tokens.css" media="screen"><style>html,body{background:var(--d9d6201b-d53d-4d10-8402-4734c49ee674);}</style>
+			<link rel="stylesheet" href="/files/page_styles/builder-asset-style.css?v=236fc50d37">
+			
+	<script>
+try {
+  var t = localStorage.getItem('theme');
+  if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+} catch (e) {}
+document.addEventListener('click', function (e) {
+  var link = e.target.closest('[data-set-theme]');
+  if (!link) return;
+  e.preventDefault();
+  var mode = link.getAttribute('data-set-theme'), el = document.documentElement;
+  if (mode === 'auto') {
+    el.removeAttribute('data-theme');
+    try { localStorage.removeItem('theme'); } catch (x) {}
+  } else {
+    el.setAttribute('data-theme', mode);
+    try { localStorage.setItem('theme', mode); } catch (x) {}
+  }
+});
+</script></head>
+
+<body class="fb-e97bb9b5"><script></script><div class="fb-86e33218"><div class="fb-3132bccf __text_block__"><p>Page not found</p></div><hr class="fb-a421cb30"/><a class="fb-c400d055 __text_block__" href="/"><p>Back to Home</p></a></div>
+<script src="/files/page_scripts/builder-asset-script.js?v=7a1f5806e4"></script>
+
+<script src="/files/page_scripts/JavaScript-b1ade-85c166f136.js?v=018edf9039"></script>
+
+<script>window.page_data = {}</script>
+<script>if (!window.frappe) window.frappe = {};</script>
+<script>frappe.csrf_token = "None";</script>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function() {let b=getBrowser(),q=getQueryParams();import('/assets/builder/js/identify.js').then(f=>f.load()).then(fp=>fp.get()).then(r=>{window.__builderVisitorId=r.visitorId;const d={referrer:document.referrer,browser:b.name,version:b.version,user_tz:Intl.DateTimeFormat().resolvedOptions().timeZone,source:q.source,medium:q.medium,campaign:q.campaign,visitor_id:r.visitorId};makeViewLog(d)})});function getBrowser(){const ua=navigator.userAgent,b={};if(ua.indexOf("Chrome")!==-1){b.name="Chrome";b.version=parseInt(ua.split("Chrome/")[1])}else if(ua.indexOf("Firefox")!==-1){b.name="Firefox";b.version=parseInt(ua.split("Firefox/")[1])}else{b.name="Unknown";b.version="Unknown"}return b}function getQueryParams(){const q={},p=window.location.search.substring(1).split("&");p.forEach(p=>{const [k,v]=p.split("=");q[k]=v});return q}function makeViewLog(d){fetch('/api/method/frappe.website.doctype.web_page_view.web_page_view.make_view_log',{method:'POST',headers:{'Content-Type':'application/json',"X-Frappe-CSRF-Token": frappe.csrf_token},body:JSON.stringify(d)})}document.addEventListener("click",function(e){const el=e.target.closest("[data-track]");if(!el)return;makeClickLog({element:el.getAttribute("data-track")||"",text:((el.innerText||el.value||"")+"").trim().slice(0,140),visitor_id:window.__builderVisitorId||""})},true);function makeClickLog(d){try{fetch('/api/method/builder.api.make_click_log',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json',"X-Frappe-CSRF-Token":(window.frappe&&frappe.csrf_token)||""},body:JSON.stringify(d)})}catch(_){}}
+</script>
+
+
+<script>
+{const c=document.cookie,show=window.matchMedia("(min-width:768px)").matches&&c.includes("user_id=")&&!c.includes("user_id=Guest")&&!c.includes("system_user=no;");if(show){const link=document.createElement("a");link.rel="nofollow";link.href="/editor/page/page-d6b941a4";link.target="editor-page-d6b941a4";link.style.cssText="position:fixed;bottom:40px;right:50px;height:35px;width:35px;opacity:.1";link.innerHTML='<img src="/assets/builder/frontend/builder_logo.png" alt="Edit in Builder" style="box-shadow:#bdbdbd 0 0 5px;border-radius:10px"/>';link.addEventListener("mouseover",()=>link.style.opacity="1");link.addEventListener("mouseout",()=>link.style.opacity=".1");document.body.appendChild(link)}}
+</script>
+
+
+</body>
+
+</html>

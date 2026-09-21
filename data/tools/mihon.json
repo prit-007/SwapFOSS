@@ -1,0 +1,27 @@
+{
+  "id": "mihon",
+  "name": "Mihon",
+  "category": "media",
+  "insteadOf": "Proprietary manga apps / Tachiyomi",
+  "hook": "Full-featured manga reader — extension-based, tracker support, no ads.",
+  "bullets": [
+    "Extension-based system — access hundreds of manga sources",
+    "Tracker support: MyAnimeList, AniList, Kitsu, MangaUpdates, and more",
+    "Configurable reader with multiple viewing modes and reading directions"
+  ],
+  "features": ["Extension-based", "Tracker support", "Offline reading", "Multiple viewers", "Backup & restore"],
+  "setupSteps": [
+    "Download Mihon from GitHub or mihon.app",
+    "Install the APK on your Android device (requires Android 8.0+)",
+    "Install extensions from within the app to add manga sources",
+    "Browse, read, and track your manga library"
+  ],
+  "details": "Mihon is a free and open-source manga reader for Android, the successor to Tachiyomi. It uses an extension-based system where you install separate APK extensions to access different manga sources. The app features a highly configurable reader with multiple viewing modes (paged, webtoon), reading directions, and custom color filters. Tracker integration keeps your reading progress synced with MyAnimeList, AniList, Kitsu, and other services. Library management includes categories, scheduled updates, and backups to local storage or cloud services. Licensed under Apache-2.0 with 23k+ GitHub stars.",
+  "setup": "Install the Android app, no server needed",
+  "difficulty": "easy",
+  "link": "https://mihon.app",
+  "repo": "https://github.com/mihonapp/mihon",
+  "logo": "assets/logos/mihon.png",
+  "screenshot": "assets/screenshots/mihon.png",
+  "screenshotType": "portrait"
+}

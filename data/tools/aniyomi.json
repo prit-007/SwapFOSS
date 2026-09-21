@@ -1,0 +1,27 @@
+{
+  "id": "aniyomi",
+  "name": "Aniyomi",
+  "category": "media",
+  "insteadOf": "Proprietary anime/manga apps",
+  "hook": "Watch anime and read manga in one app — extension-based, mpv player, no ads.",
+  "bullets": [
+    "Anime streaming and manga reading in a single app",
+    "Built on mpv-android for powerful video playback with customizable settings",
+    "Tracker support: MyAnimeList, AniList, Kitsu, Simkl, and more"
+  ],
+  "features": ["Anime + manga", "mpv player", "Extension-based", "Trackers", "Offline support"],
+  "setupSteps": [
+    "Download Aniyomi from GitHub or aniyomi.org",
+    "Install the APK on your Android device (requires Android 8.0+)",
+    "Install anime and manga extensions from within the app",
+    "Browse, watch, and read — all in one place"
+  ],
+  "details": "Aniyomi is a free and open-source anime player and manga reader for Android, based on Mihon. It combines anime streaming with manga reading in a single app, using an extension-based system for both content sources. The video player is built on mpv-android, offering hardware decoding, gesture controls, and extensive customization. Tracker integration syncs your progress with MyAnimeList, AniList, Kitsu, Simkl, and other services. Features include library categories, scheduled updates, light/dark themes, and local backups. Licensed under Apache-2.0 with 7.6k+ GitHub stars.",
+  "setup": "Install the Android app, no server needed",
+  "difficulty": "easy",
+  "link": "https://aniyomi.org",
+  "repo": "https://github.com/aniyomiorg/aniyomi",
+  "logo": "assets/logos/aniyomi.png",
+  "screenshot": "assets/screenshots/aniyomi.png",
+  "screenshotType": "portrait"
+}
