@@ -1,0 +1,27 @@
+{
+  "id": "frappe-books",
+  "name": "Frappe Books",
+  "category": "home",
+  "insteadOf": "QuickBooks / FreshBooks / Xero",
+  "hook": "Modern desktop accounting — free, offline-first, no subscription.",
+  "bullets": [
+    "Double-entry accounting with invoicing, payments, and journal entries",
+    "Offline-first desktop app — your data stays on your machine",
+    "Financial reports: General Ledger, P&L, Balance Sheet, Trial Balance"
+  ],
+  "features": ["Double-entry accounting", "Invoicing", "Offline-first", "Financial reports", "Custom templates"],
+  "setupSteps": [
+    "Download Frappe Books from the releases page or frappe.io/books",
+    "Install on Windows, macOS, or Linux (also available via Homebrew and Flatpak)",
+    "Open the app and create a new company file",
+    "Set up your chart of accounts and start invoicing"
+  ],
+  "details": "Frappe Books is a free, open-source desktop accounting application built with Vue.js and Electron. It uses a local SQLite database, so all your financial data stays on your machine — no cloud required. Features include double-entry accounting, invoicing with a powerful template builder, billing, payments, journal entries, and comprehensive financial reports (General Ledger, Profit & Loss, Balance Sheet, Trial Balance). The UI is fast and modern with fuzzy search (Ctrl+K) for quick navigation. Licensed under AGPL-3.0.",
+  "setup": "Install the desktop app, no server needed",
+  "difficulty": "easy",
+  "link": "https://frappe.io/books",
+  "repo": "https://github.com/frappe/books",
+  "logo": "assets/logos/frappe-books.png",
+  "screenshot": "assets/screenshots/frappe-books.png",
+  "screenshotType": "landscape"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "arr-suite",
+  "name": "*arr Suite",
+  "category": "media",
+  "insteadOf": "Manual media management",
+  "hook": "Automate your media library — Sonarr, Radarr, Lidarr, Readarr, Prowlarr, Bazarr.",
+  "bullets": [
+    "Sonarr (TV), Radarr (Movies), Lidarr (Music), Readarr (Books) — auto-download and organize",
+    "Prowlarr manages all your indexers in one place — 500+ torrent trackers and Usenet sites",
+    "Bazarr auto-downloads subtitles — integrates with Sonarr and Radarr"
+  ],
+  "features": ["Auto-download", "Quality profiles", "Indexer management", "Subtitle sync", "Calendar view"],
+  "setupSteps": [
+    "Install Docker and Docker Compose",
+    "Deploy the *arr stack using docker-compose (Sonarr, Radarr, Lidarr, Prowlarr, Bazarr)",
+    "Configure Prowlarr with your torrent trackers and Usenet indexers",
+    "Connect Sonarr/Radarr/Lidarr to Prowlarr and your download client (qBittorrent, NZBGet, etc.)"
+  ],
+  "details": "The *arr suite is a collection of open-source media automation tools. Sonarr monitors TV shows and automatically downloads new episodes. Radarr does the same for movies. Lidarr handles music, and Readarr manages ebooks. Prowlarr acts as a centralized indexer manager, connecting to 500+ torrent trackers and Usenet indexers, then syncing them to all your *arr apps. Bazarr automatically downloads and syncs subtitles. All apps feature quality profiles, calendar views, automatic failed download handling, and a clean web UI. Run them together via Docker for a complete media management pipeline. Licensed under GPL-3.0.",
+  "setup": "Self-hosted (Docker recommended)",
+  "difficulty": "medium",
+  "link": "https://wiki.servarr.com",
+  "repo": "https://github.com/Sonarr/Sonarr",
+  "logo": "assets/logos/sonarr.png",
+  "screenshot": "assets/screenshots/sonarr.png",
+  "screenshotType": "landscape"
+}
