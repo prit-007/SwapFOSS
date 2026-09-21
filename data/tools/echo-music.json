@@ -1,0 +1,27 @@
+{
+  "id": "echo-music",
+  "name": "Echo Music",
+  "category": "music",
+  "insteadOf": "Spotify / YouTube Music",
+  "hook": "Ad-free YouTube Music client with lyrics, offline playback, and music recognition.",
+  "bullets": [
+    "Ad-free streaming powered by YouTube Music's massive catalog",
+    "Synced lyrics, offline downloads, and built-in song recognition (Echo Find)",
+    "Import playlists from Spotify and listen together with friends"
+  ],
+  "features": ["Ad-free", "Synced lyrics", "Offline downloads", "Spotify import", "Music recognition"],
+  "setupSteps": [
+    "Download the APK from GitHub Releases (Android) or the desktop build for Windows/macOS/Linux",
+    "Install and open Echo Music",
+    "Browse or search — no account required to start listening",
+    "Import playlists from Spotify via Settings if desired"
+  ],
+  "details": "Echo Music is a modern, open-source music client built on YouTube Music's catalog. It delivers ad-free streaming, real-time synchronized lyrics, offline downloads, and a built-in music recognition feature called Echo Find. The app supports importing playlists from Spotify, listening together with friends in real time, and runs on both Android and desktop. Built with Kotlin and licensed under GPL-3.0, Echo Music is completely free with no subscriptions, no tracking, and no hidden fees.",
+  "setup": "Install the app, no server needed",
+  "difficulty": "easy",
+  "link": "https://echomusic.fun",
+  "repo": "https://github.com/EchoMusicApp/Echo-Music",
+  "logo": "assets/logos/echo-music.png",
+  "screenshot": "assets/screenshots/echo-music.png",
+  "screenshotType": "portrait"
+}
