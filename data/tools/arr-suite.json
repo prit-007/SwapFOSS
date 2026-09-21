@@ -21,7 +21,7 @@
   "difficulty": "medium",
   "link": "https://wiki.servarr.com",
   "repo": "https://github.com/Sonarr/Sonarr",
-  "logo": "assets/logos/sonarr.png",
-  "screenshot": "assets/screenshots/sonarr.png",
+  "logo": "assets/logos/arr-suite.png",
+  "screenshot": "assets/screenshots/arr-suite.png",
   "screenshotType": "landscape"
 }
