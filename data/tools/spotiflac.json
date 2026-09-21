@@ -1,0 +1,27 @@
+{
+  "id": "spotiflac",
+  "name": "SpotiFLAC",
+  "category": "music",
+  "insteadOf": "Spotify Premium",
+  "hook": "Download Spotify tracks in true lossless FLAC — no account required.",
+  "bullets": [
+    "Fetches lossless FLAC from Tidal, Qobuz, Amazon Music & Deezer",
+    "No Spotify account or subscription needed — works completely standalone",
+    "Cross-platform: Windows, macOS, Linux, Android, and iOS"
+  ],
+  "features": ["Lossless FLAC", "Multi-provider", "Cross-platform", "No account required", "Open source"],
+  "setupSteps": [
+    "Download the latest release from GitHub or spotiflac.com",
+    "Install on your platform (Windows, macOS, Linux, Android, or iOS)",
+    "Add provider extensions (Tidal, Qobuz, Amazon Music, Deezer) from the built-in store",
+    "Search for any Spotify track, album, or playlist and download as FLAC"
+  ],
+  "details": "SpotiFLAC is a free, open-source utility that lets you build a personal library of lossless FLAC audio from Spotify metadata. It uses third-party provider backends (Tidal, Qobuz, Amazon Music, Deezer) to fetch studio-grade audio without transcoding. No Spotify account or login is required — the app works completely standalone. It supports rich metadata including artwork, lyrics, and credits, and runs on every major platform. For audiophiles and collectors who want genuine lossless audio without being locked into a streaming subscription.",
+  "setup": "Install the app, no server needed",
+  "difficulty": "easy",
+  "link": "https://spotiflac.com",
+  "repo": "https://github.com/spotbye/SpotiFLAC",
+  "logo": "assets/logos/spotiflac.svg",
+  "screenshot": "assets/screenshots/spotiflac.png",
+  "screenshotType": "landscape"
+}

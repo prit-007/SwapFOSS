@@ -1,0 +1,27 @@
+{
+  "id": "jami",
+  "name": "Jami",
+  "category": "messaging",
+  "insteadOf": "WhatsApp / Skype / Zoom",
+  "hook": "Peer-to-peer encrypted calls and chat — no server, no phone number required.",
+  "bullets": [
+    "Fully peer-to-peer with end-to-end encryption — no central servers",
+    "Works on LAN without internet, no phone number or email needed",
+    "Audio/video calls, group chats, screen sharing, and file transfers"
+  ],
+  "features": ["P2P encrypted", "No phone number", "Group calls", "Screen sharing", "Cross-platform"],
+  "setupSteps": [
+    "Download Jami for your platform from jami.net or F-Droid",
+    "Install and create an account — no personal info required",
+    "Add contacts by sharing your Jami ID or scanning a QR code",
+    "Start messaging, calling, or video conferencing"
+  ],
+  "details": "Jami is a GNU project that provides completely decentralized, peer-to-peer communication without any central servers. All messages, calls, and file transfers are end-to-end encrypted with perfect forward secrecy. Unlike WhatsApp or Zoom, Jami doesn't require a phone number, email, or any personal information to create an account. It works on Linux, Windows, macOS, Android, iOS, and Android TV. Users on the same local network can communicate even without internet access. Jami also supports video conferencing, screen sharing, call recording, and a built-in extension platform. Licensed under GPLv3+, backed by the Free Software Foundation.",
+  "setup": "Install the app, no server needed",
+  "difficulty": "easy",
+  "link": "https://jami.net",
+  "repo": "https://git.jami.net/savoirfairelinux/jami",
+  "logo": "assets/logos/jami.svg",
+  "screenshot": "assets/screenshots/jami.png",
+  "screenshotType": "landscape"
+}

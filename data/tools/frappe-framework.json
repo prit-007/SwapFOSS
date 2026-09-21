@@ -1,0 +1,27 @@
+{
+  "id": "frappe-framework",
+  "name": "Frappe Framework",
+  "category": "dev",
+  "insteadOf": "Proprietary low-code platforms",
+  "hook": "Full-stack Python/JS framework that builds real apps with minimal code.",
+  "bullets": [
+    "Metadata-driven low-code architecture — admin UI generated automatically",
+    "Full-stack: Python backend, JS frontend, MariaDB, REST API, roles, permissions",
+    "Powers ERPNext (38k+ stars) and hundreds of community apps"
+  ],
+  "features": ["Low-code", "Full-stack", "REST API", "Role-based permissions", "Admin UI"],
+  "setupSteps": [
+    "Install bench CLI: pip install frappe-bench",
+    "Initialize a new bench: bench init frappe-bench",
+    "Create a new site: bench new-site mysite.localhost",
+    "Start the server: bench start"
+  ],
+  "details": "Frappe Framework is a full-stack, metadata-driven web framework written in Python and JavaScript. Instead of building admin panels, CRUD interfaces, forms, and permission systems from scratch, Frappe generates them automatically from DocType definitions. It includes a built-in admin UI, role-based permissions, REST API, real-time WebSocket support, and a powerful form builder. The framework has been in development since 2005 and powers ERPNext, one of the most popular open-source ERP systems with 38k+ GitHub stars. Licensed under MIT.",
+  "setup": "Self-hosted (needs Python, MariaDB, Redis)",
+  "difficulty": "medium",
+  "link": "https://frappeframework.com",
+  "repo": "https://github.com/frappe/frappe",
+  "logo": "assets/logos/frappe-framework.svg",
+  "screenshot": "assets/screenshots/frappe-framework.png",
+  "screenshotType": "landscape"
+}

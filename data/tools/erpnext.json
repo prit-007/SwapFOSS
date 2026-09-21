@@ -1,0 +1,27 @@
+{
+  "id": "erpnext",
+  "name": "ERPNext",
+  "category": "dev",
+  "insteadOf": "SAP / Oracle NetSuite / Salesforce",
+  "hook": "Full-featured open-source ERP — accounting, inventory, HR, manufacturing — free forever.",
+  "bullets": [
+    "Covers accounting, sales, purchasing, inventory, HR, and manufacturing in one app",
+    "No per-user pricing — free and open source under GPL-3.0",
+    "38k+ GitHub stars, 30,000+ companies using it worldwide"
+  ],
+  "features": ["Accounting", "Inventory", "HR & Payroll", "Manufacturing", "CRM", "Open source"],
+  "setupSteps": [
+    "Install bench CLI: pip install frappe-bench",
+    "Initialize bench and create a site",
+    "Get ERPNext: bench get-app erpnext",
+    "Install: bench --site mysite.localhost install-app erpnext"
+  ],
+  "details": "ERPNext is a 100% open-source enterprise resource planning system built on Frappe Framework. It replaces expensive proprietary ERPs like SAP and Oracle NetSuite with a free, community-driven alternative. Modules include accounting with double-entry bookkeeping, inventory with batch/serial tracking, purchasing, sales, CRM, HR with payroll, manufacturing with BOM and job cards, project management, and a point-of-sale system. Over 30,000 companies worldwide use ERPNext, from small businesses to enterprises. Licensed under GPL-3.0.",
+  "setup": "Self-hosted (needs Python, MariaDB, Redis) or Frappe Cloud",
+  "difficulty": "medium",
+  "link": "https://erpnext.com",
+  "repo": "https://github.com/frappe/erpnext",
+  "logo": "assets/logos/erpnext.svg",
+  "screenshot": "assets/screenshots/erpnext.png",
+  "screenshotType": "landscape"
+}

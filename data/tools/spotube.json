@@ -1,0 +1,27 @@
+{
+  "id": "spotube",
+  "name": "Spotube",
+  "category": "music",
+  "insteadOf": "Spotify",
+  "hook": "Open source Spotify client — no Premium, no Electron, no ads.",
+  "bullets": [
+    "Uses Spotify's free API + YouTube for audio — no Premium needed",
+    "Native Flutter app, not Electron — fast and lightweight",
+    "Cross-platform: Windows, macOS, Linux, Android, and iOS"
+  ],
+  "features": ["No Premium needed", "Cross-platform", "No telemetry", "Lyrics", "Offline downloads"],
+  "setupSteps": [
+    "Download Spotube for your platform from GitHub or F-Droid",
+    "Install and open the app",
+    "Sign in with your Spotify account (or use guest/anonymous login)",
+    "Browse, search, and play — ads-free, no Premium required"
+  ],
+  "details": "Spotube is an open-source, cross-platform Spotify client built with Flutter. It uses Spotify's free data API for metadata and YouTube (or Piped/JioSaavn) as an audio source, eliminating the need for Spotify Premium. The app features time-synced lyrics, offline downloads, anonymous login support, and zero telemetry or data collection. It's a native app — not another Electron wrapper — so it's lightweight, fast, and uses minimal resources. Spotube is licensed under BSD-4-Clause and has a thriving community with over 48k GitHub stars.",
+  "setup": "Install the app, no server needed",
+  "difficulty": "easy",
+  "link": "https://spotube.krtirtho.dev",
+  "repo": "https://github.com/KRTirtho/spotube",
+  "logo": "assets/logos/spotube.png",
+  "screenshot": "assets/screenshots/spotube.png",
+  "screenshotType": "landscape"
+}

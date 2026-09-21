@@ -1,3 +1,3 @@
 {
-  "tools": ["jellyfin", "streamio", "metrolist", "frappe-books", "mihon", "nuclear", "aniyomi", "arr-suite"]
+  "tools": ["jellyfin", "streamio", "metrolist", "spotiflac", "spotube", "echo-music", "jami", "frappe-framework", "erpnext", "forgejo"]
 }
