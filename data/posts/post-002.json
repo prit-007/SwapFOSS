@@ -1,0 +1,14 @@
+{
+  "id": "post-002",
+  "title": "You don't need Spotify Premium.",
+  "intro": {
+    "eyebrow": "Free your music",
+    "headline": "You don't need Spotify Premium.",
+    "subhead": "Three open-source music tools that stream, download, and organize — no ads, no subscriptions, no tracking."
+  },
+  "tools": ["spotube", "nuclear", "spotiflac"],
+  "outro": {
+    "headline": "Your music library, your rules.",
+    "subhead": "Spotube for streaming, Nuclear for discovery, SpotiFLAC for lossless. Which one are you trying first?"
+  }
+}
