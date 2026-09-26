@@ -1,0 +1,14 @@
+{
+  "id": "post-003",
+  "title": "Manga and anime without the ads.",
+  "intro": {
+    "eyebrow": "Your library, your rules",
+    "headline": "Manga and anime without the ads.",
+    "subhead": "Read thousands of titles, stream without interruptions, and automate your library — all free, all open source."
+  },
+  "tools": ["mihon", "aniyomi", "arr-suite"],
+  "outro": {
+    "headline": "Built by readers, for readers.",
+    "subhead": "Mihon for manga, Aniyomi for anime, *arr Suite to automate it all. Which are you installing first?"
+  }
+}
