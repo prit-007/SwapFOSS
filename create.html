@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SwapFOSS — create post</title>
+<meta name="description" content="Compose a new carousel post and export it as JSON for the batch export page." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">Swap<span>FOSS</span></div>
+    <nav class="site-nav">
+      <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener">GitHub</a>
+      <a href="index.html">Home</a>
+      <a href="batch.html">Batch export</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Create a post</h1>
+    <p>Compose a carousel post, preview it live, then save it as a draft or download the JSON.</p>
+  </div>
+</section>
+
+<main class="wrap create-layout">
+  <form class="create-form" id="create-form" novalidate>
+    <div class="create-section">
+      <h2 class="create-section-title">Basics</h2>
+      <div class="create-field">
+        <label class="batch-label" for="f-id">Post ID</label>
+        <input class="batch-pin-input" id="f-id" type="text" placeholder="post-004" />
+        <span class="create-hint" id="id-hint">Must match the filename: post-004.json</span>
+      </div>
+      <div class="create-field">
+        <label class="batch-label" for="f-title">Title</label>
+        <input class="batch-pin-input" id="f-title" type="text" placeholder="Short label shown on the batch card" />
+      </div>
+    </div>
+
+    <div class="create-section">
+      <h2 class="create-section-title">Intro card</h2>
+      <div class="create-field">
+        <label class="batch-label" for="f-eyebrow">Eyebrow</label>
+        <input class="batch-pin-input" id="f-eyebrow" type="text" placeholder="e.g. Free your music" />
+      </div>
+      <div class="create-field">
+        <label class="batch-label" for="f-headline">Headline</label>
+        <input class="batch-pin-input" id="f-headline" type="text" placeholder="The big line on the intro card" />
+      </div>
+      <div class="create-field">
+        <label class="batch-label" for="f-subhead">Subhead</label>
+        <textarea class="batch-textarea" id="f-subhead" rows="2" placeholder="One supporting sentence"></textarea>
+      </div>
+    </div>
+
+    <div class="create-section">
+      <h2 class="create-section-title">Tools</h2>
+      <p class="create-hint">Pick at least one. Cards render in the order you select them.</p>
+      <div class="create-tool-groups" id="tool-groups">
+        <p style="color:var(--text-faint);font-size:13px">Loading tools…</p>
+      </div>
+    </div>
+
+    <div class="create-section">
+      <h2 class="create-section-title">Outro card</h2>
+      <div class="create-field">
+        <label class="batch-label" for="f-outro-headline">Headline</label>
+        <input class="batch-pin-input" id="f-outro-headline" type="text" placeholder="Closing line" />
+      </div>
+      <div class="create-field">
+        <label class="batch-label" for="f-outro-subhead">Subhead</label>
+        <textarea class="batch-textarea" id="f-outro-subhead" rows="2" placeholder="Call to action"></textarea>
+      </div>
+    </div>
+
+    <div class="create-actions">
+      <button type="button" class="batch-download-btn" id="btn-save">Save draft</button>
+      <button type="button" class="batch-caption-btn" id="btn-download">Download JSON</button>
+      <button type="button" class="batch-caption-btn" id="btn-copy">Copy JSON</button>
+      <a class="batch-caption-btn" id="btn-github" target="_blank" rel="noopener">Open on GitHub</a>
+      <span class="create-status" id="create-status"></span>
+    </div>
+  </form>
+
+  <aside class="create-preview">
+    <div class="create-preview-sticky">
+      <span class="batch-tools-label">Live preview</span>
+      <div class="create-preview-card" id="preview-card">
+        <span class="batch-intro-eyebrow" id="p-eyebrow">Eyebrow</span>
+        <p class="batch-intro-headline" id="p-headline">Your headline</p>
+        <p class="batch-intro-subhead" id="p-subhead">Your subhead</p>
+      </div>
+      <div class="create-preview-tools" id="preview-tools"></div>
+      <div class="create-preview-card create-preview-outro" id="preview-outro">
+        <p class="batch-intro-headline" id="p-outro-headline">Closing headline</p>
+        <p class="batch-intro-subhead" id="p-outro-subhead">Closing subhead</p>
+      </div>
+      <pre class="create-json-preview" id="json-preview"></pre>
+    </div>
+  </aside>
+</main>
+
+<section class="wrap create-drafts" id="drafts-section">
+  <h2 class="create-section-title">Your drafts</h2>
+  <div class="create-drafts-list" id="drafts-list">
+    <p class="create-hint">No drafts yet. Saved drafts appear here and on the batch export page.</p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    Built for sharing free software with the world.
+  </div>
+</footer>
+
+<script src="js/create-post.js"></script>
+</body>
+</html>
