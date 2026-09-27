@@ -4,7 +4,8 @@
   "intro": {
     "eyebrow": "Your library, your rules",
     "headline": "Manga and anime without the ads.",
-    "subhead": "Read thousands of titles, stream without interruptions, and automate your library — all free, all open source."
+    "subhead": "Read thousands of titles, stream without interruptions, and automate your library — all free, all open source.",
+    "pills": ["Read Offline", "No Ads", "Auto-Download"]
   },
   "tools": ["mihon", "aniyomi", "arr-suite"],
   "outro": {

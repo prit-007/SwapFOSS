@@ -139,6 +139,11 @@ The site fetches JSON data files, so you must open it via a server (not `file://
 3. List your tool ids in the `tools` array
 4. The batch page picks it up automatically
 
+Optional intro fields:
+
+- `intro.pills` — array of short benefit strings rendered as mono stat pills under the headline (falls back to the `intro.subhead` paragraph when absent)
+- `intro.hl` — `{ "word": "Spotify", "color": "#1DB954" }` highlights one headline word in a custom color (default: last word in the category gradient)
+
 ### Batch export (PIN: `swapfoss2026`)
 
 The batch page at `batch.html` renders all cards off-screen and bundles them as a ZIP:
