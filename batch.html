@@ -17,6 +17,7 @@
     <nav class="site-nav">
       <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener">GitHub</a>
       <a href="index.html">Home</a>
+      <a href="create.html">Create</a>
     </nav>
   </div>
 </header>
@@ -25,6 +26,7 @@
   <div class="wrap">
     <h1>Batch export</h1>
     <p>Download post-ready bundles — intro card, tool cards, and outro — as a ZIP. Enter the PIN to unlock downloads.</p>
+    <a href="create.html" class="batch-create-link">+ Create a new post</a>
   </div>
 </section>
 
@@ -54,13 +56,23 @@ async function init() {
     manifest.posts.map(id => loadJSON(`data/posts/${id}.json`))
   );
 
+  // Merge locally saved drafts (from create.html) with manifest posts.
+  let drafts = [];
+  try {
+    drafts = JSON.parse(localStorage.getItem("swapfoss-drafts")) || [];
+  } catch { /* ignore */ }
+  const publishedIds = new Set(posts.map(p => p.id));
+  const draftPosts = drafts.filter(d => d && d.id && !publishedIds.has(d.id));
+  const allPosts = [...posts, ...draftPosts];
+
   const allTools = await Promise.all(
-    [...new Set(posts.flatMap(p => p.tools))].map(id => loadJSON(`data/tools/${id}.json`))
+    [...new Set(allPosts.flatMap(p => p.tools))].map(id => loadJSON(`data/tools/${id}.json`))
   );
   const toolMap = Object.fromEntries(allTools.map(t => [t.id, t]));
 
   const grid = document.getElementById("posts-grid");
-  grid.innerHTML = posts.map(post => {
+  grid.innerHTML = allPosts.map(post => {
+    const isDraft = draftPosts.includes(post);
     const tools = post.tools.map(id => toolMap[id]).filter(Boolean);
     const cats = [...new Set(tools.map(t => t.category))];
     const catBadges = cats.map(c => {
@@ -74,7 +86,7 @@ async function init() {
       <div class="batch-post-card" data-post="${post.id}">
         <div class="batch-post-header">
           <h2 class="batch-post-title">${post.title}</h2>
-          <span class="batch-post-count">${tools.length} tool${tools.length !== 1 ? "s" : ""}</span>
+          <span class="batch-post-count">${isDraft ? "Draft · " : ""}${tools.length} tool${tools.length !== 1 ? "s" : ""}</span>
         </div>
         <div class="batch-post-intro">
           <span class="batch-intro-eyebrow">${post.intro.eyebrow}</span>
@@ -117,6 +129,7 @@ async function init() {
             <p class="batch-caption-text" id="caption-text-${post.id}"></p>
             <button class="batch-caption-copy" data-caption="${post.id}">Copy</button>
           </div>
+          ${isDraft ? `<button class="batch-draft-delete" data-delete-draft="${post.id}">Remove draft</button>` : ""}
         </div>
       </div>
     `;
@@ -156,10 +169,11 @@ async function init() {
     document.getElementById(`progress-${postId}`).style.display = "flex";
 
     try {
+      const postData = draftPosts.find(p => p.id === postId) || null;
       await downloadPostZIP(postId, presetKey, lightTheme, (cur, tot, msg) => {
         fill.style.width = `${(cur / tot) * 100}%`;
         label.textContent = `${msg} ${cur}/${tot}`;
-      });
+      }, postData);
       label.textContent = "Done!";
       setTimeout(() => {
         btn.disabled = false;
@@ -185,7 +199,7 @@ async function init() {
     const btn = e.target.closest(".batch-caption-btn");
     if (!btn) return;
     const postId = btn.dataset.post;
-    const post = posts.find(p => p.id === postId);
+    const post = allPosts.find(p => p.id === postId);
     const tools = post.tools.map(id => toolMap[id]).filter(Boolean);
     const caption = generateCaption(post, tools);
     const box = document.getElementById(`caption-${postId}`);
@@ -203,6 +217,18 @@ async function init() {
     await navigator.clipboard.writeText(text);
     btn.textContent = "Copied!";
     setTimeout(() => (btn.textContent = "Copy"), 1500);
+  });
+
+  // Remove draft
+  grid.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-delete-draft]");
+    if (!btn) return;
+    const id = btn.dataset.deleteDraft;
+    try {
+      const drafts = JSON.parse(localStorage.getItem("swapfoss-drafts")) || [];
+      localStorage.setItem("swapfoss-drafts", JSON.stringify(drafts.filter(d => d.id !== id)));
+    } catch { /* ignore */ }
+    btn.closest(".batch-post-card").remove();
   });
 }
 

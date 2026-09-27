@@ -130,13 +130,13 @@ async function capturePNG(element) {
   return res.blob();
 }
 
-async function downloadPostZIP(postId, presetKey, lightTheme, progressCallback) {
+async function downloadPostZIP(postId, presetKey, lightTheme, progressCallback, postData) {
   const preset = PRESETS[presetKey] || PRESETS.linkedin;
-  const [manifest, categories, post] = await Promise.all([
+  const [manifest, categories] = await Promise.all([
     loadJSON("data/posts-manifest.json"),
     loadJSON("data/categories.json"),
-    loadJSON(`data/posts/${postId}.json`),
   ]);
+  const post = postData || (await loadJSON(`data/posts/${postId}.json`));
 
   const tools = await Promise.all(
     post.tools.map(id => loadJSON(`data/tools/${id}.json`))
