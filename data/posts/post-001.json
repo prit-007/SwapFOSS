@@ -4,7 +4,8 @@
   "intro": {
     "eyebrow": "Built by the community, for you",
     "headline": "Stop renting your software. Start owning your media.",
-    "subhead": "A developer's guide to the best Free & Open Source entertainment tools. 100% free. 0% trackers."
+    "subhead": "A developer's guide to the best Free & Open Source entertainment tools. 100% free. 0% trackers.",
+    "pills": ["100% Free", "0% Trackers", "Own Your Media"]
   },
   "tools": ["jellyfin", "streamio", "metrolist"],
   "outro": {

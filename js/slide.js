@@ -4,33 +4,64 @@ async function loadJSON(path) {
   return res.json();
 }
 
+function hlLastWord(text, cls, hl) {
+  if (hl && hl.word && text.includes(hl.word)) {
+    const style = hl.color ? ` style="color:${hl.color};-webkit-text-fill-color:${hl.color};"` : "";
+    const attrs = `${hl.color ? "" : ` class="${cls}"`}${style}`;
+    return text.replace(hl.word, (m) => `<span${attrs}>${m}</span>`);
+  }
+  const i = text.lastIndexOf(" ");
+  if (i < 0) return text;
+  return `${text.slice(0, i)} <span class="${cls}">${text.slice(i + 1)}</span>`;
+}
+
 function introHTML(post, toolLogos) {
   const iconImages = toolLogos.slice(0, 4).map(t =>
     t.logo ? `<img class="intro-float-icon" src="${t.logo}" alt="${t.name}" />` : ""
   ).join("");
+  const total = post.tools.length + 2;
+  const pills = Array.isArray(post.intro.pills) ? post.intro.pills : [];
+  const body = pills.length
+    ? `<div class="intro-stats-row">${pills.map((p) => `<span class="stat-pill">✓ ${p}</span>`).join("")}</div>`
+    : `<p>${post.intro.subhead}</p>`;
   return `
     <div class="export-card intro" id="export-target">
       <div class="watermark-bg">FOSS</div>
+      <div class="card-grid"></div>
+      <div class="card-noise"></div>
+      <div class="card-vignette"></div>
       <div class="intro-float-icons">${iconImages}</div>
-      <div class="brandmark" style="position:absolute;top:64px;left:64px;">Swap<span>FOSS</span></div>
+      <div class="card-topbar">
+        <div class="brandmark">Swap<span>FOSS</span></div>
+        <span class="slide-counter">01 / ${String(total).padStart(2, "0")}</span>
+      </div>
       <div class="intro-content">
         <span class="eyebrow">${post.intro.eyebrow}</span>
-        <h1>${post.intro.headline}</h1>
-        <p>${post.intro.subhead}</p>
+        <h1>${hlLastWord(post.intro.headline, "hl", post.intro.hl)}</h1>
+        ${body}
       </div>
+      <div class="swipe-hint">Swipe →</div>
     </div>
   `;
 }
 
 function outroHTML(post) {
+  const total = post.tools.length + 2;
   return `
     <div class="export-card outro" id="export-target">
       <div class="watermark-bg">SWAP</div>
-      <div class="brandmark" style="position:absolute;top:64px;left:64px;">Swap<span>FOSS</span></div>
+      <div class="card-grid"></div>
+      <div class="card-noise"></div>
+      <div class="card-vignette"></div>
+      <div class="card-topbar">
+        <div class="brandmark">Swap<span>FOSS</span></div>
+        <span class="slide-counter">${String(total).padStart(2, "0")} / ${String(total).padStart(2, "0")}</span>
+      </div>
       <div class="outro-content">
-        <h1>${post.outro.headline}</h1>
+        <h1>${hlLastWord(post.outro.headline, "hl-blue")}</h1>
         <p>${post.outro.subhead}</p>
-        <div class="outro-cta">Follow for more swaps</div>
+        <div class="outro-cta">Follow for more swaps →</div>
+        <span class="outro-url">github.com/prit-007/SwapFOSS</span>
       </div>
       <div class="outro-dots">
         <span class="outro-dot"></span>

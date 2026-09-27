@@ -4,7 +4,9 @@
   "intro": {
     "eyebrow": "Free your music",
     "headline": "You don't need Spotify Premium.",
-    "subhead": "Three open-source music tools that stream, download, and organize — no ads, no subscriptions, no tracking."
+    "subhead": "Three open-source music tools that stream, download, and organize — no ads, no subscriptions, no tracking.",
+    "pills": ["Zero Ads", "Offline Downloads", "No Tracking"],
+    "hl": { "word": "Spotify", "color": "#1DB954" }
   },
   "tools": ["spotube", "nuclear", "spotiflac"],
   "outro": {

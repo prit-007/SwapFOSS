@@ -20,6 +20,7 @@
 
   --font-display: "Space Grotesk", sans-serif;
   --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
   --radius: 14px;
   --max-w: 1120px;
@@ -901,6 +902,11 @@ a { color: inherit; }
   top: 0; left: 0; right: 0;
   height: 10px;
   background: var(--cat-color, var(--dev));
+}
+
+.export-card.intro::before,
+.export-card.outro::before {
+  display: none;
 }
 
 /* Export card: top section */
