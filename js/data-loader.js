@@ -1,4 +1,5 @@
 // Loads categories + tool data, renders the swap-card grid, wires up filters + caption copy.
+import { shareCard } from "./share.js";
 
 async function loadJSON(path) {
   const res = await fetch(path);

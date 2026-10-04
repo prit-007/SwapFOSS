@@ -4,11 +4,20 @@
   "version": "0.1.0",
   "description": "Free, open-source alternatives to the apps everyone already uses — site + carousel card generator.",
   "scripts": {
-    "serve": "http-server . -p 3000",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview -p 4173",
+    "serve": "http-server dist -p 3111",
+    "validate": "node scripts/ci/validate-tools.mjs",
     "carousel": "node scripts/generate-carousel.mjs"
   },
   "devDependencies": {
     "http-server": "^14.1.1",
-    "playwright": "^1.47.0"
+    "playwright": "^1.47.0",
+    "vite": "^8.3.2"
+  },
+  "dependencies": {
+    "html-to-image": "^1.11.13",
+    "jszip": "^3.10.2"
   }
 }

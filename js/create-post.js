@@ -119,7 +119,7 @@ function updateGithubLink(post, errors) {
   }
   link.classList.remove("create-btn-disabled");
   const repo = "prit-007/SwapFOSS";
-  const filename = `data/posts/${post.id}.json`;
+  const filename = `public/data/posts/${post.id}.json`;
   const value = JSON.stringify(post, null, 2) + "\n";
   link.href = `https://github.com/${repo}/new/main?filename=${encodeURIComponent(filename)}&value=${encodeURIComponent(value)}`;
 }

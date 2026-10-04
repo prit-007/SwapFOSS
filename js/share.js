@@ -1,5 +1,6 @@
 // Share utility — renders a tool card as PNG and shares via Web Share API
 // with a custom share menu fallback for desktop browsers.
+import * as htmlToImage from "html-to-image";
 
 function exportCardHTML(tool, cat) {
   const hasLogo = !!tool.logo;
@@ -159,7 +160,7 @@ function openShareMenu(toolId, dataUrl) {
   });
 }
 
-async function shareCard(toolId) {
+export async function shareCard(toolId) {
   const { blob, dataUrl, file } = await renderCardAsPNG(toolId);
 
   // Try native Web Share API first (works on mobile + some desktop)

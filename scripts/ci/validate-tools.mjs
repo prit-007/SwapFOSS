@@ -36,7 +36,7 @@ function pass(msg) {
 
 // 1. Load categories
 console.log("\n▸ Validating categories.json");
-const categoriesPath = path.resolve("data/categories.json");
+const categoriesPath = path.resolve("public/data/categories.json");
 let categories;
 try {
   categories = JSON.parse(fs.readFileSync(categoriesPath, "utf-8"));
@@ -61,7 +61,7 @@ try {
 
 // 2. Load manifest
 console.log("\n▸ Validating manifest.json");
-const manifestPath = path.resolve("data/manifest.json");
+const manifestPath = path.resolve("public/data/manifest.json");
 let manifest;
 try {
   manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
@@ -78,10 +78,10 @@ try {
 if (manifest?.tools) {
   for (const toolId of manifest.tools) {
     console.log(`\n▸ Validating tool: ${toolId}`);
-    const toolPath = path.resolve(`data/tools/${toolId}.json`);
+    const toolPath = path.resolve(`public/data/tools/${toolId}.json`);
 
     if (!fs.existsSync(toolPath)) {
-      fail(`File not found: data/tools/${toolId}.json`);
+      fail(`File not found: public/data/tools/${toolId}.json`);
       continue;
     }
 
@@ -144,7 +144,7 @@ if (manifest?.tools) {
 
 // 4. Check for orphan tool files (files not in manifest)
 console.log("\n▸ Checking for orphan tool files");
-const toolsDir = path.resolve("data/tools");
+const toolsDir = path.resolve("public/data/tools");
 if (fs.existsSync(toolsDir)) {
   const files = fs.readdirSync(toolsDir).filter(f => f.endsWith(".json"));
   const manifestSet = new Set(manifest?.tools || []);
@@ -158,11 +158,11 @@ if (fs.existsSync(toolsDir)) {
 
 // 5. Validate post files
 console.log("\n▸ Validating post files");
-const postsDir = path.resolve("data/posts");
+const postsDir = path.resolve("public/data/posts");
 if (fs.existsSync(postsDir)) {
   const postFiles = fs.readdirSync(postsDir).filter(f => f.endsWith(".json"));
   for (const postFile of postFiles) {
-    const postPath = path.resolve("data/posts", postFile);
+    const postPath = path.resolve("public/data/posts", postFile);
     try {
       const post = JSON.parse(fs.readFileSync(postPath, "utf-8"));
       if (!post.id) fail(`Post ${postFile}: missing "id"`);

@@ -1,3 +1,5 @@
+import * as htmlToImage from "html-to-image";
+
 async function loadJSON(path) {
   const res = await fetch(path);
   if (!res.ok) throw new Error(`Failed to load ${path}`);

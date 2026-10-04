@@ -1,14 +1,16 @@
 // Batch export engine — loads posts, verifies PIN, renders cards, bundles ZIP.
+import JSZip from "jszip";
+import * as htmlToImage from "html-to-image";
 
-const PIN = "swapfoss2026";
+export const PIN = "swapfoss2026";
 
-const PRESETS = {
+export const PRESETS = {
   linkedin: { width: 1080, height: 1350, label: "LinkedIn" },
   instagram: { width: 1080, height: 1080, label: "Instagram" },
   twitter: { width: 1200, height: 675, label: "Twitter / X" },
 };
 
-async function loadJSON(path) {
+export async function loadJSON(path) {
   const res = await fetch(path);
   if (!res.ok) throw new Error(`Failed to load ${path}`);
   return res.json();
@@ -40,7 +42,7 @@ function hlLastWord(text, c1, c2, hl) {
   return `${text.slice(0, i)} <span style="${grad}">${text.slice(i + 1)}</span>`;
 }
 
-function introCardHTML(post, preset, lightTheme, totalSlides, tools) {
+export function introCardHTML(post, preset, lightTheme, totalSlides, tools) {
   const s = typeScale(preset);
   const bg = lightTheme ? "#ffffff" : "#0f172a";
   const text = lightTheme ? "#0F1115" : "#F5F3ED";
@@ -95,7 +97,7 @@ function introCardHTML(post, preset, lightTheme, totalSlides, tools) {
   `;
 }
 
-function outroCardHTML(post, preset, lightTheme, totalSlides) {
+export function outroCardHTML(post, preset, lightTheme, totalSlides) {
   const s = typeScale(preset);
   const bg = lightTheme ? "#ffffff" : "#0f172a";
   const text = lightTheme ? "#0F1115" : "#F5F3ED";
@@ -134,7 +136,7 @@ function outroCardHTML(post, preset, lightTheme, totalSlides) {
   `;
 }
 
-function toolCardHTML(tool, cat, preset, lightTheme) {
+export function toolCardHTML(tool, cat, preset, lightTheme) {
   const hasLogo = !!tool.logo;
   const hasScreenshot = !!tool.screenshot;
   const hasFeatures = tool.features && tool.features.length > 0;
@@ -200,7 +202,7 @@ async function capturePNG(element) {
   return res.blob();
 }
 
-async function downloadPostZIP(postId, presetKey, lightTheme, progressCallback, postData) {
+export async function downloadPostZIP(postId, presetKey, lightTheme, progressCallback, postData) {
   const preset = PRESETS[presetKey] || PRESETS.linkedin;
   const [manifest, categories] = await Promise.all([
     loadJSON("data/posts-manifest.json"),
@@ -267,7 +269,7 @@ async function downloadPostZIP(postId, presetKey, lightTheme, progressCallback, 
   return { success: true, fileCount: total };
 }
 
-function generateCaption(post, tools) {
+export function generateCaption(post, tools) {
   const toolNames = tools.map(t => t.name);
   const insteadOf = tools.map(t => t.insteadOf).filter(Boolean);
   const uniqueInsteadOf = [...new Set(insteadOf.flatMap(s => s.split(" / ")))];
@@ -277,3 +279,15 @@ function generateCaption(post, tools) {
       : uniqueInsteadOf.slice(0, -1).join(", ") + ", and " + uniqueInsteadOf[uniqueInsteadOf.length - 1];
   return `${post.intro.headline}\n\n${toolNames.length} tools that replace ${replacements}.\n${tools.map(t => `\n• ${t.name} — ${t.hook}`).join("")}\n\nAll free. All open-source. No subscriptions. No tracking.`;
 }
+
+// Expose the export helpers for console debugging and automated tests.
+Object.assign(window, {
+  loadJSON,
+  PIN,
+  PRESETS,
+  introCardHTML,
+  outroCardHTML,
+  toolCardHTML,
+  downloadPostZIP,
+  generateCaption,
+});
