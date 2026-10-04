@@ -141,44 +141,44 @@
     <div class="dev-credits-label">Developer's Paradise</div>
     <p class="dev-credits-tagline">Where bugs fear to tread and coffee never runs out</p>
     <ul class="dev-credits-list">
-      <li class="dev-credit">
-        <a href="https://www.linkedin.com/in/prit-vasani007" target="_blank" rel="noopener" class="dev-avatar-link">
-          <div class="dev-avatar">PV</div>
+      <li class="dev-credit" style="--avatar-color:#FF5A5F; --card-index:0">
+        <a href="https://www.linkedin.com/in/prit-vasani007" target="_blank" rel="noopener" class="dev-avatar-link" aria-label="Prit Vasani on LinkedIn">
+          <span class="dev-avatar">PV</span>
         </a>
         <span class="dev-name">Prit Vasani</span>
         <span class="dev-role">Builder</span>
       </li>
-      <li class="dev-credit">
-        <a href="https://github.com/NILAY1556" target="_blank" rel="noopener" class="dev-avatar-link">
-          <div class="dev-avatar" style="--avatar-color:#4EA8DE">N</div>
+      <li class="dev-credit" style="--avatar-color:#4EA8DE; --card-index:1">
+        <a href="https://github.com/NILAY1556" target="_blank" rel="noopener" class="dev-avatar-link" aria-label="Nilay on GitHub">
+          <span class="dev-avatar">N</span>
         </a>
         <span class="dev-name">Nilay</span>
         <span class="dev-role">AI/ML</span>
       </li>
-      <li class="dev-credit">
-        <a href="https://github.com/RajviAdesara" target="_blank" rel="noopener" class="dev-avatar-link">
-          <div class="dev-avatar" style="--avatar-color:#FFC857">RA</div>
+      <li class="dev-credit" style="--avatar-color:#FFC857; --card-index:2">
+        <a href="https://github.com/RajviAdesara" target="_blank" rel="noopener" class="dev-avatar-link" aria-label="Rajvi Adesara on GitHub">
+          <span class="dev-avatar">RA</span>
         </a>
         <span class="dev-name">Rajvi Adesara</span>
         <span class="dev-role">UX</span>
       </li>
-      <li class="dev-credit">
-        <a href="https://github.com/VivekKhunt" target="_blank" rel="noopener" class="dev-avatar-link">
-          <div class="dev-avatar" style="--avatar-color:#6BCB77">V</div>
+      <li class="dev-credit" style="--avatar-color:#6BCB77; --card-index:3">
+        <a href="https://github.com/VivekKhunt" target="_blank" rel="noopener" class="dev-avatar-link" aria-label="Vivek Khunt on GitHub">
+          <span class="dev-avatar">V</span>
         </a>
         <span class="dev-name">Vivek Khunt</span>
         <span class="dev-role">Game Dev</span>
       </li>
-      <li class="dev-credit">
-        <a href="https://github.com/Bhargav-1001" target="_blank" rel="noopener" class="dev-avatar-link">
-          <div class="dev-avatar" style="--avatar-color:#B983FF">B</div>
+      <li class="dev-credit" style="--avatar-color:#B983FF; --card-index:4">
+        <a href="https://github.com/Bhargav-1001" target="_blank" rel="noopener" class="dev-avatar-link" aria-label="Bhargav on GitHub">
+          <span class="dev-avatar">B</span>
         </a>
         <span class="dev-name">Bhargav</span>
         <span class="dev-role">Animation</span>
       </li>
-      <li class="dev-credit">
-        <a href="https://github.com/meet2904" target="_blank" rel="noopener" class="dev-avatar-link">
-          <div class="dev-avatar" style="--avatar-color:#FF5A5F">M</div>
+      <li class="dev-credit" style="--avatar-color:#2DD4BF; --card-index:5">
+        <a href="https://github.com/meet2904" target="_blank" rel="noopener" class="dev-avatar-link" aria-label="Meet on GitHub">
+          <span class="dev-avatar">M</span>
         </a>
         <span class="dev-name">Meet</span>
         <span class="dev-role">UI</span>
@@ -199,5 +199,22 @@
 
 <script type="module" src="js/share.js"></script>
 <script type="module" src="js/data-loader.js"></script>
+<script>
+  // Watchdog: if ES modules never resolve (site served unbundled / blocked),
+  // swap the stuck loader for a clear error instead of loading forever.
+  setTimeout(function () {
+    var busy = document.querySelector('[aria-busy="true"], .stage-loader');
+    if (!busy) return;
+    var host = busy.classList.contains("stage-loader") ? busy.parentElement : busy;
+    host.innerHTML = '<div class="load-error" role="alert">' +
+      '<span class="load-error-icon" aria-hidden="true">!</span>' +
+      '<p class="load-error-title">The page didn\'t finish loading</p>' +
+      '<p class="load-error-text">JavaScript may be blocked, or the site is being served without a build. Locally, use <code>npm run serve</code>.</p>' +
+      '<button class="load-error-retry" type="button">Retry</button></div>';
+    host.setAttribute("aria-busy", "false");
+    host.querySelector(".load-error-retry").addEventListener("click", function () { location.reload(); });
+  }, 10000);
+</script>
+
 </body>
 </html>

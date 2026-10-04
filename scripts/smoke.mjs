@@ -55,6 +55,8 @@ const visibleCount = (page) =>
   check("index: aria-current on Browse", (await page.locator('.site-nav a[aria-current="location"]').count()) === 1);
   check("index: og:image meta", (await page.locator('meta[property="og:image"]').count()) === 1);
   check("index: twitter:card meta", (await page.locator('meta[name="twitter:card"]').count()) === 1);
+  check("index: 6 dev credits", (await page.locator(".dev-credit").count()) === 6);
+  check("index: dev roles as chips", (await page.locator(".dev-role").count()) === 6);
 
   // Filter click → visible subset + shareable URL
   await page.click('[data-filter="security"]');
@@ -289,6 +291,17 @@ const visibleCount = (page) =>
   await page.fill("#f-hl-word", "unicorn");
   const flagged = await page.locator("#json-preview").evaluate((el) => el.classList.contains("create-json-invalid"));
   check("create: hl mismatch flagged", flagged);
+  await page.close();
+}
+
+// ── watchdog: unbundled serve (modules blocked → clear error) ─
+{
+  const page = await ctx.newPage();
+  await page.route("**/assets/*.js", (r) => r.abort());
+  await page.goto(`${BASE}/index.html`);
+  const title = await page.waitForSelector(".load-error-title", { timeout: 16000 }).catch(() => null);
+  const txt = title ? await title.textContent() : "";
+  check("index: watchdog replaces stuck loader", !!txt && txt.includes("didn't finish loading"), txt);
   await page.close();
 }
 
