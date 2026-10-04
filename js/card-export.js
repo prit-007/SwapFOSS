@@ -1,5 +1,6 @@
 // Standalone single-card page: reads ?tool=<id> from the URL, renders the
 // export-sized card, and lets the user download it as a PNG via html-to-image.
+import * as htmlToImage from "html-to-image";
 
 async function loadJSON(path) {
   const res = await fetch(path);

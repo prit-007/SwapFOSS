@@ -1,7 +1,7 @@
 // Usage: node scripts/generate-carousel.mjs post-001
 // Requires: npm install -D playwright  (then: npx playwright install chromium)
-// Serve the site root first, e.g.: npx http-server . -p 8080
-// Then run this script against that server.
+// Build and serve the site first: npm run build && npm run serve
+// Then run this script against that server (defaults to http://localhost:3111).
 
 import { chromium } from "playwright";
 import fs from "node:fs";
@@ -13,7 +13,7 @@ if (!POST_ID) {
   process.exit(1);
 }
 
-const BASE_URL = process.env.SWAPFOSS_URL || "http://localhost:8080";
+const BASE_URL = process.env.SWAPFOSS_URL || "http://localhost:3111";
 const OUT_DIR = path.resolve("output", POST_ID);
 
 async function shootSlide(page, url, outPath) {
@@ -28,7 +28,7 @@ async function main() {
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
   const postData = JSON.parse(
-    fs.readFileSync(path.resolve("data/posts", `${POST_ID}.json`), "utf-8")
+    fs.readFileSync(path.resolve("public/data/posts", `${POST_ID}.json`), "utf-8")
   );
 
   const browser = await chromium.launch();

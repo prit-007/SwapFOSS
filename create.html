@@ -62,8 +62,33 @@
     <div class="create-section">
       <h2 class="create-section-title">Tools</h2>
       <p class="create-hint">Pick at least one. Cards render in the order you select them.</p>
-      <div class="create-tool-groups" id="tool-groups">
-        <p style="color:var(--text-faint);font-size:13px">Loading tools…</p>
+      <div class="create-tool-groups" id="tool-groups" aria-busy="true">
+        <div class="skeleton-group" aria-hidden="true">
+          <span class="skeleton skeleton-tag"></span>
+          <div class="skeleton-row">
+            <span class="skeleton skeleton-chip"></span>
+            <span class="skeleton skeleton-chip"></span>
+            <span class="skeleton skeleton-chip"></span>
+            <span class="skeleton skeleton-chip"></span>
+          </div>
+        </div>
+        <div class="skeleton-group" aria-hidden="true">
+          <span class="skeleton skeleton-tag"></span>
+          <div class="skeleton-row">
+            <span class="skeleton skeleton-chip"></span>
+            <span class="skeleton skeleton-chip"></span>
+            <span class="skeleton skeleton-chip"></span>
+          </div>
+        </div>
+        <div class="skeleton-group" aria-hidden="true">
+          <span class="skeleton skeleton-tag"></span>
+          <div class="skeleton-row">
+            <span class="skeleton skeleton-chip"></span>
+            <span class="skeleton skeleton-chip"></span>
+            <span class="skeleton skeleton-chip"></span>
+            <span class="skeleton skeleton-chip"></span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -119,6 +144,6 @@
   </div>
 </footer>
 
-<script src="js/create-post.js"></script>
+<script type="module" src="js/create-post.js"></script>
 </body>
 </html>

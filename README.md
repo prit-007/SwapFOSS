@@ -11,7 +11,7 @@ A visual directory that helps you find FOSS (Free & Open Source Software) replac
 
 ## What is this?
 
-SwapFOSS is a static website (no build step, runs on GitHub Pages) that:
+SwapFOSS is a static website (Vite build, hosted on GitHub Pages) that:
 
 - **Shows you** free alternatives to apps like Netflix, Spotify, Plex, and more
 - **Lets you share** any tool as a beautiful 1080×1350 card (ready for LinkedIn, Instagram, or Twitter)
@@ -23,7 +23,7 @@ SwapFOSS is a static website (no build step, runs on GitHub Pages) that:
 
 ### Browse tools
 
-Visit the [live site](https://prit-007.github.io/SwapFOSS/) and explore tools by category — Media, Music, Dev Tools, Home, and Messaging.
+Visit the [live site](https://prit-007.github.io/SwapFOSS/) and explore tools by category — Media, Music, Dev Tools, Home, Messaging, and Security.
 
 ### Share a tool
 
@@ -37,10 +37,10 @@ Go to the **Batch export** page. Each post bundles an intro card, all tool cards
 
 No coding needed. Just:
 
-1. Copy `data/tools/jellyfin.json` → rename it to your tool name
+1. Copy `public/data/tools/jellyfin.json` → rename it to your tool name
 2. Fill in the fields (name, category, hook, features, setup steps, etc.)
-3. Add the tool id to `data/manifest.json`
-4. Drop a logo and screenshot into `assets/`
+3. Add the tool id to `public/data/manifest.json`
+4. Drop a logo and screenshot into `public/assets/`
 
 That's it — the site picks it up automatically.
 
@@ -52,61 +52,68 @@ That's it — the site picks it up automatically.
 
 | Layer | What |
 |-------|------|
-| Frontend | Vanilla HTML, CSS, JS — no framework, no build step |
+| Frontend | Vanilla HTML, CSS, JS — no framework, bundled by [Vite](https://vite.dev) |
 | Styling | CSS custom properties, glassmorphism, responsive grid |
 | Fonts | Space Grotesk (display) + IBM Plex Sans (body) |
 | Export | [html-to-image](https://github.com/bubkoo/html-to-image) (client-side PNG rendering) |
 | ZIP | [JSZip](https://github.com/stuk/jszip) (client-side ZIP bundling) |
-| Hosting | GitHub Pages (static, zero config) |
+| Hosting | GitHub Pages (Vite build output) |
 
 ### Project structure
 
 ```
 index.html                    Main site — browse all tools by category
 batch.html                    Batch export — download post bundles with PIN
+create.html                   Compose a new carousel post as JSON
 card.html                     Single card preview — card.html?tool=<id>
 slide.html                    Slide preview — slide.html?post=<id>&type=intro|tool|outro
+vite.config.js                Multi-page Vite build (5 HTML entries)
 
 js/
   data-loader.js              Loads tools + categories, renders grid, wires filters + share
   share.js                    Share menu (Web Share API + custom fallback)
   batch-export.js             Batch engine — PIN gate, rendering, ZIP bundling
+  batch-page.js               Batch page UI (grid of posts, downloads, captions)
   card-export.js              Single card export (card.html)
   slide.js                    Slide renderer (slide.html)
 
 css/
   styles.css                  All styles — design tokens, cards, export, batch, share menu
+  fonts.css                   @font-face rules (self-hosted woff2)
 
-data/
-  categories.json             Category labels + colors
-  manifest.json               Tool ids the site should load
-  posts-manifest.json         Post ids for the batch page
-  tools/<id>.json             One file per tool (source of truth)
-  posts/<id>.json             Post definitions (intro/outro text + tool list)
+public/                       Copied verbatim into dist/ by Vite
+  data/
+    categories.json           Category labels + colors
+    manifest.json             Tool ids the site should load
+    posts-manifest.json       Post ids for the batch page
+    tools/<id>.json           One file per tool (source of truth)
+    posts/<id>.json           Post definitions (intro/outro text + tool list)
+  assets/
+    logos/                    Tool logos (SVG/PNG)
+    screenshots/              Tool screenshots (PNG)
 
-assets/
-  logos/                      Tool logos (SVG/PNG)
-  screenshots/                Tool screenshots (PNG)
+assets/fonts/                 Self-hosted woff2 (bundled + hashed by Vite)
 ```
 
 ### Running locally
 
 ```bash
-# Serve the site (no install needed)
-python3 -m http.server 3000
-# or
-npx serve .
-# or
-npm run serve
+npm install       # first time only
+npm run dev       # dev server with instant reload (http://localhost:5173)
 
-# Then open http://localhost:3000
+# production build + serve:
+npm run build     # outputs dist/
+npm run preview   # vite preview (http://localhost:4173)
+npm run serve     # http-server dist -p 3111 (used by npm run carousel)
+
+npm run validate  # validate tool/post JSON files (also runs in CI)
 ```
 
 The site fetches JSON data files, so you must open it via a server (not `file://`).
 
 ### Adding a tool
 
-1. Create `data/tools/yourtool.json` — copy an existing tool file and fill in the schema:
+1. Create `public/data/tools/yourtool.json` — copy an existing tool file and fill in the schema:
 
 ```json
 {
@@ -129,12 +136,12 @@ The site fetches JSON data files, so you must open it via a server (not `file://
 }
 ```
 
-2. Add `"yourtool"` to `data/manifest.json`
-3. Drop logo + screenshot into `assets/`
+2. Add `"yourtool"` to `public/data/manifest.json`
+3. Drop logo + screenshot into `public/assets/`
 
 ### Adding a carousel post
 
-1. Copy `data/posts/post-001.json` → rename it
+1. Copy `public/data/posts/post-001.json` → rename it
 2. Set `intro.headline`, `intro.subhead`, `outro.headline`, etc.
 3. List your tool ids in the `tools` array
 4. The batch page picks it up automatically
