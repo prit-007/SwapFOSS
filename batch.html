@@ -111,5 +111,22 @@
 </footer>
 
 <script type="module" src="js/batch-page.js"></script>
+<script>
+  // Watchdog: if ES modules never resolve (site served unbundled / blocked),
+  // swap the stuck loader for a clear error instead of loading forever.
+  setTimeout(function () {
+    var busy = document.querySelector('[aria-busy="true"], .stage-loader');
+    if (!busy) return;
+    var host = busy.classList.contains("stage-loader") ? busy.parentElement : busy;
+    host.innerHTML = '<div class="load-error" role="alert">' +
+      '<span class="load-error-icon" aria-hidden="true">!</span>' +
+      '<p class="load-error-title">The page didn\'t finish loading</p>' +
+      '<p class="load-error-text">JavaScript may be blocked, or the site is being served without a build. Locally, use <code>npm run serve</code>.</p>' +
+      '<button class="load-error-retry" type="button">Retry</button></div>';
+    host.setAttribute("aria-busy", "false");
+    host.querySelector(".load-error-retry").addEventListener("click", function () { location.reload(); });
+  }, 10000);
+</script>
+
 </body>
 </html>

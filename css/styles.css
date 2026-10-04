@@ -418,31 +418,51 @@ a { color: inherit; }
 /* ---------- Dev credits ---------- */
 .dev-credits {
   border-top: 1px solid var(--glass-border);
-  padding: 56px 0;
+  padding: 64px 0;
   text-align: center;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 90, 95, 0.05), transparent 55%);
 }
 
 .dev-credits-label {
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.2em;
   color: var(--text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.dev-credits-label::before,
+.dev-credits-label::after {
+  content: "";
+  width: 40px;
+  height: 1px;
+  flex-shrink: 0;
+}
+
+.dev-credits-label::before {
+  background: linear-gradient(90deg, transparent, var(--media));
+}
+
+.dev-credits-label::after {
+  background: linear-gradient(-90deg, transparent, var(--media));
 }
 
 .dev-credits-tagline {
   font-size: 14px;
   color: var(--text-faint);
-  margin: 0 0 32px;
+  margin: 0 0 36px;
   font-style: italic;
 }
 
 .dev-credits-list {
   display: flex;
   justify-content: center;
-  gap: 28px;
+  gap: 16px;
   flex-wrap: wrap;
   margin: 0;
   padding: 0;
@@ -453,12 +473,23 @@ a { color: inherit; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  transition: transform 0.2s ease;
+  gap: 10px;
+  min-width: 152px;
+  padding: 24px 26px 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  animation: fadeUp 0.6s ease-out both;
+  animation-delay: calc(var(--card-index, 0) * 0.07s);
 }
 
 .dev-credit:hover {
-  transform: translateY(-2px);
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--avatar-color, var(--media)) 55%, transparent);
+  box-shadow: 0 14px 34px -14px color-mix(in srgb, var(--avatar-color, var(--media)) 60%, transparent);
 }
 
 .dev-avatar-link {
@@ -467,36 +498,46 @@ a { color: inherit; }
 }
 
 .dev-avatar {
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: var(--avatar-color, var(--surface-raised));
-  border: 2px solid var(--glass-border);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  font-weight: 600;
-  color: #F5F3ED;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 700;
+  color: #14161A;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .dev-credit:hover .dev-avatar {
-  border-color: var(--avatar-color, var(--media));
-  box-shadow: 0 0 16px rgba(255, 90, 95, 0.15);
+  transform: scale(1.06);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--avatar-color, var(--media)) 22%, transparent);
 }
 
 .dev-name {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text);
+  margin-top: 2px;
 }
 
 .dev-role {
-  font-size: 11px;
-  color: var(--text-faint);
-  margin-top: -4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--avatar-color, var(--text-muted));
+  background: color-mix(in srgb, var(--avatar-color, var(--text-muted)) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--avatar-color, var(--text-muted)) 32%, transparent);
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-top: -2px;
 }
 
 /* ---------- Footer ---------- */
@@ -2202,8 +2243,9 @@ a { color: inherit; }
   .result-count { align-self: flex-end; }
   .create-field-split { flex-direction: column; gap: 12px; }
   .batch-bulk-select { min-width: 0; flex: 1; }
-  .dev-credits-list { gap: 24px; }
-  .dev-avatar { width: 48px; height: 48px; font-size: 18px; }
+  .dev-credits-list { gap: 12px; }
+  .dev-credit { min-width: 0; flex: 1 1 calc(50% - 6px); padding: 20px 14px 16px; }
+  .dev-avatar { width: 48px; height: 48px; font-size: 17px; }
   .posts-grid { grid-template-columns: 1fr; }
   .create-layout { grid-template-columns: 1fr; }
   .create-preview-sticky { position: static; }
