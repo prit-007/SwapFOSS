@@ -2,31 +2,53 @@
 
 import { loadJSON, PIN, downloadPostZIP, generateCaption } from "./batch-export.js";
 
+function showLoadError(container, what) {
+  container.setAttribute("aria-busy", "false");
+  container.innerHTML = `
+    <div class="load-error" role="alert">
+      <span class="load-error-icon" aria-hidden="true">!</span>
+      <p class="load-error-title">Couldn't load ${what}</p>
+      <p class="load-error-text">The data files didn't respond. Check your connection and try again.</p>
+      <button class="load-error-retry" type="button">Retry</button>
+    </div>`;
+  container.querySelector(".load-error-retry").addEventListener("click", () => location.reload());
+}
+
 async function init() {
-  const [manifest, categories] = await Promise.all([
-    loadJSON("data/posts-manifest.json"),
-    loadJSON("data/categories.json"),
-  ]);
-
-  const posts = await Promise.all(
-    manifest.posts.map(id => loadJSON(`data/posts/${id}.json`))
-  );
-
-  // Merge locally saved drafts (from create.html) with manifest posts.
-  let drafts = [];
-  try {
-    drafts = JSON.parse(localStorage.getItem("swapfoss-drafts")) || [];
-  } catch { /* ignore */ }
-  const publishedIds = new Set(posts.map(p => p.id));
-  const draftPosts = drafts.filter(d => d && d.id && !publishedIds.has(d.id));
-  const allPosts = [...posts, ...draftPosts];
-
-  const allTools = await Promise.all(
-    [...new Set(allPosts.flatMap(p => p.tools))].map(id => loadJSON(`data/tools/${id}.json`))
-  );
-  const toolMap = Object.fromEntries(allTools.map(t => [t.id, t]));
-
   const grid = document.getElementById("posts-grid");
+
+  let allPosts;
+  let draftPosts;
+  let toolMap;
+  let categories;
+  try {
+    const [manifest, cats] = await Promise.all([
+      loadJSON("data/posts-manifest.json"),
+      loadJSON("data/categories.json"),
+    ]);
+    categories = cats;
+
+    const posts = await Promise.all(
+      manifest.posts.map(id => loadJSON(`data/posts/${id}.json`))
+    );
+
+    // Merge locally saved drafts (from create.html) with manifest posts.
+    let drafts = [];
+    try {
+      drafts = JSON.parse(localStorage.getItem("swapfoss-drafts")) || [];
+    } catch { /* ignore */ }
+    const publishedIds = new Set(posts.map(p => p.id));
+    draftPosts = drafts.filter(d => d && d.id && !publishedIds.has(d.id));
+    allPosts = [...posts, ...draftPosts];
+
+    const allTools = await Promise.all(
+      [...new Set(allPosts.flatMap(p => p.tools))].map(id => loadJSON(`data/tools/${id}.json`))
+    );
+    toolMap = Object.fromEntries(allTools.map(t => [t.id, t]));
+  } catch (err) {
+    showLoadError(grid, "posts");
+    return;
+  }
   grid.innerHTML = allPosts.map((post, i) => {
     const isDraft = draftPosts.includes(post);
     const tools = post.tools.map(id => toolMap[id]).filter(Boolean);
@@ -92,8 +114,46 @@ async function init() {
   }).join("");
   grid.setAttribute("aria-busy", "false");
 
-  // Theme toggles
+  // Apply-to-all controls + optional session PIN fill
+  const bulkBar = document.getElementById("bulk-bar");
+  bulkBar.hidden = false;
   const themeStates = {};
+
+  document.getElementById("bulk-preset").addEventListener("change", (e) => {
+    grid.querySelectorAll(".batch-select").forEach(sel => {
+      sel.value = e.target.value;
+    });
+  });
+
+  document.getElementById("bulk-theme").addEventListener("click", (e) => {
+    const btn = e.currentTarget;
+    const on = !btn.classList.contains("active");
+    btn.classList.toggle("active", on);
+    btn.setAttribute("aria-pressed", String(on));
+    grid.querySelectorAll("[data-theme]").forEach(toggle => {
+      themeStates[toggle.dataset.theme] = on;
+      toggle.classList.toggle("active", on);
+      toggle.setAttribute("aria-pressed", String(on));
+    });
+  });
+
+  const PIN_KEY = "swapfoss-fill-pin";
+  const pinRemember = document.getElementById("bulk-pin-remember");
+  const fillPins = (value) => {
+    grid.querySelectorAll(".batch-pin-input").forEach(input => {
+      input.value = value;
+    });
+  };
+  if (sessionStorage.getItem(PIN_KEY) === "1") {
+    pinRemember.checked = true;
+    fillPins(PIN);
+  }
+  pinRemember.addEventListener("change", () => {
+    sessionStorage.setItem(PIN_KEY, pinRemember.checked ? "1" : "0");
+    fillPins(pinRemember.checked ? PIN : "");
+  });
+
+  // Theme toggles
   grid.addEventListener("click", (e) => {
     const toggle = e.target.closest("[data-theme]");
     if (!toggle) return;

@@ -5,17 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SwapFOSS — free, open-source alternatives to the apps you use</title>
 <meta name="description" content="A growing collection of free, open-source alternatives to the apps everyone already uses — one swap at a time." />
+<meta name="theme-color" content="#0F1115" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SwapFOSS" />
+<meta property="og:title" content="SwapFOSS — free, open-source alternatives to the apps you use" />
+<meta property="og:description" content="No subscriptions. No one watching what you watch, hear, or send. Browse 21 FOSS swaps and export post-ready carousels — one tool at a time." />
+<meta property="og:url" content="https://prit-007.github.io/SwapFOSS/" />
+<meta property="og:image" content="https://prit-007.github.io/SwapFOSS/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="SwapFOSS — free, open-source swaps for the apps you already use" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SwapFOSS — free, open-source alternatives to the apps you use" />
+<meta name="twitter:description" content="Browse 21 FOSS swaps and export post-ready carousels — one tool at a time." />
+<meta name="twitter:image" content="https://prit-007.github.io/SwapFOSS/assets/og-image.png" />
 <link rel="stylesheet" href="css/fonts.css" />
 <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+<a class="skip-link" href="#grid-section">Skip to content</a>
 
 <header class="site-header">
   <div class="wrap">
     <div class="brand">Swap<span>FOSS</span></div>
     <nav class="site-nav">
       <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener">GitHub</a>
-      <a href="#grid">Browse</a>
+      <a href="#grid" aria-current="location">Browse</a>
       <a href="batch.html">Batch export</a>
       <a href="create.html">Create</a>
     </nav>
@@ -29,7 +45,14 @@
   </div>
 </section>
 
-<main class="wrap" id="grid-section">
+<main class="wrap" id="grid-section" tabindex="-1">
+  <div class="index-toolbar">
+    <div class="search-box">
+      <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="search" class="search-input" id="tool-search" placeholder="Search tools…" aria-label="Search tools" autocomplete="off" />
+    </div>
+    <span class="result-count" id="result-count" role="status" aria-live="polite"></span>
+  </div>
   <div class="filters" id="filters"></div>
   <div class="grid" id="grid" aria-busy="true">
     <div class="skeleton-card" aria-hidden="true">
@@ -98,6 +121,12 @@
         <span class="skeleton skeleton-pill"></span>
       </div>
     </div>
+  </div>
+
+  <div class="empty-state" id="empty-state" hidden>
+    <p class="empty-state-title" id="empty-title">No tools match</p>
+    <p class="empty-state-sub">Try a different search, or start over.</p>
+    <button class="filter-btn" id="clear-filters" type="button" style="--pill-color:var(--text-muted)">Clear search &amp; filters</button>
   </div>
 
   <div class="caption-box">

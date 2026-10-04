@@ -4,12 +4,28 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SwapFOSS — export card</title>
+<meta name="theme-color" content="#0F1115" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SwapFOSS" />
+<meta property="og:title" content="SwapFOSS — export card" />
+<meta property="og:description" content="Download a post-ready PNG card for any free, open-source alternative." />
+<meta property="og:image" content="https://prit-007.github.io/SwapFOSS/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://prit-007.github.io/SwapFOSS/assets/og-image.png" />
 <link rel="stylesheet" href="css/fonts.css" />
 <link rel="stylesheet" href="css/styles.css" />
 <style>
   body { padding: 32px; }
   #stage { transform-origin: top left; }
   #toolbar { margin-bottom: 24px; display: flex; gap: 12px; align-items: center; }
+  #toolbar-back {
+    font-family: var(--font-body); font-weight: 600; font-size: 14px;
+    color: var(--text-muted); text-decoration: none; padding: 10px 6px;
+  }
+  #toolbar-back:hover { color: var(--text); }
   #download-btn {
     font-family: var(--font-body); font-weight: 600; font-size: 14px;
     background: var(--text); color: var(--bg); border: none;
@@ -19,11 +35,13 @@
 </style>
 </head>
 <body>
+  <a class="skip-link" href="#stage">Skip to content</a>
   <div id="toolbar">
+    <a id="toolbar-back" href="index.html">← Home</a>
     <button id="download-btn">Download PNG</button>
     <span class="hint">1080×1350 — ready for LinkedIn or Instagram</span>
   </div>
-  <div id="stage"><div class="stage-loader" role="status"><span class="stage-spinner"></span><span class="stage-loader-text">Loading card…</span></div></div>
+  <div id="stage" tabindex="-1"><div class="stage-loader" role="status"><span class="stage-spinner"></span><span class="stage-loader-text">Loading card…</span></div></div>
 
   <script type="module" src="js/card-export.js"></script>
 </body>

@@ -57,24 +57,54 @@ function exportCardHTML(tool, cat) {
   `;
 }
 
+function showLoadError(container, what) {
+  container.innerHTML = `
+    <div class="load-error load-error-stage" role="alert">
+      <span class="load-error-icon" aria-hidden="true">!</span>
+      <p class="load-error-title">Couldn't load ${what}</p>
+      <p class="load-error-text">The card data didn't respond. Check your connection and try again.</p>
+      <button class="load-error-retry" type="button">Retry</button>
+    </div>`;
+  container.querySelector(".load-error-retry").addEventListener("click", () => location.reload());
+}
+
 async function init() {
   const params = new URLSearchParams(location.search);
   const toolId = params.get("tool");
-  const [categories, tool] = await Promise.all([
-    loadJSON("data/categories.json"),
-    loadJSON(`data/tools/${toolId}.json`),
-  ]);
-  const cat = categories[tool.category];
+  const stage = document.getElementById("stage");
+  let cat;
+  let tool;
+  try {
+    const categories = await loadJSON("data/categories.json");
+    tool = await loadJSON(`data/tools/${toolId}.json`);
+    cat = categories[tool.category];
+  } catch (err) {
+    showLoadError(stage, "card");
+    return;
+  }
 
-  document.getElementById("stage").innerHTML = exportCardHTML(tool, cat);
+  stage.innerHTML = exportCardHTML(tool, cat);
 
   document.getElementById("download-btn").addEventListener("click", async () => {
     const target = document.getElementById("export-target");
-    const dataUrl = await htmlToImage.toPng(target, { pixelRatio: 2 });
-    const link = document.createElement("a");
-    link.download = `swapfoss-${tool.id}.png`;
-    link.href = dataUrl;
-    link.click();
+    const btn = document.getElementById("download-btn");
+    btn.textContent = "Rendering…";
+    btn.disabled = true;
+    try {
+      const dataUrl = await htmlToImage.toPng(target, { pixelRatio: 2 });
+      const link = document.createElement("a");
+      link.download = `swapfoss-${tool.id}.png`;
+      link.href = dataUrl;
+      link.click();
+      btn.textContent = "Saved ✓";
+    } catch (err) {
+      btn.textContent = "Failed — retry";
+    } finally {
+      setTimeout(() => {
+        btn.textContent = "Download PNG";
+        btn.disabled = false;
+      }, 1600);
+    }
   });
 }
 

@@ -15,7 +15,7 @@ function cardHTML(tool, categories, index = 0) {
   const hasFeatures = tool.features && tool.features.length > 0;
   const hasSetupSteps = tool.setupSteps && tool.setupSteps.length > 0;
   return `
-    <article class="swap-card" style="--cat-color:${cat.color};--card-index:${index}" data-category="${tool.category}">
+    <article class="swap-card" style="--cat-color:${cat.color};--card-index:${index}" data-category="${tool.category}" data-id="${tool.id}">
       <div class="card-media ${hasScreenshot ? "" : "no-screenshot"}" data-fallback-text="${tool.name}">
         ${hasScreenshot ? `<img src="${tool.screenshot}" alt="${tool.name} screenshot" loading="lazy" data-full="${tool.screenshot}" class="screenshot-img" />` : ""}
         ${hasLogo ? `<img class="logo-badge" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
@@ -70,8 +70,8 @@ function cardHTML(tool, categories, index = 0) {
 
 function lightboxHTML(tool) {
   return `
-    <div class="lightbox" id="lightbox">
-      <button class="lightbox-close" id="lightbox-close">✕</button>
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="${tool.name} screenshot preview">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close screenshot">✕</button>
       <div class="lightbox-content">
         <img src="${tool.screenshot}" alt="${tool.name} screenshot" />
         <div class="lightbox-caption">
@@ -83,52 +83,154 @@ function lightboxHTML(tool) {
   `;
 }
 
-async function init() {
-  const [manifest, categories] = await Promise.all([
-    loadJSON("data/manifest.json"),
-    loadJSON("data/categories.json"),
-  ]);
+function showLoadError(container, what) {
+  container.setAttribute("aria-busy", "false");
+  container.innerHTML = `
+    <div class="load-error" role="alert">
+      <span class="load-error-icon" aria-hidden="true">!</span>
+      <p class="load-error-title">Couldn't load ${what}</p>
+      <p class="load-error-text">The data files didn't respond. Check your connection and try again.</p>
+      <button class="load-error-retry" type="button">Retry</button>
+    </div>`;
+  container.querySelector(".load-error-retry").addEventListener("click", () => location.reload());
+}
 
-  const tools = await Promise.all(
-    manifest.tools.map(id => loadJSON(`data/tools/${id}.json`))
-  );
+async function init() {
+  const grid = document.getElementById("grid");
+  const filterBar = document.getElementById("filters");
+  const searchInput = document.getElementById("tool-search");
+  const resultCount = document.getElementById("result-count");
+  const emptyState = document.getElementById("empty-state");
+  const emptyTitle = document.getElementById("empty-title");
+
+  let tools;
+  let categories;
+  try {
+    const [manifest, cats] = await Promise.all([
+      loadJSON("data/manifest.json"),
+      loadJSON("data/categories.json"),
+    ]);
+    categories = cats;
+    tools = await Promise.all(
+      manifest.tools.map(id => loadJSON(`data/tools/${id}.json`))
+    );
+  } catch (err) {
+    showLoadError(grid, "tools");
+    return;
+  }
 
   window.SWAPFOSS_TOOLS = tools;
   window.SWAPFOSS_CATEGORIES = categories;
 
-  const grid = document.getElementById("grid");
   grid.innerHTML = tools.map((t, i) => cardHTML(t, categories, i)).join("");
   grid.setAttribute("aria-busy", "false");
 
+  const searchHay = new Map(
+    tools.map(t => [t.id, `${t.name} ${t.insteadOf} ${t.hook} ${t.setup} ${t.details || ""} ${(t.features || []).join(" ")}`.toLowerCase()])
+  );
+
+  // Read shareable state from the URL (?category=media&q=spotify)
+  const params = new URLSearchParams(location.search);
+  const urlCategory = params.get("category");
+  let activeFilter = urlCategory && categories[urlCategory] ? urlCategory : "all";
+  let searchQuery = params.get("q") || "";
+  searchInput.value = searchQuery;
+
   // Filter buttons
-  const filterBar = document.getElementById("filters");
-  const cats = ["all", ...Object.keys(categories)];
-  filterBar.innerHTML = cats.map(c => {
+  const catsList = ["all", ...Object.keys(categories)];
+  filterBar.innerHTML = catsList.map(c => {
     const label = c === "all" ? "All" : categories[c].label;
     const color = c === "all" ? "var(--text-muted)" : categories[c].color;
-    return `<button class="filter-btn ${c === "all" ? "active" : ""}" data-filter="${c}" style="--pill-color:${color}">${label}</button>`;
+    return `<button class="filter-btn ${c === "all" ? "active" : ""}" data-filter="${c}" type="button" aria-pressed="${c === "all"}" style="--pill-color:${color}">${label}</button>`;
   }).join("");
+
+  function syncFilterButtons() {
+    filterBar.querySelectorAll(".filter-btn").forEach(b => {
+      const isActive = b.dataset.filter === activeFilter;
+      b.classList.toggle("active", isActive);
+      b.setAttribute("aria-pressed", String(isActive));
+    });
+  }
+  syncFilterButtons();
+
+  function syncURL(mode) {
+    const url = new URL(location.href);
+    if (activeFilter === "all") url.searchParams.delete("category");
+    else url.searchParams.set("category", activeFilter);
+    const q = searchQuery.trim();
+    if (q) url.searchParams.set("q", q);
+    else url.searchParams.delete("q");
+    if (url.search === location.search) return;
+    if (mode === "push") history.pushState({}, "", url);
+    else history.replaceState({}, "", url);
+  }
+
+  function applyFilters() {
+    const q = searchQuery.trim().toLowerCase();
+    let shown = 0;
+    grid.querySelectorAll(".swap-card").forEach(card => {
+      const matchCat = activeFilter === "all" || card.dataset.category === activeFilter;
+      const matchQ = !q || (searchHay.get(card.dataset.id) || "").includes(q);
+      const show = matchCat && matchQ;
+      const wasShown = card.style.display !== "none";
+      card.style.display = show ? "" : "none";
+      if (show) {
+        shown++;
+        // Re-entry stagger only for cards that just became visible — cards
+        // already on screen keep their entrance (no flicker while typing).
+        if (!wasShown) {
+          card.style.animation = "none";
+          void card.offsetWidth;
+          card.style.animation = "";
+          card.style.animationDelay = `${(shown - 1) * 0.04}s`;
+        }
+      }
+    });
+    const total = tools.length;
+    resultCount.textContent = shown === total ? `${total} tools` : `${shown} of ${total} tools`;
+    const qDisplay = searchQuery.trim();
+    if (shown === 0) {
+      emptyTitle.textContent = qDisplay ? `No tools match “${qDisplay}”` : "No tools in this category yet";
+      emptyState.hidden = false;
+    } else {
+      emptyState.hidden = true;
+    }
+  }
+  applyFilters();
 
   filterBar.addEventListener("click", (e) => {
     const btn = e.target.closest(".filter-btn");
     if (!btn) return;
-    filterBar.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    const filter = btn.dataset.filter;
-    let shownIndex = 0;
-    grid.querySelectorAll(".swap-card").forEach(card => {
-      const show = filter === "all" || card.dataset.category === filter;
-      card.style.display = show ? "" : "none";
-      if (show) {
-        // Restart the entrance with a snappy per-card stagger (the long
-        // initial-load cascade would feel sluggish on a filter click).
-        card.style.animation = "none";
-        void card.offsetWidth;
-        card.style.animation = "";
-        card.style.animationDelay = `${shownIndex * 0.04}s`;
-        shownIndex++;
-      }
-    });
+    activeFilter = btn.dataset.filter;
+    syncFilterButtons();
+    syncURL("push");
+    applyFilters();
+  });
+
+  searchInput.addEventListener("input", () => {
+    searchQuery = searchInput.value;
+    syncURL("replace");
+    applyFilters();
+  });
+
+  document.getElementById("clear-filters").addEventListener("click", () => {
+    searchQuery = "";
+    searchInput.value = "";
+    activeFilter = "all";
+    syncFilterButtons();
+    syncURL("replace");
+    applyFilters();
+    searchInput.focus();
+  });
+
+  window.addEventListener("popstate", () => {
+    const p = new URLSearchParams(location.search);
+    const cat = p.get("category");
+    activeFilter = cat && categories[cat] ? cat : "all";
+    searchQuery = p.get("q") || "";
+    searchInput.value = searchQuery;
+    syncFilterButtons();
+    applyFilters();
   });
 
   // Screenshot click → lightbox
@@ -139,21 +241,32 @@ async function init() {
     const toolId = card.querySelector("[data-export]")?.dataset.export;
     const tool = tools.find(t => t.id === toolId);
     if (!tool) return;
+    const returnFocus = document.activeElement;
     const wrapper = document.createElement("div");
     wrapper.innerHTML = lightboxHTML(tool);
     document.body.appendChild(wrapper.firstElementChild);
     const lb = document.getElementById("lightbox");
+    const close = () => {
+      lb.remove();
+      document.removeEventListener("keydown", onKey);
+      if (returnFocus && typeof returnFocus.focus === "function") returnFocus.focus();
+    };
+    const onKey = (ev) => {
+      if (ev.key === "Escape") { close(); return; }
+      if (ev.key !== "Tab") return;
+      const els = [...lb.querySelectorAll("button, [href], input, select, textarea")]
+        .filter(el => !el.disabled && el.offsetParent !== null);
+      if (!els.length) return;
+      const first = els[0];
+      const last = els[els.length - 1];
+      if (ev.shiftKey && document.activeElement === first) { ev.preventDefault(); last.focus(); }
+      else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
+    };
     lb.addEventListener("click", (ev) => {
-      if (ev.target === lb || ev.target.id === "lightbox-close") {
-        lb.remove();
-      }
+      if (ev.target === lb || ev.target.id === "lightbox-close") close();
     });
-    document.addEventListener("keydown", function esc(ev) {
-      if (ev.key === "Escape") {
-        lb.remove();
-        document.removeEventListener("keydown", esc);
-      }
-    });
+    document.addEventListener("keydown", onKey);
+    document.getElementById("lightbox-close").focus();
   });
 
   // Share buttons — render PNG + Web Share API (fallback: download)

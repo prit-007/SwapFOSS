@@ -32,16 +32,26 @@ function esc(str) {
   return div.innerHTML;
 }
 
+function parsePills() {
+  return document.getElementById("f-pills").value
+    .split(",").map(s => s.trim()).filter(Boolean);
+}
+
 function buildPost() {
   const id = document.getElementById("f-id").value.trim();
+  const intro = {
+    eyebrow: document.getElementById("f-eyebrow").value.trim(),
+    headline: document.getElementById("f-headline").value.trim(),
+    subhead: document.getElementById("f-subhead").value.trim(),
+  };
+  const pills = parsePills();
+  if (pills.length) intro.pills = pills;
+  const hlWord = document.getElementById("f-hl-word").value.trim();
+  if (hlWord) intro.hl = { word: hlWord, color: document.getElementById("f-hl-color").value };
   return {
     id,
     title: document.getElementById("f-title").value.trim(),
-    intro: {
-      eyebrow: document.getElementById("f-eyebrow").value.trim(),
-      headline: document.getElementById("f-headline").value.trim(),
-      subhead: document.getElementById("f-subhead").value.trim(),
-    },
+    intro,
     tools: [...selectedTools],
     outro: {
       headline: document.getElementById("f-outro-headline").value.trim(),
@@ -57,6 +67,9 @@ function validate(post) {
   if (!post.intro.eyebrow) errors.push("Eyebrow is required");
   if (!post.intro.headline) errors.push("Intro headline is required");
   if (!post.intro.subhead) errors.push("Intro subhead is required");
+  if (post.intro.hl && !post.intro.headline.includes(post.intro.hl.word)) {
+    errors.push(`Highlight word "${post.intro.hl.word}" is not in the headline`);
+  }
   if (!post.tools.length) errors.push("Pick at least one tool");
   if (!post.outro.headline) errors.push("Outro headline is required");
   if (!post.outro.subhead) errors.push("Outro subhead is required");
@@ -85,6 +98,19 @@ function refreshPreview() {
   document.getElementById("p-subhead").textContent = post.intro.subhead || "Your subhead";
   document.getElementById("p-outro-headline").textContent = post.outro.headline || "Closing headline";
   document.getElementById("p-outro-subhead").textContent = post.outro.subhead || "Closing subhead";
+
+  // Mirror the export card: pills replace the subhead when present.
+  const pillsEl = document.getElementById("p-pills");
+  const pills = post.intro.pills || [];
+  if (pills.length) {
+    pillsEl.innerHTML = pills.map(p => `<span class="stat-pill">✓ ${esc(p)}</span>`).join("");
+    pillsEl.hidden = false;
+    document.getElementById("p-subhead").style.display = "none";
+  } else {
+    pillsEl.hidden = true;
+    pillsEl.innerHTML = "";
+    document.getElementById("p-subhead").style.display = "";
+  }
 
   const previewTools = document.getElementById("preview-tools");
   const tools = selectedTools
@@ -198,6 +224,9 @@ function loadDraft(id) {
   document.getElementById("f-eyebrow").value = draft.intro.eyebrow || "";
   document.getElementById("f-headline").value = draft.intro.headline || "";
   document.getElementById("f-subhead").value = draft.intro.subhead || "";
+  document.getElementById("f-pills").value = (draft.intro.pills || []).join(", ");
+  document.getElementById("f-hl-word").value = draft.intro.hl?.word || "";
+  document.getElementById("f-hl-color").value = draft.intro.hl?.color || "#FF5A5F";
   document.getElementById("f-outro-headline").value = draft.outro.headline || "";
   document.getElementById("f-outro-subhead").value = draft.outro.subhead || "";
   selectedTools = [...draft.tools];
@@ -249,15 +278,32 @@ async function copyJSON() {
   showStatus("Copied to clipboard");
 }
 
+function showLoadError(container, what) {
+  container.setAttribute("aria-busy", "false");
+  container.innerHTML = `
+    <div class="load-error" role="alert">
+      <span class="load-error-icon" aria-hidden="true">!</span>
+      <p class="load-error-title">Couldn't load ${what}</p>
+      <p class="load-error-text">The data files didn't respond. Check your connection and try again.</p>
+      <button class="load-error-retry" type="button">Retry</button>
+    </div>`;
+  container.querySelector(".load-error-retry").addEventListener("click", () => location.reload());
+}
+
 async function init() {
-  const [manifest, cats, postsMan] = await Promise.all([
-    loadJSON("data/manifest.json"),
-    loadJSON("data/categories.json"),
-    loadJSON("data/posts-manifest.json"),
-  ]);
-  categories = cats;
-  postsManifest = postsMan.posts;
-  toolManifest = await Promise.all(manifest.tools.map(id => loadJSON(`data/tools/${id}.json`)));
+  try {
+    const [manifest, cats, postsMan] = await Promise.all([
+      loadJSON("data/manifest.json"),
+      loadJSON("data/categories.json"),
+      loadJSON("data/posts-manifest.json"),
+    ]);
+    categories = cats;
+    postsManifest = postsMan.posts;
+    toolManifest = await Promise.all(manifest.tools.map(id => loadJSON(`data/tools/${id}.json`)));
+  } catch (err) {
+    showLoadError(document.getElementById("tool-groups"), "tools");
+    return;
+  }
 
   renderToolGroups();
   document.getElementById("f-id").value = suggestNextId();

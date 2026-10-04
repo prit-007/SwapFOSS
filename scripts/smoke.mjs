@@ -1,5 +1,5 @@
 // End-to-end smoke test against the built site.
-// Usage: npm run serve (dist on :8080) in one shell, then: node scripts/smoke.mjs
+// Usage: npm run serve (dist on :3111) in one shell, then: node scripts/smoke.mjs
 import { chromium } from "playwright";
 import fs from "node:fs";
 
@@ -18,7 +18,9 @@ function check(name, cond, detail = "") {
 function watch(page, label, errors) {
   page.on("pageerror", (e) => errors.push(`[${label}] ${e.message}`));
   page.on("console", (m) => {
-    if (m.type() === "error") errors.push(`[${label}] console: ${m.text()}`);
+    if (m.type() === "error" && !m.text().includes("Failed to load resource")) {
+      errors.push(`[${label}] console: ${m.text()}`);
+    }
   });
   page.on("response", (r) => {
     if (r.status() >= 400 && !r.url().includes("favicon")) {
@@ -31,38 +33,127 @@ const browser = await chromium.launch();
 const ctx = await browser.newContext({ acceptDownloads: true });
 const errors = [];
 
-// ── index.html ───────────────────────────────────────────────
+const visibleCount = (page) =>
+  page.locator(".swap-card").evaluateAll((els) => els.filter((e) => e.style.display !== "none").length);
+
+// ── index.html: cards, filters, search, deep links, a11y ─────
 {
   const page = await ctx.newPage();
   watch(page, "index", errors);
   await page.goto(`${BASE}/index.html`, { waitUntil: "networkidle" });
   await page.waitForSelector(".swap-card");
   check("index: 21 tool cards", (await page.locator(".swap-card").count()) === 21);
-  check("index: 7 filter buttons", (await page.locator(".filter-btn").count()) === 7);
+  check("index: 7 filter buttons", (await page.locator("#filters .filter-btn").count()) === 7);
 
+  // Skip link is the first tab stop
+  await page.keyboard.press("Tab");
+  const focused = await page.evaluate(() => document.activeElement.className);
+  check("index: skip link first tab stop", focused === "skip-link", focused);
+  await page.evaluate(() => document.activeElement.blur());
+
+  // a11y + social meta
+  check("index: aria-current on Browse", (await page.locator('.site-nav a[aria-current="location"]').count()) === 1);
+  check("index: og:image meta", (await page.locator('meta[property="og:image"]').count()) === 1);
+  check("index: twitter:card meta", (await page.locator('meta[name="twitter:card"]').count()) === 1);
+
+  // Filter click → visible subset + shareable URL
   await page.click('[data-filter="security"]');
-  const visible = await page
-    .locator(".swap-card")
-    .evaluateAll((els) => els.filter((e) => e.style.display !== "none").length);
+  const visible = await visibleCount(page);
   check("index: security filter shows 3", visible === 3, `got ${visible}`);
+  check("index: filter reflected in URL", page.url().includes("category=security"), page.url());
   await page.click('[data-filter="all"]');
+  check("index: all filter clears URL", !page.url().includes("category="), page.url());
 
-  // Share button → html-to-image render → fallback menu
+  // Search: narrows to 1, updates count, empty state + clear
+  await page.fill("#tool-search", "bitwarden");
+  const searched = await visibleCount(page);
+  check("index: search narrows to 1", searched === 1, `got ${searched}`);
+  const countText = await page.locator("#result-count").textContent();
+  check("index: result count announced", countText === "1 of 21 tools", countText);
+  check("index: search reflected in URL", page.url().includes("q=bitwarden"), page.url());
+
+  await page.fill("#tool-search", "zzzzzz");
+  check("index: empty state shown", await page.locator("#empty-state").isVisible());
+  const emptyTitle = await page.locator("#empty-title").textContent();
+  check("index: empty state quotes query", emptyTitle.includes("zzzzzz"), emptyTitle);
+  await page.click("#clear-filters");
+  check("index: clear restores 21 cards", (await visibleCount(page)) === 21);
+  check("index: clear cleans URL", !page.url().includes("q=") && !page.url().includes("category="), page.url());
+
+  // Share button → html-to-image render → fallback menu (focus lands on close)
   await page.click('.swap-card [data-export]');
   await page.waitForSelector("#share-overlay", { timeout: 30000 });
   check("index: share menu opened after PNG render", true);
-  await page.click("#share-menu-close");
+  check("index: share menu is a dialog", (await page.locator('#share-overlay[role="dialog"][aria-modal="true"]').count()) === 1);
+  const focusedEl = await page.evaluate(() => document.activeElement.id);
+  check("index: share menu focuses close", focusedEl === "share-menu-close", focusedEl);
+  await page.keyboard.press("Escape");
+  check("index: Escape closes share menu", (await page.locator("#share-overlay").count()) === 0);
+
   await page.screenshot({ path: `${OUT_DIR}/index.png`, fullPage: false });
   await page.close();
 }
 
-// ── batch.html + real ZIP download ───────────────────────────
+// ── index deep link (?category=) applies on load ─────────────
+{
+  const page = await ctx.newPage();
+  watch(page, "deeplink", errors);
+  await page.goto(`${BASE}/index.html?category=media`, { waitUntil: "networkidle" });
+  await page.waitForSelector(".swap-card");
+  const active = await page.locator('[data-filter="media"]').evaluate((el) => el.classList.contains("active"));
+  check("deep link: ?category= activates filter", active);
+  const vis = await visibleCount(page);
+  check("deep link: subset shown", vis > 0 && vis < 21, `${vis} visible`);
+  await page.close();
+}
+
+// ── index: load-error recovery (aborted fetch → Retry) ───────
+{
+  const page = await ctx.newPage();
+  watch(page, "error", errors);
+  await page.route("**/data/manifest.json", (r) => r.abort());
+  await page.goto(`${BASE}/index.html`);
+  await page.waitForSelector(".load-error", { timeout: 10000 });
+  check("index: load-error card on failed fetch", true);
+  check("index: error card has Retry", (await page.locator(".load-error-retry").count()) === 1);
+  await page.unroute("**/data/manifest.json");
+  await page.click(".load-error-retry");
+  await page.waitForSelector(".swap-card", { timeout: 15000 });
+  check("index: Retry recovers to full grid", (await page.locator(".swap-card").count()) === 21);
+  await page.close();
+}
+
+// ── batch.html: bulk bar + PIN recall + real ZIP download ────
 {
   const page = await ctx.newPage();
   watch(page, "batch", errors);
   await page.goto(`${BASE}/batch.html`, { waitUntil: "networkidle" });
   await page.waitForSelector(".batch-post-card");
   check("batch: 5 post cards", (await page.locator(".batch-post-card").count()) === 5);
+  check("batch: aria-current on Batch export", (await page.locator('.site-nav a[aria-current="page"]').count()) === 1);
+
+  // Apply-to-all preset
+  check("batch: bulk bar visible", await page.locator("#bulk-bar").isVisible());
+  await page.selectOption("#bulk-preset", "instagram");
+  const presets = await page.locator(".batch-post-card .batch-select").evaluateAll((els) => els.map((e) => e.value));
+  check("batch: bulk preset applied to all", presets.every((v) => v === "instagram"), presets.join(","));
+
+  // Apply-to-all theme
+  await page.click("#bulk-theme");
+  const themed = await page.locator(".batch-theme-toggle[data-theme]").evaluateAll((els) =>
+    els.every((e) => e.classList.contains("active") && e.getAttribute("aria-pressed") === "true")
+  );
+  check("batch: bulk theme applied to all", themed);
+
+  // Session PIN recall
+  await page.check("#bulk-pin-remember");
+  const pins = await page.locator(".batch-pin-input").evaluateAll((els) => els.map((e) => e.value));
+  check("batch: PIN filled for session", pins.every((v) => v === "swapfoss2026"), pins.join(","));
+
+  // Reset bulk state before the download test
+  await page.uncheck("#bulk-pin-remember");
+  await page.click("#bulk-theme");
+  await page.selectOption("#bulk-preset", "linkedin");
 
   await page.fill("#pin-post-004", "wrong");
   await page.click('.batch-download-btn[data-post="post-004"]');
@@ -84,7 +175,18 @@ const errors = [];
   await page.close();
 }
 
-// ── slide.html (intro/tool/outro) ────────────────────────────
+// ── batch: load-error recovery ───────────────────────────────
+{
+  const page = await ctx.newPage();
+  watch(page, "batch-error", errors);
+  await page.route("**/data/posts-manifest.json", (r) => r.abort());
+  await page.goto(`${BASE}/batch.html`);
+  await page.waitForSelector(".load-error", { timeout: 10000 });
+  check("batch: load-error card on failed fetch", true);
+  await page.close();
+}
+
+// ── slide.html (intro/tool/outro + prev/next nav) ────────────
 {
   const page = await ctx.newPage();
   watch(page, "slide", errors);
@@ -96,8 +198,25 @@ const errors = [];
   check("slide intro: eyebrow", eyebrow === "Free your feed", eyebrow);
   const hl = await page.locator('h1 span[style*="color:#FF0000"]').textContent().catch(() => null);
   check("slide intro: YouTube highlight red", hl === "YouTube", String(hl));
+  check("slide intro: back link", (await page.locator("#toolbar-back").count()) === 1);
+  check("slide intro: prev disabled at start", await page.locator("#prev-btn").isDisabled());
+  check("slide intro: next enabled", !(await page.locator("#next-btn").isDisabled()));
   await page.screenshot({ path: `${OUT_DIR}/slide-intro.png` });
 
+  // Arrow key advances intro → first tool
+  await page.keyboard.press("ArrowRight");
+  await page.waitForURL(/type=tool/, { timeout: 15000 });
+  await page.waitForSelector('body[data-ready="true"]');
+  check("slide: arrow key advances to tool", page.url().includes("type=tool"), page.url());
+  check("slide tool: prev enabled", !(await page.locator("#prev-btn").isDisabled()));
+
+  // Click next → advances (tool → next tool or outro)
+  await page.click("#next-btn");
+  await page.waitForFunction(() => document.body.dataset.ready === "true", { timeout: 15000 });
+  const advanced = /type=(tool|outro)/.test(page.url());
+  check("slide: next button advances", advanced, page.url());
+
+  // Navigate to a known tool slide
   await page.goto(`${BASE}/slide.html?post=post-005&type=tool&tool=bitwarden`, { waitUntil: "networkidle" });
   await page.waitForSelector('body[data-ready="true"]');
   const name = await page.locator(".tool-name").first().textContent();
@@ -106,10 +225,14 @@ const errors = [];
   await page.goto(`${BASE}/slide.html?post=post-005&type=outro`, { waitUntil: "networkidle" });
   await page.waitForSelector('body[data-ready="true"]');
   check("slide outro: CTA present", (await page.locator(".outro-cta").count()) === 1);
+  check("slide outro: next disabled at end", await page.locator("#next-btn").isDisabled());
+  await page.keyboard.press("ArrowLeft");
+  await page.waitForURL(/type=tool/, { timeout: 15000 });
+  check("slide outro: arrow key goes back", page.url().includes("type=tool"));
   await page.close();
 }
 
-// ── card.html ────────────────────────────────────────────────
+// ── card.html: back link + Saved flash ───────────────────────
 {
   const page = await ctx.newPage();
   watch(page, "card", errors);
@@ -121,10 +244,19 @@ const errors = [];
     .locator(".export-logo")
     .evaluate((img) => img.complete && img.naturalWidth > 0);
   check("card: logo loaded", logoOk);
+  check("card: back link", (await page.locator("#toolbar-back").count()) === 1);
+
+  const [dl] = await Promise.all([
+    page.waitForEvent("download", { timeout: 60000 }),
+    page.click("#download-btn"),
+  ]);
+  check("card: PNG downloaded", dl.suggestedFilename().includes("bitwarden"), dl.suggestedFilename());
+  const btnText = await page.locator("#download-btn").textContent();
+  check("card: Saved flash after download", btnText.includes("Saved"), btnText);
   await page.close();
 }
 
-// ── create.html ──────────────────────────────────────────────
+// ── create.html: pills + hl fields, validation ───────────────
 {
   const page = await ctx.newPage();
   watch(page, "create", errors);
@@ -132,7 +264,44 @@ const errors = [];
   await page.waitForSelector(".create-tool-group");
   const groups = await page.locator(".create-tool-group").count();
   check("create: tool groups rendered", groups >= 6, `${groups} groups`);
+  check("create: pills field present", (await page.locator("#f-pills").count()) === 1);
+  check("create: highlight fields present", (await page.locator("#f-hl-word").count()) === 1 && (await page.locator("#f-hl-color").count()) === 1);
+  check("create: aria-current on Create", (await page.locator('.site-nav a[aria-current="page"]').count()) === 1);
+
+  // Fill a valid post with pills + matching highlight word
+  await page.fill("#f-title", "Smoke test post");
+  await page.fill("#f-eyebrow", "Testing");
+  await page.fill("#f-headline", "Keep your passwords secure");
+  await page.fill("#f-subhead", "A supporting sentence");
+  await page.fill("#f-pills", "No Account, Open Source");
+  await page.fill("#f-hl-word", "secure");
+  await page.fill("#f-outro-headline", "Swap today");
+  await page.fill("#f-outro-subhead", "Start now");
+  await page.locator("#tool-groups input[type=checkbox]").first().check();
+
+  const json = await page.locator("#json-preview").textContent();
+  check("create: pills exported to JSON", json.includes('"pills"') && json.includes("No Account"), "");
+  check("create: hl exported to JSON", json.includes('"hl"') && json.includes('"secure"'), "");
+  check("create: valid JSON (no error block)", !(await page.locator("#json-preview").evaluate((el) => el.classList.contains("create-invalid") || el.classList.contains("create-json-invalid"))));
+  check("create: preview pills visible", await page.locator("#p-pills").isVisible());
+
+  // Highlight word missing from headline → flagged invalid
+  await page.fill("#f-hl-word", "unicorn");
+  const flagged = await page.locator("#json-preview").evaluate((el) => el.classList.contains("create-json-invalid"));
+  check("create: hl mismatch flagged", flagged);
   await page.close();
+}
+
+// ── assets: favicon, og image, 404 page ──────────────────────
+{
+  const fav = await ctx.request.get(`${BASE}/favicon.svg`);
+  check("favicon: served 200", fav.status() === 200, String(fav.status()));
+  const og = await ctx.request.get(`${BASE}/assets/og-image.png`);
+  check("og image: served 200", og.status() === 200 && (await og.body()).length > 50000, `${(await og.body()).length} bytes`);
+  const nf = await ctx.request.get(`${BASE}/404.html`);
+  const nfBody = await nf.text();
+  check("404 page: served 200", nf.status() === 200 && nfBody.includes("404"));
+  check("404 page: links to site", nfBody.includes("SwapFOSS"));
 }
 
 await browser.close();
