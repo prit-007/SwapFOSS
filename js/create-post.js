@@ -154,6 +154,7 @@ function renderToolGroups() {
       </div>
     `;
   }).join("");
+  document.getElementById("tool-groups").setAttribute("aria-busy", "false");
 
   document.getElementById("tool-groups").addEventListener("change", (e) => {
     if (e.target.type !== "checkbox") return;

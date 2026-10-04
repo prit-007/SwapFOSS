@@ -27,7 +27,7 @@ async function init() {
   const toolMap = Object.fromEntries(allTools.map(t => [t.id, t]));
 
   const grid = document.getElementById("posts-grid");
-  grid.innerHTML = allPosts.map(post => {
+  grid.innerHTML = allPosts.map((post, i) => {
     const isDraft = draftPosts.includes(post);
     const tools = post.tools.map(id => toolMap[id]).filter(Boolean);
     const cats = [...new Set(tools.map(t => t.category))];
@@ -39,7 +39,7 @@ async function init() {
       t.logo ? `<img class="batch-tool-thumb" src="${t.logo}" alt="${t.name}" title="${t.name}" />` : ""
     ).join("");
     return `
-      <div class="batch-post-card" data-post="${post.id}">
+      <div class="batch-post-card" data-post="${post.id}" style="--card-index:${i}">
         <div class="batch-post-header">
           <h2 class="batch-post-title">${post.title}</h2>
           <span class="batch-post-count">${isDraft ? "Draft · " : ""}${tools.length} tool${tools.length !== 1 ? "s" : ""}</span>
@@ -90,6 +90,7 @@ async function init() {
       </div>
     `;
   }).join("");
+  grid.setAttribute("aria-busy", "false");
 
   // Theme toggles
   const themeStates = {};

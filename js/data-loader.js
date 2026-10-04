@@ -7,7 +7,7 @@ async function loadJSON(path) {
   return res.json();
 }
 
-function cardHTML(tool, categories) {
+function cardHTML(tool, categories, index = 0) {
   const cat = categories[tool.category] || {};
   const hasDetails = !!tool.details;
   const hasLogo = !!tool.logo;
@@ -15,7 +15,7 @@ function cardHTML(tool, categories) {
   const hasFeatures = tool.features && tool.features.length > 0;
   const hasSetupSteps = tool.setupSteps && tool.setupSteps.length > 0;
   return `
-    <article class="swap-card" style="--cat-color:${cat.color}" data-category="${tool.category}">
+    <article class="swap-card" style="--cat-color:${cat.color};--card-index:${index}" data-category="${tool.category}">
       <div class="card-media ${hasScreenshot ? "" : "no-screenshot"}" data-fallback-text="${tool.name}">
         ${hasScreenshot ? `<img src="${tool.screenshot}" alt="${tool.name} screenshot" loading="lazy" data-full="${tool.screenshot}" class="screenshot-img" />` : ""}
         ${hasLogo ? `<img class="logo-badge" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
@@ -97,7 +97,8 @@ async function init() {
   window.SWAPFOSS_CATEGORIES = categories;
 
   const grid = document.getElementById("grid");
-  grid.innerHTML = tools.map(t => cardHTML(t, categories)).join("");
+  grid.innerHTML = tools.map((t, i) => cardHTML(t, categories, i)).join("");
+  grid.setAttribute("aria-busy", "false");
 
   // Filter buttons
   const filterBar = document.getElementById("filters");
@@ -114,8 +115,19 @@ async function init() {
     filterBar.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     const filter = btn.dataset.filter;
+    let shownIndex = 0;
     grid.querySelectorAll(".swap-card").forEach(card => {
-      card.style.display = (filter === "all" || card.dataset.category === filter) ? "" : "none";
+      const show = filter === "all" || card.dataset.category === filter;
+      card.style.display = show ? "" : "none";
+      if (show) {
+        // Restart the entrance with a snappy per-card stagger (the long
+        // initial-load cascade would feel sluggish on a filter click).
+        card.style.animation = "none";
+        void card.offsetWidth;
+        card.style.animation = "";
+        card.style.animationDelay = `${shownIndex * 0.04}s`;
+        shownIndex++;
+      }
     });
   });
 
