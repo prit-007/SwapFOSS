@@ -1,21 +1,32 @@
 // Batch export page — loads posts + drafts, renders the grid, wires downloads.
 
 import { loadJSON, PIN, downloadPostZIP, generateCaption } from "./batch-export.js";
+import { icon, mountIcons } from "./icons.js";
+import { initReveal } from "./reveal.js";
 
 function showLoadError(container, what) {
   container.setAttribute("aria-busy", "false");
   container.innerHTML = `
     <div class="load-error" role="alert">
-      <span class="load-error-icon" aria-hidden="true">!</span>
+      <span class="load-error-icon" aria-hidden="true">${icon("alert-01", 20)}</span>
       <p class="load-error-title">Couldn't load ${what}</p>
       <p class="load-error-text">The data files didn't respond. Check your connection and try again.</p>
-      <button class="load-error-retry" type="button">Retry</button>
+      <button class="load-error-retry" type="button">${icon("refresh-01")} Retry</button>
     </div>`;
   container.querySelector(".load-error-retry").addEventListener("click", () => location.reload());
 }
 
 async function init() {
+  mountIcons();
+  initReveal();
   const grid = document.getElementById("posts-grid");
+
+  const setThemeToggleUI = (btn, dark) => {
+    const ic = btn.querySelector(".batch-theme-icon");
+    const lb = btn.querySelector(".batch-theme-label");
+    if (ic) ic.innerHTML = icon(dark ? "moon-01" : "sun-01");
+    if (lb) lb.textContent = dark ? "Dark" : "Light";
+  };
 
   let allPosts;
   let draftPosts;
@@ -88,7 +99,8 @@ async function init() {
           <div class="batch-control-row">
             <label class="batch-label">Theme</label>
             <button class="batch-theme-toggle" data-theme="${post.id}" aria-pressed="false">
-              <span class="batch-theme-icon">◐</span> Light
+              <span class="batch-theme-icon">${icon("sun-01")}</span>
+              <span class="batch-theme-label">Light</span>
             </button>
           </div>
           <div class="batch-control-row batch-pin-row">
@@ -96,18 +108,18 @@ async function init() {
             <input class="batch-pin-input" id="pin-${post.id}" type="password" placeholder="Enter PIN" />
           </div>
           <button class="batch-download-btn" data-post="${post.id}">
-            <span class="batch-download-text">Download ZIP</span>
+            <span class="batch-download-text">${icon("download-01")} Download ZIP</span>
             <span class="batch-download-progress" id="progress-${post.id}">
               <span class="batch-progress-bar"><span class="batch-progress-fill" id="fill-${post.id}"></span></span>
               <span class="batch-progress-label" id="label-${post.id}"></span>
             </span>
           </button>
-          <button class="batch-caption-btn" data-post="${post.id}">Generate caption</button>
+          <button class="batch-caption-btn" data-post="${post.id}">${icon("magic-wand-01")} Generate caption</button>
           <div class="batch-caption-box" id="caption-${post.id}" style="display:none">
             <p class="batch-caption-text" id="caption-text-${post.id}"></p>
-            <button class="batch-caption-copy" data-caption="${post.id}">Copy</button>
+            <button class="batch-caption-copy" data-caption="${post.id}">${icon("copy-01")} Copy</button>
           </div>
-          ${isDraft ? `<button class="batch-draft-delete" data-delete-draft="${post.id}">Remove draft</button>` : ""}
+          ${isDraft ? `<button class="batch-draft-delete" data-delete-draft="${post.id}">${icon("delete-02")} Remove draft</button>` : ""}
         </div>
       </div>
     `;
@@ -134,7 +146,9 @@ async function init() {
       themeStates[toggle.dataset.theme] = on;
       toggle.classList.toggle("active", on);
       toggle.setAttribute("aria-pressed", String(on));
+      setThemeToggleUI(toggle, on);
     });
+    setThemeToggleUI(btn, on);
   });
 
   const PIN_KEY = "swapfoss-fill-pin";
@@ -159,8 +173,9 @@ async function init() {
     if (!toggle) return;
     const id = toggle.dataset.theme;
     themeStates[id] = !themeStates[id];
-    toggle.setAttribute("aria-pressed", themeStates[id]);
+    toggle.setAttribute("aria-pressed", String(themeStates[id]));
     toggle.classList.toggle("active", themeStates[id]);
+    setThemeToggleUI(toggle, themeStates[id]);
   });
 
   // PIN validation + download
@@ -232,8 +247,8 @@ async function init() {
     const postId = btn.dataset.caption;
     const text = document.getElementById(`caption-text-${postId}`).textContent;
     await navigator.clipboard.writeText(text);
-    btn.textContent = "Copied!";
-    setTimeout(() => (btn.textContent = "Copy"), 1500);
+    btn.innerHTML = `${icon("tick-04")} Copied!`;
+    setTimeout(() => (btn.innerHTML = `${icon("copy-01")} Copy`), 1500);
   });
 
   // Remove draft

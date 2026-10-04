@@ -1,6 +1,7 @@
 // Share utility — renders a tool card as PNG and shares via Web Share API
 // with a custom share menu fallback for desktop browsers.
 import * as htmlToImage from "html-to-image";
+import { icon } from "./icons.js";
 
 function exportCardHTML(tool, cat) {
   const hasLogo = !!tool.logo;
@@ -57,28 +58,28 @@ function shareMenuHTML() {
       <div class="share-menu">
         <div class="share-menu-header">
           <span class="share-menu-title">Share card</span>
-          <button class="share-menu-close" id="share-menu-close">✕</button>
+          <button class="share-menu-close" id="share-menu-close" aria-label="Close share menu">${icon("cancel-01", 15)}</button>
         </div>
         <div class="share-menu-body">
           <div class="share-menu-preview" id="share-menu-preview"></div>
           <div class="share-menu-platforms">
             <button class="share-platform" data-platform="whatsapp">
-              <span class="share-platform-icon">💬</span> WhatsApp
+              <span class="share-platform-icon">${icon("whatsapp", 16)}</span> WhatsApp
             </button>
             <button class="share-platform" data-platform="twitter">
-              <span class="share-platform-icon">🐦</span> Twitter / X
+              <span class="share-platform-icon">${icon("twitter", 16)}</span> Twitter / X
             </button>
             <button class="share-platform" data-platform="linkedin">
-              <span class="share-platform-icon">💼</span> LinkedIn
+              <span class="share-platform-icon">${icon("linkedin-01", 16)}</span> LinkedIn
             </button>
             <button class="share-platform" data-platform="email">
-              <span class="share-platform-icon">✉️</span> Email
+              <span class="share-platform-icon">${icon("mail-01", 16)}</span> Email
             </button>
             <button class="share-platform" data-platform="copy">
-              <span class="share-platform-icon">🔗</span> Copy link
+              <span class="share-platform-icon">${icon("link-01", 16)}</span> Copy link
             </button>
             <button class="share-platform" data-platform="download">
-              <span class="share-platform-icon">⬇️</span> Download PNG
+              <span class="share-platform-icon">${icon("download-01", 16)}</span> Download PNG
             </button>
           </div>
         </div>
@@ -159,7 +160,7 @@ function openShareMenu(toolId, dataUrl) {
         window.open(`mailto:?subject=${encodeURIComponent(`FOSS Swap: ${tool.name}`)}&body=${encodeURIComponent(shareText + "\n\n" + shareUrl)}`, "_blank");
       } else if (platform === "copy") {
         await navigator.clipboard.writeText(shareText + "\n" + shareUrl);
-        btn.innerHTML = `<span class="share-platform-icon">✅</span> Copied!`;
+        btn.innerHTML = `<span class="share-platform-icon">${icon("tick-04", 16)}</span> Copied!`;
         setTimeout(close, 1000);
         return;
       } else if (platform === "download") {

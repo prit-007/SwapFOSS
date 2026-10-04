@@ -1,5 +1,7 @@
 // Loads categories + tool data, renders the swap-card grid, wires up filters + caption copy.
 import { shareCard } from "./share.js";
+import { icon, mountIcons } from "./icons.js";
+import { initReveal } from "./reveal.js";
 
 async function loadJSON(path) {
   const res = await fetch(path);
@@ -27,7 +29,7 @@ function cardHTML(tool, categories, index = 0) {
             <span class="tag">${cat.label || tool.category}</span>
             <div class="swap-row">
               <span class="swap-from">${tool.insteadOf}</span>
-              <span class="swap-arrow">→</span>
+              <span class="swap-arrow">${icon("direction-right-01")}</span>
               <span class="swap-to">${tool.name}</span>
             </div>
           </div>
@@ -40,7 +42,7 @@ function cardHTML(tool, categories, index = 0) {
         ` : ""}
         ${hasSetupSteps ? `
         <div class="setup-steps">
-          <button class="setup-toggle" data-setup="${tool.id}">How to use ↓</button>
+          <button class="setup-toggle" data-setup="${tool.id}">How to use ${icon("arrow-down-01")}</button>
           <div class="setup-body" id="setup-${tool.id}">
             <ol>
               ${tool.setupSteps.map(s => `<li>${s}</li>`).join("")}
@@ -50,7 +52,7 @@ function cardHTML(tool, categories, index = 0) {
         ` : ""}
         ${hasDetails ? `
         <div class="details-expand">
-          <button class="details-toggle" data-details="${tool.id}">Read more ↓</button>
+          <button class="details-toggle" data-details="${tool.id}">Read more ${icon("arrow-down-01")}</button>
           <div class="details-body" id="details-${tool.id}">
             <p>${tool.details}</p>
           </div>
@@ -59,8 +61,8 @@ function cardHTML(tool, categories, index = 0) {
         <div class="card-footer">
           <span class="meta">${tool.setup}</span>
           <div style="display:flex; gap:8px;">
-            <button class="share-btn" data-export="${tool.id}">Share ↗</button>
-            <a class="link-btn" href="${tool.link}" target="_blank" rel="noopener">Visit ↗</a>
+            <button class="share-btn" data-export="${tool.id}">${icon("share-01")} Share</button>
+            <a class="link-btn" href="${tool.link}" target="_blank" rel="noopener">${icon("external-link")} Visit</a>
           </div>
         </div>
       </div>
@@ -71,7 +73,7 @@ function cardHTML(tool, categories, index = 0) {
 function lightboxHTML(tool) {
   return `
     <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="${tool.name} screenshot preview">
-      <button class="lightbox-close" id="lightbox-close" aria-label="Close screenshot">✕</button>
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close screenshot">${icon("cancel-01", 18)}</button>
       <div class="lightbox-content">
         <img src="${tool.screenshot}" alt="${tool.name} screenshot" />
         <div class="lightbox-caption">
@@ -87,15 +89,17 @@ function showLoadError(container, what) {
   container.setAttribute("aria-busy", "false");
   container.innerHTML = `
     <div class="load-error" role="alert">
-      <span class="load-error-icon" aria-hidden="true">!</span>
+      <span class="load-error-icon" aria-hidden="true">${icon("alert-01", 20)}</span>
       <p class="load-error-title">Couldn't load ${what}</p>
       <p class="load-error-text">The data files didn't respond. Check your connection and try again.</p>
-      <button class="load-error-retry" type="button">Retry</button>
+      <button class="load-error-retry" type="button">${icon("refresh-01")} Retry</button>
     </div>`;
   container.querySelector(".load-error-retry").addEventListener("click", () => location.reload());
 }
 
 async function init() {
+  mountIcons();
+  initReveal();
   const grid = document.getElementById("grid");
   const filterBar = document.getElementById("filters");
   const searchInput = document.getElementById("tool-search");
@@ -274,17 +278,17 @@ async function init() {
     const btn = e.target.closest("[data-export]");
     if (!btn) return;
     btn.disabled = true;
-    btn.textContent = "Sharing…";
+    btn.innerHTML = `${icon("share-01")} Sharing…`;
     try {
       const result = await shareCard(btn.dataset.export);
       if (result.reason === "cancelled") {
-        btn.textContent = "Share ↗";
+        btn.innerHTML = `${icon("share-01")} Share`;
       } else {
-        btn.textContent = "Shared!";
-        setTimeout(() => { btn.textContent = "Share ↗"; }, 1500);
+        btn.innerHTML = `${icon("tick-04")} Shared!`;
+        setTimeout(() => { btn.innerHTML = `${icon("share-01")} Share`; }, 1500);
       }
     } catch (err) {
-      btn.textContent = "Share ↗";
+      btn.innerHTML = `${icon("share-01")} Share`;
     } finally {
       btn.disabled = false;
     }
@@ -298,7 +302,7 @@ async function init() {
     const body = document.getElementById(`setup-${id}`);
     const isOpen = body.classList.contains("open");
     body.classList.toggle("open");
-    toggle.textContent = isOpen ? "How to use ↓" : "How to use ↑";
+    toggle.innerHTML = isOpen ? `How to use ${icon("arrow-down-01")}` : `How to use ${icon("arrow-up-01")}`;
   });
 
   // Details expand/collapse
@@ -309,7 +313,7 @@ async function init() {
     const body = document.getElementById(`details-${id}`);
     const isOpen = body.classList.contains("open");
     body.classList.toggle("open");
-    toggle.textContent = isOpen ? "Read more ↓" : "Read less ↑";
+    toggle.innerHTML = isOpen ? `Read more ${icon("arrow-down-01")}` : `Read less ${icon("arrow-up-01")}`;
   });
 
   // Caption copy
@@ -317,8 +321,8 @@ async function init() {
   copyBtn.addEventListener("click", async () => {
     const text = document.getElementById("caption-text").textContent;
     await navigator.clipboard.writeText(text);
-    copyBtn.textContent = "Copied!";
-    setTimeout(() => (copyBtn.textContent = "Copy caption"), 1500);
+    copyBtn.innerHTML = `${icon("copy-01")} Copied!`;
+    setTimeout(() => (copyBtn.innerHTML = `${icon("copy-01")} Copy caption`), 1500);
   });
 }
 

@@ -21,7 +21,7 @@
 <meta name="twitter:description" content="Browse 21 FOSS swaps and export post-ready carousels — one tool at a time." />
 <meta name="twitter:image" content="https://prit-007.github.io/SwapFOSS/assets/og-image.png" />
 <link rel="stylesheet" href="css/fonts.css" />
-<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
 <a class="skip-link" href="#grid-section">Skip to content</a>
@@ -30,7 +30,7 @@
   <div class="wrap">
     <div class="brand">Swap<span>FOSS</span></div>
     <nav class="site-nav">
-      <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener"><span data-icon="github-01"></span> GitHub</a>
       <a href="#grid" aria-current="location">Browse</a>
       <a href="batch.html">Batch export</a>
       <a href="create.html">Create</a>
@@ -48,7 +48,7 @@
 <main class="wrap" id="grid-section" tabindex="-1">
   <div class="index-toolbar">
     <div class="search-box">
-      <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <span class="search-icon" data-icon="search-01" data-icon-size="15"></span>
       <input type="search" class="search-input" id="tool-search" placeholder="Search tools…" aria-label="Search tools" autocomplete="off" />
     </div>
     <span class="result-count" id="result-count" role="status" aria-live="polite"></span>
@@ -126,17 +126,17 @@
   <div class="empty-state" id="empty-state" hidden>
     <p class="empty-state-title" id="empty-title">No tools match</p>
     <p class="empty-state-sub">Try a different search, or start over.</p>
-    <button class="filter-btn" id="clear-filters" type="button" style="--pill-color:var(--text-muted)">Clear search &amp; filters</button>
+    <button class="filter-btn" id="clear-filters" type="button" style="--pill-color:var(--text-muted)"><span data-icon="refresh-01"></span> Clear search &amp; filters</button>
   </div>
 
-  <div class="caption-box">
+  <div class="caption-box" data-reveal>
     <span class="caption-label">Suggested post caption</span>
     <p id="caption-text">I built a visual directory for FOSS tools that normal people can actually use. What tool should I add next?</p>
-    <button id="copy-caption-btn">Copy caption</button>
+    <button id="copy-caption-btn"><span data-icon="copy-01"></span> Copy caption</button>
   </div>
 </main>
 
-<section class="dev-credits">
+<section class="dev-credits" data-reveal>
   <div class="wrap">
     <div class="dev-credits-label">Developer's Paradise</div>
     <p class="dev-credits-tagline">Where bugs fear to tread and coffee never runs out</p>
@@ -187,7 +187,7 @@
   </div>
 </section>
 
-<footer class="site-footer">
+<footer class="site-footer" data-reveal>
   <div class="wrap">
     <div class="footer-row">
       <span>    Spot a great FOSS tool that belongs here? <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener">Open a PR</a>.</span>

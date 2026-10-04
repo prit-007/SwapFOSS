@@ -1,0 +1,13 @@
+/* SwapFOSS — single CSS entry.
+   Layer order matters: Tailwind utilities must win over our component
+   styles, so styles.css is imported into the `components` layer.
+   No Tailwind preflight — styles.css ships its own reset. */
+
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@import "./styles.css" layer(components);
+
+@source "../";

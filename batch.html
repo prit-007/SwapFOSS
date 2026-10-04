@@ -20,7 +20,7 @@
 <meta name="twitter:description" content="Download post-ready carousel bundles as a ZIP." />
 <meta name="twitter:image" content="https://prit-007.github.io/SwapFOSS/assets/og-image.png" />
 <link rel="stylesheet" href="css/fonts.css" />
-<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
 <a class="skip-link" href="#posts-section">Skip to content</a>
@@ -29,7 +29,7 @@
   <div class="wrap">
     <div class="brand">Swap<span>FOSS</span></div>
     <nav class="site-nav">
-      <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener"><span data-icon="github-01"></span> GitHub</a>
       <a href="index.html">Home</a>
       <a href="batch.html" aria-current="page">Batch export</a>
       <a href="create.html">Create</a>
@@ -41,7 +41,7 @@
   <div class="wrap">
     <h1>Batch export</h1>
     <p>Download post-ready bundles — intro card, tool cards, and outro — as a ZIP. Enter the PIN to unlock downloads.</p>
-    <a href="create.html" class="batch-create-link">+ Create a new post</a>
+    <a href="create.html" class="batch-create-link"><span data-icon="add-01"></span> Create a new post</a>
   </div>
 </section>
 
@@ -54,7 +54,8 @@
       <option value="twitter">Twitter / X (1200×675)</option>
     </select>
     <button class="batch-theme-toggle" id="bulk-theme" type="button" aria-pressed="false">
-      <span class="batch-theme-icon">◐</span> Light
+      <span class="batch-theme-icon" data-icon="sun-01"></span>
+      <span class="batch-theme-label">Light</span>
     </button>
     <label class="batch-bulk-check">
       <input type="checkbox" id="bulk-pin-remember" />
@@ -104,7 +105,7 @@
   </div>
 </main>
 
-<footer class="site-footer">
+<footer class="site-footer" data-reveal>
   <div class="wrap">
     Built for sharing free software with the world.
   </div>

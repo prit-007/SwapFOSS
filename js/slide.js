@@ -1,4 +1,5 @@
 import * as htmlToImage from "html-to-image";
+import { icon, mountIcons } from "./icons.js";
 
 async function loadJSON(path) {
   const res = await fetch(path);
@@ -126,15 +127,16 @@ function toolHTML(tool, cat) {
 function showLoadError(container, what) {
   container.innerHTML = `
     <div class="load-error load-error-stage" role="alert">
-      <span class="load-error-icon" aria-hidden="true">!</span>
+      <span class="load-error-icon" aria-hidden="true">${icon("alert-01", 20)}</span>
       <p class="load-error-title">Couldn't load ${what}</p>
       <p class="load-error-text">The slide data didn't respond. Check your connection and try again.</p>
-      <button class="load-error-retry" type="button">Retry</button>
+      <button class="load-error-retry" type="button">${icon("refresh-01")} Retry</button>
     </div>`;
   container.querySelector(".load-error-retry").addEventListener("click", () => location.reload());
 }
 
 async function init() {
+  mountIcons();
   const params = new URLSearchParams(location.search);
   const postId = params.get("post");
   const type = params.get("type"); // intro | tool | outro
@@ -184,15 +186,15 @@ async function init() {
   // Toolbar: back + prev/next + download (never inside the export target)
   const toolbar = document.createElement("div");
   toolbar.id = "toolbar";
-  toolbar.style.cssText = "position:fixed;top:24px;left:24px;right:24px;z-index:100;display:flex;gap:10px;align-items:center;flex-wrap:wrap;";
+  toolbar.className = "fixed top-6 left-6 right-6 z-[100] flex items-center gap-2.5 flex-wrap";
   const navBtn = (id, label, enabled) =>
-    `<button id="${id}" ${enabled ? "" : "disabled"} style="font-family:var(--font-body);font-weight:600;font-size:14px;background:transparent;color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.2);padding:9px 16px;border-radius:8px;cursor:${enabled ? "pointer" : "default"};opacity:${enabled ? 1 : 0.35};">${label}</button>`;
+    `<button id="${id}" ${enabled ? "" : "disabled"} class="inline-flex items-center gap-1.5 font-semibold text-sm font-[family-name:var(--font-body)] bg-transparent text-white/70 border border-white/20 px-4 py-[9px] rounded-lg ${enabled ? "cursor-pointer" : "cursor-default opacity-35"}">${label}</button>`;
   toolbar.innerHTML = `
-    <a id="toolbar-back" href="index.html" style="font-family:var(--font-body);font-weight:600;font-size:14px;color:rgba(255,255,255,0.55);text-decoration:none;padding:10px 6px;">← Home</a>
-    ${navBtn("prev-btn", "← Prev", !!prev)}
-    ${navBtn("next-btn", "Next →", !!next)}
-    <button id="download-btn" style="font-family:var(--font-body);font-weight:600;font-size:14px;background:#F5F3ED;color:#0F1115;border:none;padding:10px 18px;border-radius:8px;cursor:pointer;">Download PNG</button>
-    <span style="color:rgba(255,255,255,0.35);font-size:13px;">1080×1350 — ready for posting</span>
+    <a id="toolbar-back" href="index.html" class="inline-flex items-center gap-1.5 font-semibold text-sm font-[family-name:var(--font-body)] text-white/55 no-underline px-1.5 py-2.5">${icon("arrow-left-01")} Home</a>
+    ${navBtn("prev-btn", `${icon("arrow-left-01")} Prev`, !!prev)}
+    ${navBtn("next-btn", `Next ${icon("arrow-right-01")}`, !!next)}
+    <button id="download-btn" class="inline-flex items-center gap-1.5 font-semibold text-sm font-[family-name:var(--font-body)] bg-[#F5F3ED] text-[#0F1115] border-0 px-[18px] py-2.5 rounded-lg cursor-pointer">${icon("download-01")} Download PNG</button>
+    <span class="text-[13px] text-white/35">1080×1350 — ready for posting</span>
   `;
   document.body.appendChild(toolbar);
 
@@ -207,7 +209,7 @@ async function init() {
   document.getElementById("download-btn").addEventListener("click", async () => {
     const target = document.getElementById("export-target");
     const btn = document.getElementById("download-btn");
-    btn.textContent = "Rendering…";
+    btn.innerHTML = `${icon("refresh-01")} Rendering…`;
     btn.disabled = true;
     try {
       const dataUrl = await htmlToImage.toPng(target, { pixelRatio: 2 });
@@ -216,12 +218,12 @@ async function init() {
       link.download = `swapfoss-${name}.png`;
       link.href = dataUrl;
       link.click();
-      btn.textContent = "Saved ✓";
+      btn.innerHTML = `${icon("tick-04")} Saved`;
     } catch (err) {
-      btn.textContent = "Failed — retry";
+      btn.innerHTML = `${icon("cancel-01")} Failed — retry`;
     } finally {
       setTimeout(() => {
-        btn.textContent = "Download PNG";
+        btn.innerHTML = `${icon("download-01")} Download PNG`;
         btn.disabled = false;
       }, 1600);
     }

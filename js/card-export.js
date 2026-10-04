@@ -1,6 +1,7 @@
 // Standalone single-card page: reads ?tool=<id> from the URL, renders the
 // export-sized card, and lets the user download it as a PNG via html-to-image.
 import * as htmlToImage from "html-to-image";
+import { icon, mountIcons } from "./icons.js";
 
 async function loadJSON(path) {
   const res = await fetch(path);
@@ -60,15 +61,16 @@ function exportCardHTML(tool, cat) {
 function showLoadError(container, what) {
   container.innerHTML = `
     <div class="load-error load-error-stage" role="alert">
-      <span class="load-error-icon" aria-hidden="true">!</span>
+      <span class="load-error-icon" aria-hidden="true">${icon("alert-01", 20)}</span>
       <p class="load-error-title">Couldn't load ${what}</p>
       <p class="load-error-text">The card data didn't respond. Check your connection and try again.</p>
-      <button class="load-error-retry" type="button">Retry</button>
+      <button class="load-error-retry" type="button">${icon("refresh-01")} Retry</button>
     </div>`;
   container.querySelector(".load-error-retry").addEventListener("click", () => location.reload());
 }
 
 async function init() {
+  mountIcons();
   const params = new URLSearchParams(location.search);
   const toolId = params.get("tool");
   const stage = document.getElementById("stage");
@@ -88,7 +90,7 @@ async function init() {
   document.getElementById("download-btn").addEventListener("click", async () => {
     const target = document.getElementById("export-target");
     const btn = document.getElementById("download-btn");
-    btn.textContent = "Rendering…";
+    btn.innerHTML = `${icon("refresh-01")} Rendering…`;
     btn.disabled = true;
     try {
       const dataUrl = await htmlToImage.toPng(target, { pixelRatio: 2 });
@@ -96,12 +98,12 @@ async function init() {
       link.download = `swapfoss-${tool.id}.png`;
       link.href = dataUrl;
       link.click();
-      btn.textContent = "Saved ✓";
+      btn.innerHTML = `${icon("tick-04")} Saved`;
     } catch (err) {
-      btn.textContent = "Failed — retry";
+      btn.innerHTML = `${icon("cancel-01")} Failed — retry`;
     } finally {
       setTimeout(() => {
-        btn.textContent = "Download PNG";
+        btn.innerHTML = `${icon("download-01")} Download PNG`;
         btn.disabled = false;
       }, 1600);
     }

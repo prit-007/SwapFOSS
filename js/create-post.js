@@ -1,4 +1,6 @@
 // Post builder — compose a carousel post, preview it, save drafts, export JSON.
+import { icon, mountIcons } from "./icons.js";
+import { initReveal } from "./reveal.js";
 
 const DRAFTS_KEY = "swapfoss-drafts";
 
@@ -103,7 +105,7 @@ function refreshPreview() {
   const pillsEl = document.getElementById("p-pills");
   const pills = post.intro.pills || [];
   if (pills.length) {
-    pillsEl.innerHTML = pills.map(p => `<span class="stat-pill">✓ ${esc(p)}</span>`).join("");
+    pillsEl.innerHTML = pills.map(p => `<span class="stat-pill">${icon("tick-04")} ${esc(p)}</span>`).join("");
     pillsEl.hidden = false;
     document.getElementById("p-subhead").style.display = "none";
   } else {
@@ -209,8 +211,8 @@ function renderDrafts() {
         <span class="batch-post-count">${d.tools.length} tool${d.tools.length !== 1 ? "s" : ""}</span>
       </div>
       <div class="create-draft-actions">
-        <button class="batch-caption-btn" data-load="${esc(d.id)}">Edit</button>
-        <button class="batch-caption-btn" data-remove="${esc(d.id)}">Delete</button>
+        <button class="batch-caption-btn" data-load="${esc(d.id)}">${icon("edit-01")} Edit</button>
+        <button class="batch-caption-btn" data-remove="${esc(d.id)}">${icon("delete-02")} Delete</button>
       </div>
     </div>
   `).join("");
@@ -282,15 +284,17 @@ function showLoadError(container, what) {
   container.setAttribute("aria-busy", "false");
   container.innerHTML = `
     <div class="load-error" role="alert">
-      <span class="load-error-icon" aria-hidden="true">!</span>
+      <span class="load-error-icon" aria-hidden="true">${icon("alert-01", 20)}</span>
       <p class="load-error-title">Couldn't load ${what}</p>
       <p class="load-error-text">The data files didn't respond. Check your connection and try again.</p>
-      <button class="load-error-retry" type="button">Retry</button>
+      <button class="load-error-retry" type="button">${icon("refresh-01")} Retry</button>
     </div>`;
   container.querySelector(".load-error-retry").addEventListener("click", () => location.reload());
 }
 
 async function init() {
+  mountIcons();
+  initReveal();
   try {
     const [manifest, cats, postsMan] = await Promise.all([
       loadJSON("data/manifest.json"),

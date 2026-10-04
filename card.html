@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://prit-007.github.io/SwapFOSS/assets/og-image.png" />
 <link rel="stylesheet" href="css/fonts.css" />
-<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/main.css" />
 <style>
   body { padding: 32px; }
   #stage { transform-origin: top left; }
@@ -24,12 +24,14 @@
   #toolbar-back {
     font-family: var(--font-body); font-weight: 600; font-size: 14px;
     color: var(--text-muted); text-decoration: none; padding: 10px 6px;
+    display: inline-flex; align-items: center; gap: 6px;
   }
   #toolbar-back:hover { color: var(--text); }
   #download-btn {
     font-family: var(--font-body); font-weight: 600; font-size: 14px;
     background: var(--text); color: var(--bg); border: none;
     padding: 10px 18px; border-radius: 8px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
   }
   .hint { color: var(--text-faint); font-size: 13px; }
 </style>
@@ -37,8 +39,8 @@
 <body>
   <a class="skip-link" href="#stage">Skip to content</a>
   <div id="toolbar">
-    <a id="toolbar-back" href="index.html">← Home</a>
-    <button id="download-btn">Download PNG</button>
+    <a id="toolbar-back" href="index.html"><span data-icon="arrow-left-01"></span> Home</a>
+    <button id="download-btn"><span data-icon="download-01"></span> Download PNG</button>
     <span class="hint">1080×1350 — ready for LinkedIn or Instagram</span>
   </div>
   <div id="stage" tabindex="-1"><div class="stage-loader" role="status"><span class="stage-spinner"></span><span class="stage-loader-text">Loading card…</span></div></div>

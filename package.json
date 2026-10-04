@@ -12,8 +12,11 @@
     "carousel": "node scripts/generate-carousel.mjs"
   },
   "devDependencies": {
+    "@iconify-json/hugeicons": "^1.2.35",
+    "@tailwindcss/vite": "^4.3.3",
     "http-server": "^14.1.1",
     "playwright": "^1.47.0",
+    "tailwindcss": "^4.3.3",
     "vite": "^8.3.2"
   },
   "dependencies": {

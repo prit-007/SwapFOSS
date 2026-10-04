@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
+  plugins: [tailwindcss()],
   // Relative base so the build works on GitHub Pages project URLs
   // (prit-007.github.io/SwapFOSS/), local previews, and any subpath.
   base: "./",

@@ -20,7 +20,7 @@
 <meta name="twitter:description" content="Compose a carousel post, preview it live, then export the JSON." />
 <meta name="twitter:image" content="https://prit-007.github.io/SwapFOSS/assets/og-image.png" />
 <link rel="stylesheet" href="css/fonts.css" />
-<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -29,7 +29,7 @@
   <div class="wrap">
     <div class="brand">Swap<span>FOSS</span></div>
     <nav class="site-nav">
-      <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener"><span data-icon="github-01"></span> GitHub</a>
       <a href="index.html">Home</a>
       <a href="batch.html">Batch export</a>
       <a href="create.html" aria-current="page">Create</a>
@@ -46,7 +46,7 @@
 
 <main class="wrap create-layout" id="main" tabindex="-1">
   <form class="create-form" id="create-form" novalidate>
-    <div class="create-section">
+    <div class="create-section" data-reveal>
       <h2 class="create-section-title">Basics</h2>
       <div class="create-field">
         <label class="batch-label" for="f-id">Post ID</label>
@@ -59,7 +59,7 @@
       </div>
     </div>
 
-    <div class="create-section">
+    <div class="create-section" data-reveal>
       <h2 class="create-section-title">Intro card</h2>
       <div class="create-field">
         <label class="batch-label" for="f-eyebrow">Eyebrow</label>
@@ -91,7 +91,7 @@
       </div>
     </div>
 
-    <div class="create-section">
+    <div class="create-section" data-reveal>
       <h2 class="create-section-title">Tools</h2>
       <p class="create-hint">Pick at least one. Cards render in the order listed below.</p>
       <div class="create-tool-groups" id="tool-groups" aria-busy="true">
@@ -124,7 +124,7 @@
       </div>
     </div>
 
-    <div class="create-section">
+    <div class="create-section" data-reveal>
       <h2 class="create-section-title">Outro card</h2>
       <div class="create-field">
         <label class="batch-label" for="f-outro-headline">Headline</label>
@@ -137,17 +137,17 @@
     </div>
 
     <div class="create-actions">
-      <button type="button" class="batch-download-btn" id="btn-save">Save draft</button>
-      <button type="button" class="batch-caption-btn" id="btn-download">Download JSON</button>
-      <button type="button" class="batch-caption-btn" id="btn-copy">Copy JSON</button>
-      <a class="batch-caption-btn" id="btn-github" target="_blank" rel="noopener">Open on GitHub</a>
+      <button type="button" class="batch-download-btn" id="btn-save"><span data-icon="floppy-disk"></span> Save draft</button>
+      <button type="button" class="batch-caption-btn" id="btn-download"><span data-icon="download-01"></span> Download JSON</button>
+      <button type="button" class="batch-caption-btn" id="btn-copy"><span data-icon="copy-01"></span> Copy JSON</button>
+      <a class="batch-caption-btn" id="btn-github" target="_blank" rel="noopener"><span data-icon="github-01"></span> Open on GitHub</a>
       <span class="create-status" id="create-status"></span>
     </div>
   </form>
 
-  <aside class="create-preview">
+  <aside class="create-preview" data-reveal>
     <div class="create-preview-sticky">
-      <span class="batch-tools-label">Live preview</span>
+      <span class="batch-tools-label"><span data-icon="eye"></span> Live preview</span>
       <div class="create-preview-card" id="preview-card">
         <span class="batch-intro-eyebrow" id="p-eyebrow">Eyebrow</span>
         <p class="batch-intro-headline" id="p-headline">Your headline</p>
@@ -171,7 +171,7 @@
   </div>
 </section>
 
-<footer class="site-footer">
+<footer class="site-footer" data-reveal>
   <div class="wrap">
     Built for sharing free software with the world.
   </div>
