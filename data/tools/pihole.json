@@ -1,0 +1,26 @@
+{
+  "id": "pihole",
+  "name": "Pi-hole",
+  "category": "security",
+  "insteadOf": "Browser ad-blockers",
+  "hook": "A network-wide ad blocker that shields every device on your Wi-Fi — zero installs.",
+  "bullets": [
+    "Blocks ads and trackers for the whole network",
+    "Runs on a Raspberry Pi or Docker in minutes",
+    "Dashboard shows what every device requests"
+  ],
+  "features": ["Network-wide", "DNS-level", "Live dashboard", "Raspberry Pi", "Docker"],
+  "setupSteps": [
+    "Install Pi-hole on a Raspberry Pi, NAS, or Docker container",
+    "Point your router's DNS at the Pi-hole",
+    "Watch ads vanish on every device — TVs and IoT included"
+  ],
+  "details": "Pi-hole is a DNS sinkhole that blocks ads and trackers before they ever reach your devices — no browser extensions, no per-device setup. One install on a Raspberry Pi, NAS, or Docker container protects every phone, laptop, smart TV, and IoT gadget on your network. The dashboard shows live query stats, top blocked domains, and per-client history, with allow/blocklists you control. AdGuard Home is a close FOSS cousin if you prefer it.",
+  "setup": "Raspberry Pi / Docker / any Linux box",
+  "difficulty": "medium",
+  "link": "https://pi-hole.net",
+  "repo": "https://github.com/pi-hole/pi-hole",
+  "logo": "assets/logos/pihole.svg",
+  "screenshot": "assets/screenshots/pihole.png",
+  "screenshotType": "landscape"
+}

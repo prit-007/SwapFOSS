@@ -1,0 +1,27 @@
+{
+  "id": "smarttube",
+  "name": "SmartTube",
+  "category": "media",
+  "insteadOf": "YouTube on Android TV",
+  "hook": "YouTube on your TV — zero ads, SponsorBlock built in, no login required.",
+  "bullets": [
+    "Blocks every ad without YouTube Premium",
+    "SponsorBlock skips sponsor reads automatically",
+    "4K/HDR and ambient mode, tuned for TV remotes"
+  ],
+  "features": ["Ad-free", "SponsorBlock", "4K HDR", "No login", "TV remote UI"],
+  "setupSteps": [
+    "Download smarttube_stable.apk from the official GitHub releases",
+    "Sideload it with Downloader, USB, or adb on your Android TV / Fire TV",
+    "Browse and watch — signing in is optional",
+    "Enable SponsorBlock in settings to auto-skip sponsors"
+  ],
+  "details": "SmartTube (formerly SmartTubeNext) is a free, open-source YouTube client built specifically for Android TV and Fire TV. It blocks video and banner ads, integrates SponsorBlock to skip sponsored segments, and supports 4K/HDR playback, ambient mode, and subtitles — all navigable with your remote. It ships in beta and stable channels, installs by sideloading the official APK (never from random app stores), and you can sign in for your subscriptions or stay fully anonymous.",
+  "setup": "Sideload APK (Android TV / Fire TV)",
+  "difficulty": "medium",
+  "link": "https://smarttubeapp.github.io",
+  "repo": "https://github.com/yuliskov/SmartTube",
+  "logo": "assets/logos/smarttube.png",
+  "screenshot": "assets/screenshots/smarttube.png",
+  "screenshotType": "landscape"
+}

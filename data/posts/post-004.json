@@ -1,0 +1,16 @@
+{
+  "id": "post-004",
+  "title": "You don't need Google for YouTube.",
+  "intro": {
+    "eyebrow": "Free your feed",
+    "headline": "You don't need Google for YouTube.",
+    "subhead": "Three open-source YouTube clients for your TV, desktop, and phone — no ads, no account, no Google.",
+    "pills": ["Ad-Free Forever", "No Google Account", "Zero Tracking"],
+    "hl": { "word": "YouTube", "color": "#FF0000" }
+  },
+  "tools": ["smarttube", "freetube", "newpipe"],
+  "outro": {
+    "headline": "Your videos, your devices, your rules.",
+    "subhead": "SmartTube on the TV, FreeTube on the desktop, NewPipe in your pocket. Which screen are you freeing first?"
+  }
+}

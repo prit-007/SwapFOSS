@@ -1,0 +1,16 @@
+{
+  "id": "post-005",
+  "title": "Your security shouldn't be a subscription.",
+  "intro": {
+    "eyebrow": "The digital security stack",
+    "headline": "Your security shouldn't be a subscription.",
+    "subhead": "Open-source password, 2FA, and network-level ad blocking — own every layer without paying rent.",
+    "pills": ["Free Forever", "End-to-End Encrypted", "Self-Hostable"],
+    "hl": { "word": "security", "color": "#175DDC" }
+  },
+  "tools": ["bitwarden", "ente-auth", "pihole"],
+  "outro": {
+    "headline": "Own every layer of your security.",
+    "subhead": "Bitwarden for passwords, Ente Auth for 2FA, Pi-hole for the whole network. Which one are you setting up first?"
+  }
+}

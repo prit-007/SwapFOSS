@@ -20,7 +20,7 @@ const REQUIRED_FIELDS = [
   "repo",
 ];
 
-const VALID_CATEGORIES = ["media", "music", "dev", "home", "messaging"];
+const VALID_CATEGORIES = ["media", "music", "dev", "home", "messaging", "security"];
 const VALID_DIFFICULTIES = ["easy", "medium", "hard"];
 
 let errors = 0;
