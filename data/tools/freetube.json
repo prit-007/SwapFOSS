@@ -1,0 +1,26 @@
+{
+  "id": "freetube",
+  "name": "FreeTube",
+  "category": "media",
+  "insteadOf": "YouTube on Desktop",
+  "hook": "Subscriptions and history that live on your computer — not Google's servers.",
+  "bullets": [
+    "Watch history and subscriptions stored locally",
+    "Ads and tracking blocked out of the box",
+    "Import your YouTube data in one click"
+  ],
+  "features": ["Local data", "Ad-free", "Sub import", "SponsorBlock", "Win/Mac/Linux"],
+  "setupSteps": [
+    "Download FreeTube for Windows, macOS, or Linux",
+    "Import your YouTube subscriptions or start fresh",
+    "Watch with no account, no ads, no telemetry"
+  ],
+  "details": "FreeTube is a free, open-source desktop YouTube client for Windows, macOS, and Linux. It fetches videos through privacy-respecting instances while keeping your subscriptions, playlists, and watch history on your own machine. Ads, tracking, and recommendation manipulation are gone by design, and you can import your existing YouTube data to switch in minutes. SponsorBlock, dark theme, and multi-instance failover are built in.",
+  "setup": "Desktop app (Windows / macOS / Linux)",
+  "difficulty": "easy",
+  "link": "https://freetubeapp.io",
+  "repo": "https://github.com/FreeTubeApp/FreeTube",
+  "logo": "assets/logos/freetube.svg",
+  "screenshot": "assets/screenshots/freetube.png",
+  "screenshotType": "landscape"
+}

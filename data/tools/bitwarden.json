@@ -1,0 +1,27 @@
+{
+  "id": "bitwarden",
+  "name": "Bitwarden",
+  "category": "security",
+  "insteadOf": "1Password / LastPass",
+  "hook": "The gold-standard open-source password manager — free tier, sync everywhere, self-host optional.",
+  "bullets": [
+    "Unlimited passwords and devices on the free tier",
+    "End-to-end encrypted sync on every platform",
+    "Self-host the whole vault with Vaultwarden"
+  ],
+  "features": ["Free forever", "E2E encrypted", "Passkeys", "Self-hostable", "All platforms"],
+  "setupSteps": [
+    "Create a free account at bitwarden.com — or deploy Vaultwarden",
+    "Install the app and browser extension on your devices",
+    "Import passwords from your browser or old manager",
+    "Pair with Ente Auth for open-source 2FA codes"
+  ],
+  "details": "Bitwarden is the most trusted open-source password manager: zero-knowledge, end-to-end encrypted, and independently audited. The free plan covers unlimited passwords, devices, and sync; the cheap premium tier adds TOTP codes, passkey storage, and emergency access. If you want total control, Vaultwarden — an unofficial, lightweight Rust implementation of the same API — runs on your own server or Raspberry Pi. Imports from 1Password, LastPass, Dashlane, and browsers take minutes.",
+  "setup": "Cloud (free) or self-host with Vaultwarden",
+  "difficulty": "easy",
+  "link": "https://bitwarden.com",
+  "repo": "https://github.com/bitwarden/clients",
+  "logo": "assets/logos/bitwarden.svg",
+  "screenshot": "assets/screenshots/bitwarden.png",
+  "screenshotType": "landscape"
+}

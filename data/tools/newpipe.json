@@ -1,0 +1,27 @@
+{
+  "id": "newpipe",
+  "name": "NewPipe",
+  "category": "media",
+  "insteadOf": "YouTube on Android",
+  "hook": "No login, no ads — background audio and downloads straight to your phone.",
+  "bullets": [
+    "Never asks for a Google account",
+    "Background audio and picture-in-picture",
+    "Download video or audio for offline"
+  ],
+  "features": ["No login", "Background play", "Downloads", "PiP mode", "Featherweight"],
+  "setupSteps": [
+    "Install from F-Droid, IzzyOnDroid, or the official APK",
+    "Search and watch — no sign-in needed",
+    "Queue background audio or save videos offline",
+    "Try the Tubular fork for built-in SponsorBlock"
+  ],
+  "details": "NewPipe is a lightweight, open-source YouTube client for Android that doesn't touch Google's APIs and never requires an account. It plays video in the background, floats in picture-in-picture, and downloads video or audio straight to your device storage. Your subscriptions and playlists live in local data you can export and back up. It is completely free of ads and telemetry, available on F-Droid, and the Tubular fork adds SponsorBlock and Return YouTube Dislike if you want them.",
+  "setup": "F-Droid / APK (Android)",
+  "difficulty": "easy",
+  "link": "https://newpipe.net",
+  "repo": "https://github.com/TeamNewPipe/NewPipe",
+  "logo": "assets/logos/newpipe.png",
+  "screenshot": "assets/screenshots/newpipe.png",
+  "screenshotType": "portrait"
+}

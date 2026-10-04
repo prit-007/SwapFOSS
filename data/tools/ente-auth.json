@@ -1,0 +1,26 @@
+{
+  "id": "ente-auth",
+  "name": "Ente Auth",
+  "category": "security",
+  "insteadOf": "Authy / Google Authenticator",
+  "hook": "Open-source 2FA with end-to-end encrypted backup — on mobile and desktop.",
+  "bullets": [
+    "E2E encrypted cloud backup survives a lost phone",
+    "Codes on mobile, desktop, and web kept in sync",
+    "No ads, no telemetry, fully open source"
+  ],
+  "features": ["E2E encrypted", "Cross-platform", "Works offline", "Open source", "Free"],
+  "setupSteps": [
+    "Install Ente Auth from F-Droid, the Play Store, or desktop builds",
+    "Scan QR codes or import from Authy / Google Authenticator",
+    "Turn on encrypted backup so your codes sync safely"
+  ],
+  "details": "Ente Auth is a free, open-source authenticator that stores your TOTP secrets encrypted — even Ente can't read them. After Authy killed its desktop app, it fills the gap: native apps for Android, iOS, Windows, macOS, Linux, plus the web, kept in sync through end-to-end encrypted backup. Codes work offline, migration from other 2FA apps is a scan away, and you can self-host the Ente server for full ownership.",
+  "setup": "App (mobile, desktop & web)",
+  "difficulty": "easy",
+  "link": "https://ente.io/auth",
+  "repo": "https://github.com/ente-io/ente",
+  "logo": "assets/logos/ente-auth.png",
+  "screenshot": "assets/screenshots/ente-auth.jpg",
+  "screenshotType": "portrait"
+}
