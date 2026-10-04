@@ -53,7 +53,7 @@ function exportCardHTML(tool, cat) {
 
 function shareMenuHTML() {
   return `
-    <div class="share-overlay" id="share-overlay">
+    <div class="share-overlay" id="share-overlay" role="dialog" aria-modal="true" aria-label="Share card">
       <div class="share-menu">
         <div class="share-menu-header">
           <span class="share-menu-title">Share card</span>
@@ -112,6 +112,7 @@ function openShareMenu(toolId, dataUrl) {
   const existing = document.getElementById("share-overlay");
   if (existing) existing.remove();
 
+  const returnFocus = document.activeElement;
   const wrapper = document.createElement("div");
   wrapper.innerHTML = shareMenuHTML();
   document.body.appendChild(wrapper.firstElementChild);
@@ -120,12 +121,26 @@ function openShareMenu(toolId, dataUrl) {
   const preview = document.getElementById("share-menu-preview");
   preview.innerHTML = `<img src="${dataUrl}" alt="Card preview" />`;
 
-  const close = () => overlay.remove();
+  const onKey = (ev) => {
+    if (ev.key === "Escape") { close(); return; }
+    if (ev.key !== "Tab") return;
+    const els = [...overlay.querySelectorAll("button, [href], input, select, textarea")]
+      .filter(el => !el.disabled && el.offsetParent !== null);
+    if (!els.length) return;
+    const first = els[0];
+    const last = els[els.length - 1];
+    if (ev.shiftKey && document.activeElement === first) { ev.preventDefault(); last.focus(); }
+    else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
+  };
+  function close() {
+    overlay.remove();
+    document.removeEventListener("keydown", onKey);
+    if (returnFocus && typeof returnFocus.focus === "function") returnFocus.focus();
+  }
   document.getElementById("share-menu-close").addEventListener("click", close);
   overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
-  document.addEventListener("keydown", function esc(ev) {
-    if (ev.key === "Escape") { close(); document.removeEventListener("keydown", esc); }
-  });
+  document.addEventListener("keydown", onKey);
+  document.getElementById("share-menu-close").focus();
 
   overlay.querySelectorAll("[data-platform]").forEach(btn => {
     btn.addEventListener("click", async () => {

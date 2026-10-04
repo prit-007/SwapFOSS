@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SwapFOSS — page not found</title>
+<meta name="robots" content="noindex" />
+<link rel="icon" type="image/svg+xml" href="/SwapFOSS/favicon.svg" />
+<style>
+  :root {
+    --bg: #0F1115;
+    --text: #F5F3ED;
+    --text-muted: #9AA0AC;
+    --text-faint: #5B616D;
+    --media: #FF5A5F;
+    --border: rgba(255, 255, 255, 0.08);
+    --glass-bg: rgba(23, 26, 32, 0.6);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.5;
+    text-align: center;
+    padding: 32px;
+  }
+  .nf-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 48px 40px;
+    max-width: 460px;
+    width: 100%;
+  }
+  .nf-code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 88px;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0;
+    background: linear-gradient(135deg, #FF5A5F 0%, #FFC857 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  h1 { font-size: 24px; margin: 18px 0 8px; letter-spacing: -0.01em; }
+  p { color: var(--text-muted); font-size: 15px; margin: 0 0 28px; }
+  .nf-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .nf-links a {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .nf-home { background: var(--media); color: #0F1115; }
+  .nf-alt { border: 1px solid var(--border); color: var(--text-muted); }
+  .nf-alt:hover { color: var(--text); border-color: var(--text-faint); }
+  .nf-brand {
+    margin-top: 34px;
+    font-size: 13px;
+    color: var(--text-faint);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    letter-spacing: 0.08em;
+  }
+</style>
+</head>
+<body>
+  <div class="nf-card">
+    <p class="nf-code">404</p>
+    <h1>This page swapped itself out</h1>
+    <p>The URL you followed doesn't exist — but the free-software swaps do.</p>
+    <div class="nf-links">
+      <a class="nf-home" href="/SwapFOSS/">Back to SwapFOSS</a>
+      <a class="nf-alt" href="/SwapFOSS/batch.html">Batch export</a>
+      <a class="nf-alt" href="/SwapFOSS/create.html">Create a post</a>
+    </div>
+    <div class="nf-brand">SwapFOSS — one swap at a time</div>
+  </div>
+</body>
+</html>
