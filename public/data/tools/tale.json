@@ -1,0 +1,33 @@
+{
+  "id": "tale",
+  "name": "Tale",
+  "category": "dev",
+  "insteadOf": "Asana (shared project tasks)",
+  "hook": "Shared project tasks and files for people and AI agents.",
+  "bullets": [
+    "Task briefs and attachments in a shared project workspace",
+    "Explicitly start configured agent work and review reports and files",
+    "MIT Community software; infrastructure and model costs are separate"
+  ],
+  "features": [
+    "Self-hosted",
+    "Project tasks",
+    "AI agents",
+    "Shared files",
+    "Reusable knowledge"
+  ],
+  "setupSteps": [
+    "Follow the official self-hosting quickstart at docs.tale.dev",
+    "Configure providers and an agent harness for your deployment",
+    "Create a project and a task with its brief and attachments",
+    "Assign an agent, explicitly start work, then review the report and files"
+  ],
+  "details": "Tale is a self-hosted project workspace where people and configured AI agents share tasks, files, knowledge, and reviewed outputs. It offers an alternative for the shared task-and-file workflow found in tools such as Asana; this does not imply complete feature parity or a migration integration. Assignment alone does not start agent work: the user explicitly starts it and reviews the resulting report and files. The Community edition is MIT-licensed and free to self-host, with infrastructure and model-provider costs paid separately. Installation and provider configuration require operating your own deployment.",
+  "setup": "Self-hosted; follow https://docs.tale.dev/self-hosted/install/quickstart and configure providers/harnesses.",
+  "difficulty": "hard",
+  "link": "https://tale.dev",
+  "repo": "https://github.com/tale-project/tale",
+  "logo": "assets/logos/tale.svg",
+  "screenshot": "assets/screenshots/tale.webp",
+  "screenshotType": "landscape"
+}
