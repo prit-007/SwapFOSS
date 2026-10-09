@@ -49,6 +49,20 @@
     <div class="create-section" data-reveal>
       <h2 class="create-section-title">Basics</h2>
       <div class="create-field">
+        <span class="batch-label" id="format-label">Format</span>
+        <div class="create-format-toggle" role="group" aria-labelledby="format-label">
+          <button type="button" class="create-format-btn active" id="format-swap" data-format="swap" aria-pressed="true">
+            Swap post
+            <small>2–3 apps side by side</small>
+          </button>
+          <button type="button" class="create-format-btn" id="format-deep" data-format="deep" aria-pressed="false">
+            Deep dive
+            <small>one app, told properly</small>
+          </button>
+        </div>
+        <span class="create-hint" id="format-hint">Deep dives generate a full carousel — overview, features, benefits, and setup — from the app's own data. Perfect for apps like Umbrel or the *arr suite that can't be summed up in one slide.</span>
+      </div>
+      <div class="create-field">
         <label class="batch-label" for="f-id">Post ID</label>
         <input class="batch-pin-input" id="f-id" type="text" placeholder="post-004" />
         <span class="create-hint" id="id-hint">Must match the filename: post-004.json</span>
@@ -93,7 +107,7 @@
 
     <div class="create-section" data-reveal>
       <h2 class="create-section-title">Tools</h2>
-      <p class="create-hint">Pick at least one. Cards render in the order listed below.</p>
+      <p class="create-hint" id="tools-hint">Pick at least one. Cards render in the order listed below.</p>
       <div class="create-tool-groups" id="tool-groups" aria-busy="true">
         <div class="skeleton-group" aria-hidden="true">
           <span class="skeleton skeleton-tag"></span>
@@ -155,6 +169,7 @@
         <div class="create-preview-pills" id="p-pills" hidden></div>
       </div>
       <div class="create-preview-tools" id="preview-tools"></div>
+      <div class="create-slide-strip" id="preview-slides" hidden></div>
       <div class="create-preview-card create-preview-outro" id="preview-outro">
         <p class="batch-intro-headline" id="p-outro-headline">Closing headline</p>
         <p class="batch-intro-subhead" id="p-outro-subhead">Closing subhead</p>

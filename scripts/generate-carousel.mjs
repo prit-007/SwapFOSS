@@ -6,6 +6,7 @@
 import { chromium } from "playwright";
 import fs from "node:fs";
 import path from "node:path";
+import { buildSlides } from "../js/deep-cards.js";
 
 const POST_ID = process.argv[2];
 if (!POST_ID) {
@@ -35,29 +36,58 @@ async function main() {
   const page = await browser.newPage({ viewport: { width: 1200, height: 1500 } });
 
   let slideNum = 1;
+  const pad = n => String(n).padStart(2, "0");
 
-  // Intro
-  await shootSlide(
-    page,
-    `${BASE_URL}/slide.html?post=${POST_ID}&type=intro`,
-    path.join(OUT_DIR, `${String(slideNum++).padStart(2, "0")}-intro.png`)
-  );
+  if (postData.format === "deep-dive") {
+    // Deep dives always render the fixed 6-slide carousel: intro + 4 deep parts + outro.
+    const slides = buildSlides(postData);
 
-  // One slide per tool, in the order listed in the post
-  for (const toolId of postData.tools) {
+    // Intro
     await shootSlide(
       page,
-      `${BASE_URL}/slide.html?post=${POST_ID}&type=tool&tool=${toolId}`,
-      path.join(OUT_DIR, `${String(slideNum++).padStart(2, "0")}-${toolId}.png`)
+      `${BASE_URL}/slide.html?post=${POST_ID}&type=intro`,
+      path.join(OUT_DIR, `${pad(slideNum++)}-intro.png`)
+    );
+
+    // Deep body slides (hero, features, benefits, setup)
+    for (const part of slides.filter(s => s.type === "deep").map(s => s.part)) {
+      await shootSlide(
+        page,
+        `${BASE_URL}/slide.html?post=${POST_ID}&type=deep&part=${part}`,
+        path.join(OUT_DIR, `${pad(slideNum++)}-${part}.png`)
+      );
+    }
+
+    // Outro
+    await shootSlide(
+      page,
+      `${BASE_URL}/slide.html?post=${POST_ID}&type=outro`,
+      path.join(OUT_DIR, `${pad(slideNum++)}-outro.png`)
+    );
+  } else {
+    // Intro
+    await shootSlide(
+      page,
+      `${BASE_URL}/slide.html?post=${POST_ID}&type=intro`,
+      path.join(OUT_DIR, `${pad(slideNum++)}-intro.png`)
+    );
+
+    // One slide per tool, in the order listed in the post
+    for (const toolId of postData.tools) {
+      await shootSlide(
+        page,
+        `${BASE_URL}/slide.html?post=${POST_ID}&type=tool&tool=${toolId}`,
+        path.join(OUT_DIR, `${pad(slideNum++)}-${toolId}.png`)
+      );
+    }
+
+    // Outro
+    await shootSlide(
+      page,
+      `${BASE_URL}/slide.html?post=${POST_ID}&type=outro`,
+      path.join(OUT_DIR, `${pad(slideNum++)}-outro.png`)
     );
   }
-
-  // Outro
-  await shootSlide(
-    page,
-    `${BASE_URL}/slide.html?post=${POST_ID}&type=outro`,
-    path.join(OUT_DIR, `${String(slideNum++).padStart(2, "0")}-outro.png`)
-  );
 
   await browser.close();
   console.log(`\nDone. ${slideNum - 1} slides in ${OUT_DIR}`);

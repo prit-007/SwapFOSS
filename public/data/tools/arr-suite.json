@@ -10,6 +10,12 @@
     "Bazarr auto-downloads subtitles — integrates with Sonarr and Radarr"
   ],
   "features": ["Auto-download", "Quality profiles", "Indexer management", "Subtitle sync", "Calendar view"],
+  "benefits": [
+    "Set it once — new episodes and albums appear on their own, forever",
+    "Quality profiles mean you pick size vs. clarity once, then never think about it again",
+    "Prowlarr ends indexer chaos — one place for every tracker and Usenet site",
+    "A Netflix-grade library without a streaming subscription"
+  ],
   "setupSteps": [
     "Install Docker and Docker Compose",
     "Deploy the *arr stack using docker-compose (Sonarr, Radarr, Lidarr, Prowlarr, Bazarr)",

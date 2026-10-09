@@ -1,5 +1,6 @@
 import * as htmlToImage from "html-to-image";
 import { icon, mountIcons } from "./icons.js";
+import { DEEP_PARTS, buildSlides, deepCardHTML } from "./deep-cards.js";
 
 async function loadJSON(path) {
   const res = await fetch(path);
@@ -18,11 +19,10 @@ function hlLastWord(text, cls, hl) {
   return `${text.slice(0, i)} <span class="${cls}">${text.slice(i + 1)}</span>`;
 }
 
-function introHTML(post, toolLogos) {
+function introHTML(post, toolLogos, total) {
   const iconImages = toolLogos.slice(0, 4).map(t =>
     t.logo ? `<img class="intro-float-icon" src="${t.logo}" alt="${t.name}" />` : ""
   ).join("");
-  const total = post.tools.length + 2;
   const pills = Array.isArray(post.intro.pills) ? post.intro.pills : [];
   const body = pills.length
     ? `<div class="intro-stats-row">${pills.map((p) => `<span class="stat-pill">✓ ${p}</span>`).join("")}</div>`
@@ -48,8 +48,7 @@ function introHTML(post, toolLogos) {
   `;
 }
 
-function outroHTML(post) {
-  const total = post.tools.length + 2;
+function outroHTML(post, total) {
   return `
     <div class="export-card outro" id="export-target">
       <div class="watermark-bg">SWAP</div>
@@ -139,20 +138,29 @@ async function init() {
   mountIcons();
   const params = new URLSearchParams(location.search);
   const postId = params.get("post");
-  const type = params.get("type"); // intro | tool | outro
+  const type = params.get("type"); // intro | tool | deep | outro
   const toolId = params.get("tool");
+  const deepPart = DEEP_PARTS.includes(params.get("part")) ? params.get("part") : "hero";
 
   const stage = document.getElementById("stage");
   let post;
+  let slides = [];
   try {
     post = await loadJSON(`data/posts/${postId}.json`);
+    slides = buildSlides(post);
+    const total = slides.length;
     if (type === "intro") {
       const allTools = await Promise.all(
         post.tools.map(id => loadJSON(`data/tools/${id}.json`))
       );
-      stage.innerHTML = introHTML(post, allTools);
+      stage.innerHTML = introHTML(post, allTools, total);
     } else if (type === "outro") {
-      stage.innerHTML = outroHTML(post);
+      stage.innerHTML = outroHTML(post, total);
+    } else if (type === "deep") {
+      const categories = await loadJSON("data/categories.json");
+      const tool = await loadJSON(`data/tools/${post.tools[0]}.json`);
+      const index = slides.findIndex(s => s.type === "deep" && s.part === deepPart) + 1;
+      stage.innerHTML = deepCardHTML(deepPart, tool, categories[tool.category], { index, total });
     } else {
       const categories = await loadJSON("data/categories.json");
       const tool = await loadJSON(`data/tools/${toolId}.json`);
@@ -163,15 +171,10 @@ async function init() {
     return;
   }
 
-  // Slide list for prev/next navigation
-  const slides = [
-    { type: "intro" },
-    ...post.tools.map(id => ({ type: "tool", tool: id })),
-    { type: "outro" },
-  ];
   const isCurrent = (s) => {
     if (type === "intro") return s.type === "intro";
     if (type === "outro") return s.type === "outro";
+    if (type === "deep") return s.type === "deep" && s.part === deepPart;
     return s.type === "tool" && s.tool === toolId;
   };
   const idx = slides.findIndex(isCurrent);
@@ -179,7 +182,8 @@ async function init() {
   const next = idx >= 0 && idx < slides.length - 1 ? slides[idx + 1] : null;
   const slideURL = (s) => {
     const p = new URLSearchParams({ post: postId, type: s.type });
-    if (s.tool) p.set("tool", s.tool);
+    if (s.tool && s.type !== "deep") p.set("tool", s.tool);
+    if (s.type === "deep") p.set("part", s.part);
     return `${location.pathname}?${p.toString()}`;
   };
 
@@ -214,7 +218,7 @@ async function init() {
     try {
       const dataUrl = await htmlToImage.toPng(target, { pixelRatio: 2 });
       const link = document.createElement("a");
-      const name = type ? `${postId}-${type}` : toolId;
+      const name = type === "deep" ? `${postId}-${deepPart}` : type ? `${postId}-${type}` : toolId;
       link.download = `swapfoss-${name}.png`;
       link.href = dataUrl;
       link.click();

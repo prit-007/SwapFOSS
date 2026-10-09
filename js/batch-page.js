@@ -62,6 +62,7 @@ async function init() {
   }
   grid.innerHTML = allPosts.map((post, i) => {
     const isDraft = draftPosts.includes(post);
+    const isDeep = post.format === "deep-dive";
     const tools = post.tools.map(id => toolMap[id]).filter(Boolean);
     const cats = [...new Set(tools.map(t => t.category))];
     const catBadges = cats.map(c => {
@@ -71,11 +72,14 @@ async function init() {
     const toolThumbs = tools.map(t =>
       t.logo ? `<img class="batch-tool-thumb" src="${t.logo}" alt="${t.name}" title="${t.name}" />` : ""
     ).join("");
+    const countText = isDeep
+      ? "Deep dive · 6 slides"
+      : `${tools.length} tool${tools.length !== 1 ? "s" : ""}`;
     return `
-      <div class="batch-post-card" data-post="${post.id}" style="--card-index:${i}">
+      <div class="batch-post-card ${isDeep ? "batch-post-deep" : ""}" data-post="${post.id}" style="--card-index:${i}">
         <div class="batch-post-header">
           <h2 class="batch-post-title">${post.title}</h2>
-          <span class="batch-post-count">${isDraft ? "Draft · " : ""}${tools.length} tool${tools.length !== 1 ? "s" : ""}</span>
+          <span class="batch-post-count">${isDraft ? "Draft · " : ""}${countText}</span>
         </div>
         <div class="batch-post-intro">
           <span class="batch-intro-eyebrow">${post.intro.eyebrow}</span>
@@ -83,7 +87,7 @@ async function init() {
           <p class="batch-intro-subhead">${post.intro.subhead}</p>
         </div>
         <div class="batch-post-tools">
-          <span class="batch-tools-label">Tools included:</span>
+          <span class="batch-tools-label">${isDeep ? "Featured app:" : "Tools included:"}</span>
           <div class="batch-tool-thumbs">${toolThumbs}</div>
         </div>
         <div class="batch-post-badges">${catBadges}</div>

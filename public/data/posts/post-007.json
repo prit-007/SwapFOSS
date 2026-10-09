@@ -1,0 +1,17 @@
+{
+  "id": "post-007",
+  "format": "deep-dive",
+  "title": "The *arr suite: your media on autopilot",
+  "intro": {
+    "eyebrow": "Deep dive — *arr suite",
+    "headline": "Your media library, on autopilot.",
+    "subhead": "Sonarr, Radarr, Lidarr, Readarr, Prowlarr, Bazarr — six tools that turn manual downloading into a set-and-forget pipeline.",
+    "pills": ["Set and forget", "6 tools, one pipeline", "TV · Movies · Music · Books"],
+    "hl": { "word": "autopilot", "color": "#6BCB77" }
+  },
+  "tools": ["arr-suite"],
+  "outro": {
+    "headline": "Never organize a download folder again.",
+    "subhead": "Run the *arr stack with Docker and let it do the boring work. Which one are you starting with — Sonarr or Radarr?"
+  }
+}

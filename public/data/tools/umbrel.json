@@ -1,0 +1,34 @@
+{
+  "id": "umbrel",
+  "name": "Umbrel",
+  "category": "cloud",
+  "insteadOf": "Complicated self-hosting",
+  "hook": "A beautiful home server for everyone — install self-hosted apps in one click, no terminal required.",
+  "bullets": [
+    "App store with 100+ self-hosted apps — Immich, Nextcloud, Jellyfin, Plex, Home Assistant",
+    "One-click installs — no Docker, no YAML, no terminal",
+    "Runs on a Raspberry Pi, an old PC, or an Umbrel Home",
+    "No account, no cloud, no telemetry — everything stays on your hardware"
+  ],
+  "features": ["App store", "One-click install", "100+ apps", "No terminal", "Zero telemetry"],
+  "benefits": [
+    "Self-hosting without the PhD — Umbrel handles Docker, updates, and networking for you",
+    "An app store for your own hardware — install in seconds, like a phone",
+    "Your data never leaves the house — photos, files, and passwords stay local",
+    "Cheaper than the cloud — buy hardware once instead of renting storage forever"
+  ],
+  "setupSteps": [
+    "Download umbrelOS and flash it to a Raspberry Pi, mini PC, or SSD",
+    "Boot it up and open umbrel.local in any browser",
+    "Pick apps from the store — installed and updated in one click",
+    "Reach it from anywhere over Tailscale — no port forwarding, no exposed ports"
+  ],
+  "details": "Umbrel is a self-hosted home server OS that turns any Raspberry Pi, old computer, or dedicated Umbrel Home device into a personal cloud with an app-store experience. Instead of wrestling with Docker Compose files, reverse proxies, and SSL certificates, you browse a curated store and install apps like Immich, Nextcloud, Jellyfin, and Home Assistant with a single click — Umbrel handles the containers, updates, and networking behind the scenes. The dashboard shows live storage, memory, and CPU, and every app gets its own clean interface reachable at umbrel.local on your network or remotely through built-in Tailscale. There is no account to create and no telemetry sent anywhere: your files, photos, and services live on hardware you own. Umbrel itself is free to use and fully source-available (PolyForm Noncommercial license), and the apps it runs are open source.",
+  "setup": "Self-hosted (Raspberry Pi, PC, or Umbrel Home)",
+  "difficulty": "easy",
+  "link": "https://getumbrel.com",
+  "repo": "https://github.com/getumbrel/umbrel",
+  "logo": "assets/logos/umbrel.svg",
+  "screenshot": "assets/screenshots/umbrel.jpg",
+  "screenshotType": "landscape"
+}
