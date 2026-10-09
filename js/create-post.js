@@ -7,6 +7,7 @@ const DRAFTS_KEY = "swapfoss-drafts";
 let toolManifest = [];
 let categories = {};
 let selectedTools = [];
+let format = "swap"; // "swap" | "deep" (deep-dive: one app, full carousel)
 
 let postsManifest = [];
 
@@ -50,7 +51,7 @@ function buildPost() {
   if (pills.length) intro.pills = pills;
   const hlWord = document.getElementById("f-hl-word").value.trim();
   if (hlWord) intro.hl = { word: hlWord, color: document.getElementById("f-hl-color").value };
-  return {
+  const post = {
     id,
     title: document.getElementById("f-title").value.trim(),
     intro,
@@ -60,6 +61,10 @@ function buildPost() {
       subhead: document.getElementById("f-outro-subhead").value.trim(),
     },
   };
+  if (format === "deep") {
+    return { id, format: "deep-dive", title: post.title, intro: post.intro, tools: post.tools, outro: post.outro };
+  }
+  return post;
 }
 
 function validate(post) {
@@ -72,10 +77,37 @@ function validate(post) {
   if (post.intro.hl && !post.intro.headline.includes(post.intro.hl.word)) {
     errors.push(`Highlight word "${post.intro.hl.word}" is not in the headline`);
   }
-  if (!post.tools.length) errors.push("Pick at least one tool");
+  if (post.format === "deep-dive") {
+    if (post.tools.length !== 1) errors.push("Deep dive posts feature exactly one app");
+  } else if (!post.tools.length) {
+    errors.push("Pick at least one tool");
+  }
   if (!post.outro.headline) errors.push("Outro headline is required");
   if (!post.outro.subhead) errors.push("Outro subhead is required");
   return errors;
+}
+
+function setFormat(next) {
+  format = next === "deep" ? "deep" : "swap";
+  document.querySelectorAll(".create-format-btn").forEach((btn) => {
+    const active = btn.dataset.format === format;
+    btn.classList.toggle("active", active);
+    btn.setAttribute("aria-pressed", String(active));
+  });
+  const hint = document.getElementById("tools-hint");
+  if (format === "deep") {
+    if (selectedTools.length > 1) selectedTools = [selectedTools[0]];
+    document.querySelectorAll("#tool-groups input[type=checkbox]").forEach((cb) => {
+      cb.checked = selectedTools.includes(cb.value);
+    });
+    if (hint) {
+      hint.textContent =
+        "Deep dive posts feature exactly one app — pick the star of the show. Its features, benefits, and setup slides are generated from that app's own data.";
+    }
+  } else if (hint) {
+    hint.textContent = "Pick at least one. Cards render in the order listed below.";
+  }
+  refreshPreview();
 }
 
 function suggestNextId() {
@@ -123,6 +155,22 @@ function refreshPreview() {
       ? `<img class="batch-tool-thumb" src="${t.logo}" alt="${esc(t.name)}" title="${esc(t.name)}" />`
       : `<span class="batch-tool-thumb" style="display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-faint)">${esc(t.name.slice(0, 2))}</span>`
   ).join("");
+
+  // Slide strip: deep dives always render the fixed 6-slide carousel.
+  const strip = document.getElementById("preview-slides");
+  if (format === "deep") {
+    const appName = (tools[0] && tools[0].name) || "One app";
+    const chips = ["Intro", appName, "Features", "Benefits", "Setup", "Outro"];
+    strip.innerHTML =
+      `<span class="create-slide-strip-label">${chips.length} slides</span>` +
+      chips
+        .map((c, i) => `<span class="create-slide-chip${i > 0 && i < chips.length - 1 ? " deep-active" : ""}">${esc(c)}</span>`)
+        .join("");
+    strip.hidden = false;
+  } else {
+    strip.hidden = true;
+    strip.innerHTML = "";
+  }
 
   const errors = validate(post);
   const jsonPreview = document.getElementById("json-preview");
@@ -188,7 +236,18 @@ function renderToolGroups() {
     if (e.target.type !== "checkbox") return;
     const id = e.target.value;
     if (e.target.checked) {
-      if (!selectedTools.includes(id)) selectedTools.push(id);
+      if (format === "deep") {
+        // Single-select: only one app per deep dive.
+        selectedTools
+          .filter(t => t !== id)
+          .forEach(t => {
+            const cb = document.querySelector(`#tool-groups input[value="${t}"]`);
+            if (cb) cb.checked = false;
+          });
+        selectedTools = [id];
+      } else if (!selectedTools.includes(id)) {
+        selectedTools.push(id);
+      }
     } else {
       selectedTools = selectedTools.filter(t => t !== id);
     }
@@ -208,7 +267,7 @@ function renderDrafts() {
       <div class="create-draft-info">
         <strong>${esc(d.id)}</strong>
         <span>${esc(d.title || "Untitled")}</span>
-        <span class="batch-post-count">${d.tools.length} tool${d.tools.length !== 1 ? "s" : ""}</span>
+        <span class="batch-post-count">${d.format === "deep-dive" ? "Deep dive" : `${d.tools.length} tool${d.tools.length !== 1 ? "s" : ""}`}</span>
       </div>
       <div class="create-draft-actions">
         <button class="batch-caption-btn" data-load="${esc(d.id)}">${icon("edit-01")} Edit</button>
@@ -231,6 +290,7 @@ function loadDraft(id) {
   document.getElementById("f-hl-color").value = draft.intro.hl?.color || "#FF5A5F";
   document.getElementById("f-outro-headline").value = draft.outro.headline || "";
   document.getElementById("f-outro-subhead").value = draft.outro.subhead || "";
+  setFormat(draft.format === "deep-dive" ? "deep" : "swap");
   selectedTools = [...draft.tools];
   document.querySelectorAll("#tool-groups input[type=checkbox]").forEach(cb => {
     cb.checked = selectedTools.includes(cb.value);
@@ -310,6 +370,9 @@ async function init() {
   }
 
   renderToolGroups();
+  document.querySelectorAll(".create-format-btn").forEach(btn => {
+    btn.addEventListener("click", () => setFormat(btn.dataset.format));
+  });
   document.getElementById("f-id").value = suggestNextId();
   renderDrafts();
   refreshPreview();

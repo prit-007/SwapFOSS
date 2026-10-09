@@ -1,0 +1,34 @@
+{
+  "id": "immich",
+  "name": "Immich",
+  "category": "cloud",
+  "insteadOf": "Google Photos",
+  "hook": "Self-hosted Google Photos — automatic photo backup with search, maps, and sharing, on your own server.",
+  "bullets": [
+    "Automatic phone backup the moment you connect to Wi-Fi",
+    "Search by faces, places, and things — machine learning runs on your server",
+    "Map view, shared albums, and one-tap family sharing",
+    "Handles 100,000+ photos and 4K video without breaking a sweat"
+  ],
+  "features": ["Face recognition", "Map view", "Live backup", "Shared albums", "Video playback"],
+  "benefits": [
+    "Your memories are yours — no ads, no scanning, no cloud company reading your album",
+    "It works like Google Photos — you'll forget it's self-hosted",
+    "Unlimited photos, zero subscription — storage you buy once",
+    "Full-resolution originals — no surprise re-compression, no cropped HEICs"
+  ],
+  "setupSteps": [
+    "Deploy Immich with the official docker-compose file (or install it from the Umbrel app store)",
+    "Create your account — on your server, you are the admin",
+    "Install the Immich app on your phone and switch on automatic backup",
+    "Watch your library appear instantly on every device you sign into"
+  ],
+  "details": "Immich is a high-performance, self-hosted photo and video backup solution that aims to replace Google Photos entirely. The mobile apps back up your camera roll automatically in the background, while the server organizes everything into a fast, searchable timeline with face recognition, object detection, maps, and shared albums — all machine learning running on your own hardware, not someone else's datacenter. It ingests HEIC, RAW, and 4K video with hardware-accelerated transcoding, and the web UI is polished enough that non-technical family members can use it without knowing it's self-hosted. Licensed AGPL-3.0 and developed in the open, Immich ships several releases a week and has become the default recommendation for anyone leaving Google Photos.",
+  "setup": "Self-hosted (Docker recommended)",
+  "difficulty": "medium",
+  "link": "https://immich.app",
+  "repo": "https://github.com/immich-app/immich",
+  "logo": "assets/logos/immich.svg",
+  "screenshot": "assets/screenshots/immich.png",
+  "screenshotType": "landscape"
+}

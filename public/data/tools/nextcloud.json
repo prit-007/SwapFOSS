@@ -1,0 +1,34 @@
+{
+  "id": "nextcloud",
+  "name": "Nextcloud",
+  "category": "cloud",
+  "insteadOf": "Google Drive / Dropbox",
+  "hook": "Your own cloud — files, calendar, contacts, and chat on hardware you control.",
+  "bullets": [
+    "Sync files across phone, laptop, and web — with version history and shares",
+    "Calendar, contacts, notes, and Talk chat built in",
+    "End-to-end encryption, 2FA, and transactional file locking",
+    "90+ apps turn it into a full Google Workspace replacement"
+  ],
+  "features": ["File sync", "Calendar & contacts", "E2E encryption", "Office integration", "90+ apps"],
+  "benefits": [
+    "Dropbox without the bill — unlimited storage on the drive you already own",
+    "One login for files, calendar, and contacts — no Google account required",
+    "Share links with permissions and expiry dates you actually control",
+    "Edit documents in the browser with OnlyOffice or Collabora — privately"
+  ],
+  "setupSteps": [
+    "Run the All-in-One Docker image (or install it on a NAS, Umbrel, or any LAMP host)",
+    "Create your admin account and point your domain at it — HTTPS is automatic",
+    "Install the desktop and mobile sync clients",
+    "Drag in your files and share them with family via links or accounts"
+  ],
+  "details": "Nextcloud is the most battle-tested self-hosted cloud platform on the planet — a full file-sync, share, and collaboration suite you run on your own server. The desktop and mobile clients keep folders in sync the way Dropbox does, but with version history, file locking, workflow rules, and sharing permissions that include expiry dates and password protection. Beyond files, built-in apps cover calendar and contacts (CalDAV/CardDAV), notes, a Deck-style kanban, and Talk for calls and chat, while the app store adds office document editing via OnlyOffice or Collabora, password vaults, and hundreds of extensions. Security features include end-to-end encryption, two-factor auth, and brute-force protection, and it scales from a Raspberry Pi to a multi-petabyte enterprise cluster. AGPL-3.0, developed in the open by Nextcloud GmbH and thousands of contributors.",
+  "setup": "Self-hosted (Docker, NAS, or provider)",
+  "difficulty": "medium",
+  "link": "https://nextcloud.com",
+  "repo": "https://github.com/nextcloud/server",
+  "logo": "assets/logos/nextcloud.svg",
+  "screenshot": "assets/screenshots/nextcloud.png",
+  "screenshotType": "landscape"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "post-008",
+  "title": "Your cloud shouldn't belong to someone else",
+  "intro": {
+    "eyebrow": "The self-hosted cloud",
+    "headline": "Take back your cloud.",
+    "subhead": "Files, photos, and apps — host them yourself with three open-source stacks instead of renting storage forever.",
+    "pills": ["Own your data", "No subscriptions", "Runs on your hardware"],
+    "hl": { "word": "cloud", "color": "#0082C9" }
+  },
+  "tools": ["nextcloud", "immich", "umbrel"],
+  "outro": {
+    "headline": "Your data. Your server. Your rules.",
+    "subhead": "Nextcloud for files, Immich for photos, Umbrel to run it all — which one are you setting up first?"
+  }
+}

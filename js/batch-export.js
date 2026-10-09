@@ -1,6 +1,7 @@
 // Batch export engine — loads posts, verifies PIN, renders cards, bundles ZIP.
 import JSZip from "jszip";
 import * as htmlToImage from "html-to-image";
+import { buildSlides, deepCardHTML, slideFilename, isDeepDive } from "./deep-cards.js";
 
 export const PIN = "swapfoss2026";
 
@@ -214,47 +215,46 @@ export async function downloadPostZIP(postId, presetKey, lightTheme, progressCal
     post.tools.map(id => loadJSON(`data/tools/${id}.json`))
   );
 
-  const total = 2 + tools.length;
+  const slides = buildSlides(post);
+  const total = slides.length;
   let step = 0;
   const zip = new JSZip();
   const folder = zip.folder(postId);
 
-  // Render intro
-  step++;
-  if (progressCallback) progressCallback(step, total, "Rendering intro");
-  const introContainer = document.createElement("div");
-  introContainer.style.cssText = "position:fixed;left:-9999px;top:0;z-index:-1;";
-  introContainer.innerHTML = introCardHTML(post, preset, lightTheme, total, tools);
-  document.body.appendChild(introContainer);
-  const introBlob = await capturePNG(introContainer.firstElementChild);
-  introContainer.remove();
-  folder.file("01-intro.png", introBlob);
-
-  // Render tool cards
-  for (let i = 0; i < tools.length; i++) {
-    step++;
-    if (progressCallback) progressCallback(step, total, `Rendering ${tools[i].name}`);
-    const cat = categories[tools[i].category];
+  const renderSlide = async (html, filename) => {
     const container = document.createElement("div");
     container.style.cssText = "position:fixed;left:-9999px;top:0;z-index:-1;";
-    container.innerHTML = toolCardHTML(tools[i], cat, preset, lightTheme);
+    container.innerHTML = html;
     document.body.appendChild(container);
     const blob = await capturePNG(container.firstElementChild);
     container.remove();
-    const num = String(i + 2).padStart(2, "0");
-    folder.file(`${num}-${tools[i].id}.png`, blob);
-  }
+    folder.file(filename, blob);
+  };
 
-  // Render outro
-  step++;
-  if (progressCallback) progressCallback(step, total, "Rendering outro");
-  const outroContainer = document.createElement("div");
-  outroContainer.style.cssText = "position:fixed;left:-9999px;top:0;z-index:-1;";
-  outroContainer.innerHTML = outroCardHTML(post, preset, lightTheme, total);
-  document.body.appendChild(outroContainer);
-  const outroBlob = await capturePNG(outroContainer.firstElementChild);
-  outroContainer.remove();
-  folder.file(`${String(total).padStart(2, "0")}-outro.png`, outroBlob);
+  for (const slide of slides) {
+    step++;
+    let html;
+    if (slide.type === "intro") {
+      if (progressCallback) progressCallback(step, total, "Rendering intro");
+      html = introCardHTML(post, preset, lightTheme, total, tools);
+    } else if (slide.type === "outro") {
+      if (progressCallback) progressCallback(step, total, "Rendering outro");
+      html = outroCardHTML(post, preset, lightTheme, total);
+    } else if (slide.type === "deep") {
+      const tool = tools[0];
+      if (progressCallback) progressCallback(step, total, `Rendering ${tool.name} — ${slide.part}`);
+      html = deepCardHTML(slide.part, tool, categories[tool.category], {
+        index: step,
+        total,
+        light: lightTheme,
+      });
+    } else {
+      const tool = tools.find(t => t.id === slide.tool);
+      if (progressCallback) progressCallback(step, total, `Rendering ${tool.name}`);
+      html = toolCardHTML(tool, categories[tool.category], preset, lightTheme);
+    }
+    await renderSlide(html, slideFilename(slide, step, total));
+  }
 
   // Generate ZIP
   if (progressCallback) progressCallback(total, total, "Packaging ZIP");
@@ -270,6 +270,11 @@ export async function downloadPostZIP(postId, presetKey, lightTheme, progressCal
 }
 
 export function generateCaption(post, tools) {
+  if (isDeepDive(post) && tools.length === 1) {
+    const t = tools[0];
+    const points = (t.benefits && t.benefits.length ? t.benefits : t.bullets) || [];
+    return `${post.intro.headline}\n\nDeep dive: ${t.name} — ${t.hook}\n${points.map(b => `\n✓ ${b}`).join("")}\n\nAll free. All open-source. No subscriptions. No tracking.`;
+  }
   const toolNames = tools.map(t => t.name);
   const insteadOf = tools.map(t => t.insteadOf).filter(Boolean);
   const uniqueInsteadOf = [...new Set(insteadOf.flatMap(s => s.split(" / ")))];

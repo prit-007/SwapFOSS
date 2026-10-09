@@ -132,7 +132,8 @@ The site fetches JSON data files, so you must open it via a server (not `file://
   "repo": "https://github.com/you/yourtool",
   "logo": "assets/logos/yourtool.svg",
   "screenshot": "assets/screenshots/yourtool.png",
-  "screenshotType": "landscape | portrait"
+  "screenshotType": "landscape | portrait",
+  "benefits": ["Why it's worth it, 1-6 strings (used by deep-dive posts)"]
 }
 ```
 
@@ -150,6 +151,23 @@ Optional intro fields:
 
 - `intro.pills` — array of short benefit strings rendered as mono stat pills under the headline (falls back to the `intro.subhead` paragraph when absent)
 - `intro.hl` — `{ "word": "Spotify", "color": "#1DB954" }` highlights one headline word in a custom color (default: last word in the category gradient)
+
+#### Deep-dive posts (single app)
+
+A deep-dive post elaborates on **exactly one** app — benefits, features, setup — like an introduction article. Add `"format": "deep-dive"` and list a single tool:
+
+```json
+{
+  "id": "post-006",
+  "format": "deep-dive",
+  "title": "Umbrel: self-hosting for normal people",
+  "intro": { "eyebrow": "Deep dive — Umbrel", "headline": "…", "subhead": "…", "pills": ["…"], "hl": { "word": "app store", "color": "#FFC857" } },
+  "tools": ["umbrel"],
+  "outro": { "headline": "…", "subhead": "…" }
+}
+```
+
+Deep-dive posts always render a fixed 6-slide carousel: intro → deep hero → features → benefits → setup → outro. Slides derive their content from the tool's JSON (`bullets`, `features`, `benefits`, `setupSteps`), so any tool in the manifest can be deep-dived. The create page has a format toggle (swap ↔ deep) with a single-app picker; `scripts/generate-carousel.mjs <post-id>` shoots the 6 slides for either format.
 
 ### Batch export (PIN: `swapfoss2026`)
 

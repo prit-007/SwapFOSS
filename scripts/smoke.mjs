@@ -42,8 +42,8 @@ const visibleCount = (page) =>
   watch(page, "index", errors);
   await page.goto(`${BASE}/index.html`, { waitUntil: "networkidle" });
   await page.waitForSelector(".swap-card");
-  check("index: 21 tool cards", (await page.locator(".swap-card").count()) === 21);
-  check("index: 7 filter buttons", (await page.locator("#filters .filter-btn").count()) === 7);
+  check("index: 24 tool cards", (await page.locator(".swap-card").count()) === 24);
+  check("index: 8 filter buttons", (await page.locator("#filters .filter-btn").count()) === 8);
 
   // Skip link is the first tab stop
   await page.keyboard.press("Tab");
@@ -61,6 +61,9 @@ const visibleCount = (page) =>
   const visible = await visibleCount(page);
   check("index: security filter shows 3", visible === 3, `got ${visible}`);
   check("index: filter reflected in URL", page.url().includes("category=security"), page.url());
+  await page.click('[data-filter="cloud"]');
+  const cloudVis = await visibleCount(page);
+  check("index: cloud filter shows 3", cloudVis === 3, `got ${cloudVis}`);
   await page.click('[data-filter="all"]');
   check("index: all filter clears URL", !page.url().includes("category="), page.url());
 
@@ -69,7 +72,7 @@ const visibleCount = (page) =>
   const searched = await visibleCount(page);
   check("index: search narrows to 1", searched === 1, `got ${searched}`);
   const countText = await page.locator("#result-count").textContent();
-  check("index: result count announced", countText === "1 of 21 tools", countText);
+  check("index: result count announced", countText === "1 of 24 tools", countText);
   check("index: search reflected in URL", page.url().includes("q=bitwarden"), page.url());
 
   await page.fill("#tool-search", "zzzzzz");
@@ -77,7 +80,7 @@ const visibleCount = (page) =>
   const emptyTitle = await page.locator("#empty-title").textContent();
   check("index: empty state quotes query", emptyTitle.includes("zzzzzz"), emptyTitle);
   await page.click("#clear-filters");
-  check("index: clear restores 21 cards", (await visibleCount(page)) === 21);
+  check("index: clear restores 24 cards", (await visibleCount(page)) === 24);
   check("index: clear cleans URL", !page.url().includes("q=") && !page.url().includes("category="), page.url());
 
   // Share button → html-to-image render → fallback menu (focus lands on close)
@@ -103,7 +106,7 @@ const visibleCount = (page) =>
   const active = await page.locator('[data-filter="media"]').evaluate((el) => el.classList.contains("active"));
   check("deep link: ?category= activates filter", active);
   const vis = await visibleCount(page);
-  check("deep link: subset shown", vis > 0 && vis < 21, `${vis} visible`);
+  check("deep link: subset shown", vis > 0 && vis < 24, `${vis} visible`);
   await page.close();
 }
 
@@ -119,7 +122,7 @@ const visibleCount = (page) =>
   await page.unroute("**/data/manifest.json");
   await page.click(".load-error-retry");
   await page.waitForSelector(".swap-card", { timeout: 15000 });
-  check("index: Retry recovers to full grid", (await page.locator(".swap-card").count()) === 21);
+  check("index: Retry recovers to full grid", (await page.locator(".swap-card").count()) === 24);
   await page.close();
 }
 
@@ -129,8 +132,12 @@ const visibleCount = (page) =>
   watch(page, "batch", errors);
   await page.goto(`${BASE}/batch.html`, { waitUntil: "networkidle" });
   await page.waitForSelector(".batch-post-card");
-  check("batch: 5 post cards", (await page.locator(".batch-post-card").count()) === 5);
+  check("batch: 8 post cards", (await page.locator(".batch-post-card").count()) === 8);
   check("batch: aria-current on Batch export", (await page.locator('.site-nav a[aria-current="page"]').count()) === 1);
+  const deepBadge = await page.locator('.batch-post-card[data-post="post-006"] .batch-post-count').textContent();
+  check("batch: deep-dive badge", deepBadge.includes("Deep dive") && deepBadge.includes("6 slides"), deepBadge);
+  const swapBadge = await page.locator('.batch-post-card[data-post="post-004"] .batch-post-count').textContent();
+  check("batch: swap badge unchanged", swapBadge.includes("tool"), swapBadge);
 
   // Apply-to-all preset
   check("batch: bulk bar visible", await page.locator("#bulk-bar").isVisible());
@@ -172,6 +179,22 @@ const visibleCount = (page) =>
   await download.saveAs(zipPath);
   check("batch: ZIP downloaded", fs.statSync(zipPath).size > 100000,
     `${(fs.statSync(zipPath).size / 1024).toFixed(0)} KB`);
+
+  // Deep-dive post ZIP: intro + hero + features + benefits + setup + outro
+  await page.fill("#pin-post-006", "swapfoss2026");
+  const [deepDl] = await Promise.all([
+    page.waitForEvent("download", { timeout: 180000 }),
+    page.click('.batch-download-btn[data-post="post-006"]'),
+  ]);
+  const deepZipPath = `${OUT_DIR}/post-006.zip`;
+  await deepDl.saveAs(deepZipPath);
+  check("batch: deep ZIP downloaded", fs.statSync(deepZipPath).size > 100000,
+    `${(fs.statSync(deepZipPath).size / 1024).toFixed(0)} KB`);
+  const JSZip = (await import("jszip")).default;
+  const deepZip = await JSZip.loadAsync(fs.readFileSync(deepZipPath));
+  const deepNames = Object.keys(deepZip.files).filter(n => !deepZip.files[n].dir).sort();
+  check("batch: deep ZIP has 6 slides", deepNames.length === 6, deepNames.join(","));
+  check("batch: deep ZIP parts", deepNames.some(n => n.includes("hero")) && deepNames.some(n => n.includes("benefits")) && deepNames.some(n => n.includes("setup")), deepNames.join(","));
   await page.close();
 }
 
@@ -232,6 +255,60 @@ const visibleCount = (page) =>
   await page.close();
 }
 
+// ── slide.html deep-dive post (single app → 6 slides) ────────
+{
+  const page = await ctx.newPage();
+  watch(page, "slide-deep", errors);
+
+  await page.goto(`${BASE}/slide.html?post=post-006&type=intro`, { waitUntil: "networkidle" });
+  await page.waitForSelector('body[data-ready="true"]');
+  const deepEyebrow = await page.locator(".eyebrow").textContent();
+  check("deep intro: eyebrow", deepEyebrow === "Deep dive — Umbrel", deepEyebrow);
+  const counter = (await page.locator(".slide-counter").textContent()).replace(/\s/g, "");
+  check("deep intro: counter 01 / 06", counter === "01/06", counter);
+
+  await page.keyboard.press("ArrowRight");
+  await page.waitForURL(/type=deep/, { timeout: 15000 });
+  await page.waitForSelector('body[data-ready="true"]');
+  const heroName = await page.locator(".deep-hero-name").textContent();
+  check("deep hero: Umbrel rendered", heroName === "Umbrel", heroName);
+  check("deep hero: export target present", (await page.locator("#export-target").count()) === 1);
+  const kicker = await page.locator(".deep-kicker").textContent();
+  check("deep hero: Deep dive kicker", kicker === "Deep dive", kicker);
+  await page.screenshot({ path: `${OUT_DIR}/deep-hero.png` });
+
+  await page.goto(`${BASE}/slide.html?post=post-006&type=deep&part=features`, { waitUntil: "networkidle" });
+  await page.waitForSelector('body[data-ready="true"]');
+  const fTitle = await page.locator(".deep-title").textContent();
+  check("deep features: title", fTitle === "Everything Umbrel does", fTitle);
+  check("deep features: bullets", (await page.locator(".deep-list li").count()) >= 3);
+  check("deep features: pills", (await page.locator(".deep-pill").count()) >= 3);
+  await page.screenshot({ path: `${OUT_DIR}/deep-features.png` });
+
+  await page.goto(`${BASE}/slide.html?post=post-006&type=deep&part=benefits`, { waitUntil: "networkidle" });
+  await page.waitForSelector('body[data-ready="true"]');
+  const bTitle = await page.locator(".deep-title").textContent();
+  check("deep benefits: title", bTitle === "Why Umbrel is worth it", bTitle);
+  check("deep benefits: 4 items", (await page.locator(".deep-benefits li").count()) === 4);
+  await page.screenshot({ path: `${OUT_DIR}/deep-benefits.png` });
+
+  await page.goto(`${BASE}/slide.html?post=post-006&type=deep&part=setup`, { waitUntil: "networkidle" });
+  await page.waitForSelector('body[data-ready="true"]');
+  check("deep setup: steps", (await page.locator(".deep-steps li").count()) === 4);
+  check("deep setup: meta chips", (await page.locator(".deep-meta .deep-pill").count()) === 2);
+  await page.screenshot({ path: `${OUT_DIR}/deep-setup.png` });
+
+  await page.goto(`${BASE}/slide.html?post=post-006&type=outro`, { waitUntil: "networkidle" });
+  await page.waitForSelector('body[data-ready="true"]');
+  check("deep outro: final slide, next disabled", await page.locator("#next-btn").isDisabled());
+  const outroCounter = (await page.locator(".deep-counter, .slide-counter").first().textContent()).replace(/\s/g, "");
+  check("deep outro: counter 06 / 06", outroCounter === "06/06", outroCounter);
+  await page.keyboard.press("ArrowLeft");
+  await page.waitForURL(/part=setup/, { timeout: 15000 });
+  check("deep outro: arrow back to setup", page.url().includes("part=setup"));
+  await page.close();
+}
+
 // ── card.html: back link + Saved flash ───────────────────────
 {
   const page = await ctx.newPage();
@@ -289,6 +366,23 @@ const visibleCount = (page) =>
   await page.fill("#f-hl-word", "unicorn");
   const flagged = await page.locator("#json-preview").evaluate((el) => el.classList.contains("create-json-invalid"));
   check("create: hl mismatch flagged", flagged);
+
+  // Deep-dive mode: single-app selection, format in JSON, slide strip
+  await page.fill("#f-hl-word", "secure");
+  await page.click("#format-deep");
+  const deepActive = await page.locator("#format-deep").evaluate(el => el.classList.contains("active") && el.getAttribute("aria-pressed") === "true");
+  check("create: deep mode activates", deepActive);
+  const boxes = page.locator("#tool-groups input[type=checkbox]");
+  await boxes.nth(5).check();
+  const checkedCount = await boxes.evaluateAll(els => els.filter(e => e.checked).length);
+  check("create: deep mode single-select", checkedCount === 1, `${checkedCount} checked`);
+  const deepJson = await page.locator("#json-preview").textContent();
+  check("create: deep format exported", deepJson.includes('"deep-dive"'), "");
+  check("create: slide strip visible", await page.locator("#preview-slides").isVisible());
+  const chipCount = await page.locator("#preview-slides .create-slide-chip").count();
+  check("create: 6 slide chips", chipCount === 6, `${chipCount} chips`);
+  const invalidJson = await page.locator("#json-preview").evaluate((el) => el.classList.contains("create-json-invalid"));
+  check("create: deep post valid JSON", !invalidJson);
   await page.close();
 }
 

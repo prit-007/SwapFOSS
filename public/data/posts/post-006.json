@@ -1,0 +1,17 @@
+{
+  "id": "post-006",
+  "format": "deep-dive",
+  "title": "Umbrel: self-hosting for normal people",
+  "intro": {
+    "eyebrow": "Deep dive — Umbrel",
+    "headline": "Your own app store. On your own hardware.",
+    "subhead": "Umbrel turns any Raspberry Pi or old computer into a beautiful home server — install self-hosted apps in one click, no terminal required.",
+    "pills": ["One-click apps", "No terminal", "Zero telemetry"],
+    "hl": { "word": "app store", "color": "#FFC857" }
+  },
+  "tools": ["umbrel"],
+  "outro": {
+    "headline": "Stop renting the cloud. Build your own.",
+    "subhead": "Umbrel is free, runs on hardware you already own, and installs in about ten minutes. Which app are you putting on it first?"
+  }
+}
