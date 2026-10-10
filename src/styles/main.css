@@ -1,3 +1,14 @@
 @layer theme, base, components, utilities;
+
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
+
+/* Component styles live in css/styles.css. They are imported into the
+   `components` layer so Tailwind utilities (utilities layer) win over them
+   when a card is polished with utility classes. No Tailwind preflight —
+   styles.css ships its own reset. */
+@import "../../css/styles.css" layer(components);
+
+/* Where Tailwind looks for utility class names. */
+@source "../../index.html";
+@source "../";

@@ -17,7 +17,17 @@ import { capturePng } from "@/export/capture";
 import { downloadBlob } from "@/export/render";
 import StageLoader from "@/components/common/StageLoader.vue";
 import LoadError from "@/components/common/LoadError.vue";
+import AppIcon from "@/components/common/AppIcon.vue";
+import type { IconName } from "@/icons";
 import type { Post, Tool } from "@/types";
+
+type StatusKey = "idle" | "rendering" | "saved" | "failed";
+const STATUS: Record<StatusKey, { icon: IconName; label: string }> = {
+  idle: { icon: "download-01", label: "Download PNG" },
+  rendering: { icon: "refresh-01", label: "Rendering…" },
+  saved: { icon: "tick-04", label: "Saved" },
+  failed: { icon: "cancel-01", label: "Failed — retry" },
+};
 
 const route = useRoute();
 const router = useRouter();
@@ -27,7 +37,8 @@ const stage = ref<HTMLElement | null>(null);
 const post = ref<Post | null>(null);
 const error = ref(false);
 const busy = ref(false);
-const status = ref("Download PNG");
+const statusKey = ref<StatusKey>("idle");
+const status = computed(() => STATUS[statusKey.value]);
 
 const postId = computed(() => (route.query.post as string) || "");
 const type = computed(() => (route.query.type as string) || "intro");
@@ -128,17 +139,17 @@ async function download() {
   const node = stage.value?.querySelector(".export-card") as HTMLElement | null;
   if (!node || !post.value) return;
   busy.value = true;
-  status.value = "Rendering…";
+  statusKey.value = "rendering";
   try {
     const blob = await capturePng(node, 2);
     const suffix = type.value === "deep" ? `deep-${part.value}` : type.value;
     downloadBlob(blob, `swapfoss-${postId.value}-${suffix}.png`);
-    status.value = "Saved ✓";
+    statusKey.value = "saved";
   } catch {
-    status.value = "Failed — retry";
+    statusKey.value = "failed";
   } finally {
     busy.value = false;
-    setTimeout(() => (status.value = "Download PNG"), 1600);
+    setTimeout(() => (statusKey.value = "idle"), 1600);
   }
 }
 </script>
@@ -146,11 +157,44 @@ async function download() {
 <template>
   <a class="skip-link" href="#stage">Skip to content</a>
   <div id="slide-toolbar">
-    <RouterLink id="slide-back" to="/">← Home</RouterLink>
-    <button :disabled="!prev" @click="prev && go(prev)">← Prev</button>
-    <button :disabled="!next" @click="next && go(next)">Next →</button>
-    <button id="slide-download" :disabled="busy || !html" @click="download">{{ status }}</button>
-    <span>1080×1350 — ready for posting</span>
+    <RouterLink id="slide-back" to="/">
+      <AppIcon name="arrow-left-01" /> <span class="slide-tb-label">Home</span>
+    </RouterLink>
+    <div class="slide-tb-nav">
+      <button
+        class="slide-nav-btn"
+        :disabled="!prev"
+        aria-label="Previous slide"
+        @click="prev && go(prev)"
+      >
+        <AppIcon name="arrow-left-01" /> <span class="slide-tb-label">Prev</span>
+      </button>
+      <div class="slide-dots">
+        <button
+          v-for="(s, i) in slides"
+          :key="i"
+          class="slide-dot"
+          :class="{ active: isCurrent(s) }"
+          :aria-label="`Go to slide ${i + 1}`"
+          :aria-current="isCurrent(s) ? 'true' : undefined"
+          @click="go(s)"
+        ></button>
+      </div>
+      <button
+        class="slide-nav-btn"
+        :disabled="!next"
+        aria-label="Next slide"
+        @click="next && go(next)"
+      >
+        <span class="slide-tb-label">Next</span> <AppIcon name="arrow-right-01" />
+      </button>
+    </div>
+    <div class="slide-tb-right">
+      <span class="slide-counter">{{ idx >= 0 ? idx + 1 : 1 }} / {{ slides.length }}</span>
+      <button id="slide-download" :disabled="busy || !html" @click="download">
+        <AppIcon :name="status.icon" /> {{ status.label }}
+      </button>
+    </div>
   </div>
   <div id="stage" ref="stage" tabindex="-1">
     <LoadError v-if="error" what="slide" @retry="load" />
@@ -163,49 +207,134 @@ async function download() {
 body:has(#slide-toolbar) {
   margin: 0;
   background: var(--bg);
+  padding: 96px 16px 40px;
 }
 #slide-toolbar {
   position: fixed;
-  top: 24px;
-  left: 24px;
-  right: 24px;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  margin: 0 auto;
+  max-width: 1120px;
   z-index: 100;
   display: flex;
-  gap: 10px;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 16px;
+  background: rgba(15, 17, 21, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
-#slide-toolbar button,
 #slide-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 14px;
-  padding: 9px 16px;
-  border-radius: 8px;
-}
-#slide-back {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
-  padding: 10px 6px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  transition: color 0.2s var(--ease-glide), background 0.2s var(--ease-glide);
+}
+#slide-back:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+.slide-tb-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 #slide-toolbar button {
-  background: transparent;
-  color: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
   cursor: pointer;
 }
-#slide-toolbar button:disabled {
-  opacity: 0.35;
+.slide-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  transition: background 0.2s var(--ease-glide), color 0.2s var(--ease-glide),
+    border-color 0.2s var(--ease-glide);
+}
+.slide-nav-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.slide-nav-btn:disabled {
+  opacity: 0.32;
   cursor: default;
 }
-#slide-download {
-  background: #f5f3ed !important;
-  color: #0f1115 !important;
-  border: none !important;
-  padding: 10px 18px !important;
+.slide-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px;
 }
-#slide-toolbar > span {
-  color: rgba(255, 255, 255, 0.35);
-  font-size: 13px;
+.slide-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255, 255, 255, 0.22);
+  transition: width 0.25s var(--ease-snap), background 0.25s var(--ease-glide);
+}
+.slide-dot:hover {
+  background: rgba(255, 255, 255, 0.45);
+}
+.slide-dot.active {
+  width: 22px;
+  background: #f5f3ed;
+}
+.slide-tb-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.slide-counter {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.45);
+  font-variant-numeric: tabular-nums;
+}
+#slide-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f5f3ed;
+  color: #0f1115;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 10px;
+  transition: transform 0.2s var(--ease-snap), box-shadow 0.2s var(--ease-glide);
+}
+#slide-download:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+#slide-download:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+@media (max-width: 720px) {
+  .slide-tb-label,
+  .slide-dots {
+    display: none;
+  }
 }
 </style>

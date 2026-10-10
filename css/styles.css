@@ -28,11 +28,16 @@
   --glass-bg: rgba(23, 26, 32, 0.5);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-blur: 16px;
+  --ease-glide: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-snap: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
 
 body {
   margin: 0;
@@ -112,7 +117,7 @@ a { color: inherit; }
   color: var(--text-muted);
   font-size: 14px;
   margin-left: 24px;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition: color 0.2s var(--ease-glide), transform 0.2s var(--ease-snap);
   display: inline-block;
 }
 
@@ -165,7 +170,7 @@ a { color: inherit; }
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: background-color 0.25s var(--ease-glide), color 0.25s var(--ease-glide), border-color 0.25s var(--ease-glide), transform 0.25s var(--ease-snap);
 }
 
 .filter-btn:hover {
@@ -201,15 +206,18 @@ a { color: inherit; }
   overflow: hidden;
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
-  transition: all 0.3s ease;
+  transition: transform 0.35s var(--ease-snap), border-color 0.35s var(--ease-glide), box-shadow 0.35s var(--ease-glide);
   animation: fadeUp 0.6s ease-out both;
   animation-delay: calc(min(var(--card-index, 0), 12) * 0.08s);
 }
 
-.swap-card:hover {
+.swap-card:hover,
+.swap-card:focus-within {
   transform: translateY(-4px);
-  border-color: var(--border-strong);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--border-strong);
+  border-color: color-mix(in srgb, var(--cat-color, var(--dev)) 42%, var(--border-strong));
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.3),
+    0 0 0 1px color-mix(in srgb, var(--cat-color, var(--dev)) 35%, transparent);
 }
 
 .swap-card::before {
@@ -218,11 +226,12 @@ a { color: inherit; }
   top: 0; left: 0; right: 0;
   height: 3px;
   background: var(--cat-color, var(--dev));
-  transition: height 0.3s ease;
+  transition: height 0.3s var(--ease-glide);
 }
 
-.swap-card:hover::before {
-  height: 4px;
+.swap-card:hover::before,
+.swap-card:focus-within::before {
+  height: 5px;
 }
 
 .swap-row {
@@ -241,7 +250,7 @@ a { color: inherit; }
 .swap-arrow {
   color: var(--text-faint);
   font-size: 14px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s var(--ease-snap);
 }
 
 .swap-card:hover .swap-arrow {
@@ -293,7 +302,7 @@ a { color: inherit; }
   cursor: pointer;
   padding: 4px 0;
   font-weight: 500;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s var(--ease-glide);
 }
 
 .details-toggle:hover {
@@ -303,7 +312,7 @@ a { color: inherit; }
 .details-body {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.3s ease;
+  transition: max-height 0.4s var(--ease-glide), opacity 0.3s var(--ease-glide);
   opacity: 0;
 }
 
@@ -339,7 +348,7 @@ a { color: inherit; }
   border: 1px solid var(--glass-border);
   padding: 6px 12px;
   border-radius: 8px;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s var(--ease-glide), transform 0.2s var(--ease-snap);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -359,7 +368,7 @@ a { color: inherit; }
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: transform 0.2s var(--ease-snap), box-shadow 0.2s var(--ease-glide), opacity 0.2s linear;
 }
 
 .share-btn:hover {
@@ -407,7 +416,7 @@ a { color: inherit; }
   padding: 7px 14px;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s var(--ease-glide), transform 0.2s var(--ease-snap);
 }
 
 .caption-box button:hover {
@@ -481,7 +490,7 @@ a { color: inherit; }
   border-radius: var(--radius);
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s var(--ease-snap), border-color 0.25s var(--ease-glide), box-shadow 0.25s var(--ease-glide);
   animation: fadeUp 0.6s ease-out both;
   animation-delay: calc(var(--card-index, 0) * 0.07s);
 }
@@ -510,7 +519,7 @@ a { color: inherit; }
   font-size: 19px;
   font-weight: 700;
   color: #14161A;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s var(--ease-snap), box-shadow 0.25s var(--ease-glide);
 }
 
 .dev-credit:hover .dev-avatar {
@@ -565,7 +574,7 @@ a { color: inherit; }
 .site-footer a {
   color: var(--text-muted);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s var(--ease-glide);
 }
 
 .site-footer a:hover {
@@ -589,11 +598,13 @@ a { color: inherit; }
   object-fit: cover;
   object-position: top left;
   display: block;
-  transition: transform 0.4s ease;
+  transition: transform 0.4s var(--ease-snap);
 }
 
-.card-media:hover img.screenshot-img {
-  transform: scale(1.03);
+.card-media:hover img.screenshot-img,
+.swap-card:hover .card-media img.screenshot-img,
+.swap-card:focus-within .card-media img.screenshot-img {
+  transform: scale(1.04);
 }
 
 .card-media .logo-badge {
@@ -694,7 +705,7 @@ a { color: inherit; }
   cursor: pointer;
   padding: 4px 0;
   font-weight: 500;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s var(--ease-glide);
 }
 
 .setup-toggle:hover {
@@ -704,7 +715,7 @@ a { color: inherit; }
 .setup-body {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.3s ease;
+  transition: max-height 0.4s var(--ease-glide), opacity 0.3s var(--ease-glide);
   opacity: 0;
 }
 
@@ -797,7 +808,7 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s var(--ease-glide), border-color 0.2s var(--ease-glide), color 0.2s var(--ease-glide), transform 0.2s var(--ease-snap);
 }
 
 .lightbox-close:hover {
@@ -862,7 +873,7 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s var(--ease-glide), color 0.2s var(--ease-glide), transform 0.2s var(--ease-snap);
 }
 
 .share-menu-close:hover {
@@ -911,7 +922,7 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s var(--ease-glide), background-color 0.2s var(--ease-glide), transform 0.2s var(--ease-snap);
 }
 
 .share-platform:hover {
@@ -1201,7 +1212,7 @@ a { color: inherit; }
   gap: 18px;
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
-  transition: border-color 0.25s ease, transform 0.25s ease;
+  transition: border-color 0.25s var(--ease-glide), transform 0.25s var(--ease-snap);
   animation: fadeUp 0.6s ease-out both;
   animation-delay: calc(var(--card-index, 0) * 0.08s);
 }
@@ -1352,7 +1363,7 @@ a { color: inherit; }
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s var(--ease-glide), color 0.2s var(--ease-glide);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -1371,7 +1382,7 @@ a { color: inherit; }
 
 .batch-theme-icon {
   font-size: 14px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s var(--ease-snap);
   display: inline-block;
 }
 
@@ -1428,7 +1439,7 @@ a { color: inherit; }
   background: var(--media);
   color: #0F1115;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s var(--ease-snap), box-shadow 0.2s var(--ease-glide), opacity 0.2s linear;
   position: relative;
   overflow: hidden;
 }
@@ -1467,7 +1478,7 @@ a { color: inherit; }
   background-size: 200% 100%;
   animation: shimmer 1.1s linear infinite;
   border-radius: 3px;
-  transition: width 0.3s ease;
+  transition: width 0.3s var(--ease-glide);
 }
 
 .batch-progress-label {
@@ -1485,7 +1496,7 @@ a { color: inherit; }
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s var(--ease-glide), color 0.2s var(--ease-glide);
 }
 
 .batch-caption-btn:hover {
@@ -1523,7 +1534,7 @@ a { color: inherit; }
   color: var(--text);
   cursor: pointer;
   align-self: flex-start;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s var(--ease-glide), color 0.2s var(--ease-glide);
 }
 
 .batch-caption-copy:hover {
@@ -1541,7 +1552,7 @@ a { color: inherit; }
   background: var(--media);
   color: #0F1115;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: transform 0.2s var(--ease-snap), box-shadow 0.2s var(--ease-glide);
 }
 
 .batch-create-link:hover {
@@ -1559,7 +1570,7 @@ a { color: inherit; }
   color: var(--text-faint);
   cursor: pointer;
   align-self: flex-start;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s var(--ease-glide), color 0.2s var(--ease-glide);
 }
 
 .batch-draft-delete:hover {
@@ -1664,7 +1675,7 @@ a { color: inherit; }
   border-radius: 8px;
   background: var(--surface-raised);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s var(--ease-glide), color 0.2s var(--ease-glide), background-color 0.2s var(--ease-glide);
   user-select: none;
 }
 
@@ -2001,7 +2012,7 @@ a { color: inherit; }
   color: var(--text);
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s var(--ease-glide);
   appearance: none;
 }
 
@@ -2120,7 +2131,7 @@ a { color: inherit; }
   color: #0F1115;
   cursor: pointer;
   margin-top: 6px;
-  transition: filter 0.2s ease;
+  transition: filter 0.2s var(--ease-glide);
 }
 
 .load-error-retry:hover {
@@ -2589,3 +2600,51 @@ a { color: inherit; }
   color: #F8B6D5;
 }
 
+
+/* ---------- Scroll reveal (paired with src/directives/reveal.ts) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s var(--ease-glide), transform 0.65s var(--ease-snap);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Inline icons (HugeIcons) ---------- */
+svg.ico {
+  display: inline-block;
+  vertical-align: -0.15em;
+  flex: none;
+}
+
+.setup-toggle,
+.details-toggle,
+.share-btn,
+.card-footer a.link-btn,
+.caption-box button,
+#copy-caption-btn,
+.filter-btn,
+.load-error-retry,
+.batch-create-link,
+.batch-theme-toggle,
+.batch-download-btn,
+.batch-caption-btn,
+.batch-caption-copy,
+.batch-draft-delete,
+.share-platform,
+.share-menu-close,
+.lightbox-close,
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.batch-tools-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}

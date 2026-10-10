@@ -11,6 +11,7 @@ import { generateCaption } from "@/export/caption";
 import { isDeepDive, buildSlides } from "@/export/deep-cards";
 import { downloadBlob } from "@/export/render";
 import LoadError from "@/components/common/LoadError.vue";
+import AppIcon from "@/components/common/AppIcon.vue";
 import SkeletonPosts from "@/components/batch/SkeletonPosts.vue";
 import type { Post, Tool } from "@/types";
 
@@ -143,7 +144,9 @@ onMounted(load);
         Download post-ready bundles — intro card, tool cards, and outro — as a ZIP.
         Enter the PIN to unlock downloads.
       </p>
-      <RouterLink to="/create" class="batch-create-link">+ Create a new post</RouterLink>
+      <RouterLink to="/create" class="batch-create-link">
+        <AppIcon name="add-01" /> Create a new post
+      </RouterLink>
     </div>
   </section>
 
@@ -165,7 +168,8 @@ onMounted(load);
         :aria-pressed="batch.bulkTheme"
         @click="toggleBulkTheme"
       >
-        <span class="batch-theme-icon">◐</span> Light
+        <AppIcon class="batch-theme-icon" :name="batch.bulkTheme ? 'moon-01' : 'sun-01'" />
+        <span class="batch-theme-label">{{ batch.bulkTheme ? "Dark" : "Light" }}</span>
       </button>
       <label class="batch-bulk-check">
         <input type="checkbox" :checked="batch.pinRemember" @change="onPinRemember" />
@@ -179,17 +183,25 @@ onMounted(load);
       <div
         v-for="(post, i) in posts"
         :key="post.id"
-        class="batch-post-card"
+        class="batch-post-card relative overflow-hidden rounded-2xl border border-white/[0.07] bg-gradient-to-b from-white/[0.05] to-white/[0.02] shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-0.5 hover:border-white/[0.14] hover:shadow-xl hover:shadow-black/30"
         :class="{ 'batch-post-deep': isDeepDive(post) }"
         :style="{ '--card-index': i }"
       >
-        <div class="batch-post-header">
+        <div class="batch-post-header flex items-start justify-between gap-3">
           <h2 class="batch-post-title">{{ post.title }}</h2>
-          <span class="batch-post-count">
-            {{ draftIds.has(post.id) ? "Draft · " : "" }}{{ countText(post) }}
-          </span>
+          <div class="flex shrink-0 items-center gap-3">
+            <span class="batch-post-count">
+              {{ draftIds.has(post.id) ? "Draft · " : "" }}{{ countText(post) }}
+            </span>
+            <RouterLink
+              class="batch-post-preview inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/80 no-underline transition hover:border-white/25 hover:bg-white/10 hover:text-white"
+              :to="{ path: '/slide', query: { post: post.id, type: 'intro' } }"
+            >
+              <AppIcon name="eye" /> Preview
+            </RouterLink>
+          </div>
         </div>
-        <div class="batch-post-intro">
+        <div class="batch-post-intro rounded-xl bg-white/[0.03] ring-1 ring-white/10">
           <span class="batch-intro-eyebrow">{{ post.intro.eyebrow }}</span>
           <p class="batch-intro-headline">{{ post.intro.headline }}</p>
           <p class="batch-intro-subhead">{{ post.intro.subhead }}</p>
@@ -201,7 +213,7 @@ onMounted(load);
               v-for="t in toolsFor(post)"
               v-show="t.logo"
               :key="t.id"
-              class="batch-tool-thumb"
+              class="batch-tool-thumb rounded-lg ring-1 ring-white/10"
               :src="t.logo"
               :alt="t.name"
               :title="t.name"
@@ -237,7 +249,11 @@ onMounted(load);
               :aria-pressed="batch.themeFor(post.id)"
               @click="batch.toggleTheme(post.id)"
             >
-              <span class="batch-theme-icon">◐</span> Light
+              <AppIcon
+                class="batch-theme-icon"
+                :name="batch.themeFor(post.id) ? 'moon-01' : 'sun-01'"
+              />
+              <span class="batch-theme-label">{{ batch.themeFor(post.id) ? "Dark" : "Light" }}</span>
             </button>
           </div>
           <div class="batch-control-row batch-pin-row">
@@ -251,7 +267,9 @@ onMounted(load);
             />
           </div>
           <button class="batch-download-btn" :disabled="progress[post.id]?.active" @click="download(post.id)">
-            <span v-show="!progress[post.id]?.active" class="batch-download-text">Download ZIP</span>
+            <span v-show="!progress[post.id]?.active" class="batch-download-text">
+              <AppIcon name="download-01" /> Download ZIP
+            </span>
             <span v-show="progress[post.id]?.active" class="batch-download-progress">
               <span class="batch-progress-bar">
                 <span class="batch-progress-fill" :style="{ width: `${progress[post.id]?.pct || 0}%` }"></span>
@@ -259,10 +277,13 @@ onMounted(load);
               <span class="batch-progress-label">{{ progress[post.id]?.label }}</span>
             </span>
           </button>
-          <button class="batch-caption-btn" @click="showCaption(post.id)">Generate caption</button>
+          <button class="batch-caption-btn" @click="showCaption(post.id)">
+            <AppIcon name="magic-wand-01" /> Generate caption
+          </button>
           <div v-if="captions[post.id]?.visible" class="batch-caption-box">
             <p class="batch-caption-text">{{ captions[post.id].text }}</p>
             <button class="batch-caption-copy" @click="copyCaption(post.id)">
+              <AppIcon :name="captions[post.id].copied ? 'tick-04' : 'copy-01'" />
               {{ captions[post.id].copied ? "Copied!" : "Copy" }}
             </button>
           </div>
@@ -271,14 +292,14 @@ onMounted(load);
             class="batch-draft-delete"
             @click="removeDraft(post.id)"
           >
-            Remove draft
+            <AppIcon name="delete-02" /> Remove draft
           </button>
         </div>
       </div>
     </div>
   </main>
 
-  <footer class="site-footer">
+  <footer v-reveal class="site-footer">
     <div class="wrap">Built for sharing free software with the world.</div>
   </footer>
 </template>

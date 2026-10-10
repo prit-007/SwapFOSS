@@ -179,3 +179,22 @@ test("create page deep-dive mode enforces a single app and shows the slide strip
   await expect(page.locator(".create-slide-strip")).toBeVisible();
   await expect(page.locator(".create-slide-chip").nth(1)).toContainText("Jellyfin");
 });
+
+test("batch card Preview link opens the slide carousel", async ({ page }) => {
+  await page.goto("batch");
+  const deepCard = page.locator(".batch-post-card.batch-post-deep").first();
+  await expect(deepCard).toBeVisible();
+  await deepCard.locator(".batch-post-preview").click();
+  await expect(page).toHaveURL(/\/slide\?.*type=intro/);
+  await expect(page).toHaveURL(/post=post-\d{3}/);
+  await expect(page.locator("#slide-toolbar #slide-download")).toBeVisible();
+});
+
+test("slide dots jump to a specific slide and reflect the current one", async ({ page }) => {
+  await page.goto("slide?post=post-006&type=intro");
+  await expect(page.locator(".slide-dot")).toHaveCount(6);
+  await page.locator(".slide-dot").nth(1).click();
+  await expect(page).toHaveURL(/type=deep&part=hero/);
+  await expect(page.locator(".slide-dot.active")).toHaveCount(1);
+  await expect(page.locator(".slide-counter")).toContainText("2 / 6");
+});

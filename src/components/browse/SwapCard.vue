@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import AppIcon from "@/components/common/AppIcon.vue";
 import type { Category, Tool } from "@/types";
 
 const props = defineProps<{ tool: Tool; cat: Category; index: number }>();
@@ -16,15 +17,20 @@ const hasSetupSteps = computed(() => !!props.tool.setupSteps?.length);
 
 <template>
   <article
-    class="swap-card"
+    class="swap-card group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-gradient-to-b from-white/[0.06] to-white/[0.02] p-4 shadow-lg shadow-black/20 backdrop-blur-xl transition duration-300 ease-out will-change-transform hover:-translate-y-1.5 hover:border-white/[0.15] hover:from-white/[0.09] hover:to-white/[0.04] hover:shadow-2xl hover:shadow-black/50"
     :style="{ '--cat-color': cat.color, '--card-index': index }"
     :data-category="tool.category"
     :data-id="tool.id"
   >
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute -right-20 -top-24 h-44 w-44 rounded-full opacity-20 blur-3xl transition-opacity duration-300 group-hover:opacity-40"
+      :style="{ background: cat.color }"
+    ></span>
     <div
-      class="card-media"
+      class="card-media relative overflow-hidden rounded-xl ring-1 ring-white/10"
       :class="{ 'no-screenshot': !hasScreenshot }"
-      :data-fallback-text="tool.name"
+      :data-fallback-text="!hasScreenshot && !hasLogo ? tool.name : ''"
     >
       <img
         v-if="hasScreenshot"
@@ -34,14 +40,18 @@ const hasSetupSteps = computed(() => !!props.tool.setupSteps?.length);
         class="screenshot-img"
         @click="emit('preview', tool)"
       />
+      <div
+        v-if="hasScreenshot"
+        class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
+      ></div>
       <img
         v-if="hasLogo"
-        class="logo-badge"
+        class="logo-badge ring-1 ring-white/20"
         :src="tool.logo"
         :alt="`${tool.name} logo`"
       />
     </div>
-    <div class="card-body">
+    <div class="card-body flex flex-col gap-3 pt-3">
       <div class="card-title-row">
         <img
           v-if="hasLogo"
@@ -53,7 +63,7 @@ const hasSetupSteps = computed(() => !!props.tool.setupSteps?.length);
           <span class="tag">{{ cat.label || tool.category }}</span>
           <div class="swap-row">
             <span class="swap-from">{{ tool.insteadOf }}</span>
-            <span class="swap-arrow">→</span>
+            <span class="swap-arrow"><AppIcon name="arrow-right-01" /></span>
             <span class="swap-to">{{ tool.name }}</span>
           </div>
         </div>
@@ -64,7 +74,7 @@ const hasSetupSteps = computed(() => !!props.tool.setupSteps?.length);
       </div>
       <div v-if="hasSetupSteps" class="setup-steps">
         <button class="setup-toggle" @click="setupOpen = !setupOpen">
-          {{ setupOpen ? "How to use ↑" : "How to use ↓" }}
+          How to use <AppIcon :name="setupOpen ? 'arrow-up-01' : 'arrow-down-01'" />
         </button>
         <div class="setup-body" :class="{ open: setupOpen }">
           <ol>
@@ -74,7 +84,8 @@ const hasSetupSteps = computed(() => !!props.tool.setupSteps?.length);
       </div>
       <div v-if="tool.details" class="details-expand">
         <button class="details-toggle" @click="detailsOpen = !detailsOpen">
-          {{ detailsOpen ? "Read less ↑" : "Read more ↓" }}
+          {{ detailsOpen ? "Read less" : "Read more" }}
+          <AppIcon :name="detailsOpen ? 'arrow-up-01' : 'arrow-down-01'" />
         </button>
         <div class="details-body" :class="{ open: detailsOpen }">
           <p>{{ tool.details }}</p>
@@ -82,9 +93,13 @@ const hasSetupSteps = computed(() => !!props.tool.setupSteps?.length);
       </div>
       <div class="card-footer">
         <span class="meta">{{ tool.setup }}</span>
-        <div style="display: flex; gap: 8px">
-          <button class="share-btn" @click="emit('share', tool.id)">Share ↗</button>
-          <a class="link-btn" :href="tool.link" target="_blank" rel="noopener">Visit ↗</a>
+        <div class="flex gap-2">
+          <button class="share-btn" @click="emit('share', tool.id)">
+            <AppIcon name="share-01" /> Share
+          </button>
+          <a class="link-btn" :href="tool.link" target="_blank" rel="noopener">
+            <AppIcon name="external-link" /> Visit
+          </a>
         </div>
       </div>
     </div>
