@@ -5,13 +5,19 @@ import { useCatalogStore } from "@/stores/catalog";
 import { loadPost } from "@/data/catalog";
 import { PRESETS } from "@/export/presets";
 import { introCardHTML, outroCardHTML, toolCardHTML } from "@/export/cards";
+import {
+  DEEP_PARTS,
+  buildSlides,
+  deepCardHTML,
+  isDeepDive,
+  type DeepPart,
+  type PostSlide,
+} from "@/export/deep-cards";
 import { capturePng } from "@/export/capture";
 import { downloadBlob } from "@/export/render";
 import StageLoader from "@/components/common/StageLoader.vue";
 import LoadError from "@/components/common/LoadError.vue";
 import type { Post, Tool } from "@/types";
-
-type Slide = { type: "intro" } | { type: "tool"; tool: string } | { type: "outro" };
 
 const route = useRoute();
 const router = useRouter();
@@ -26,6 +32,10 @@ const status = ref("Download PNG");
 const postId = computed(() => (route.query.post as string) || "");
 const type = computed(() => (route.query.type as string) || "intro");
 const toolId = computed(() => (route.query.tool as string) || "");
+const part = computed<DeepPart>(() => {
+  const p = route.query.part as string;
+  return (DEEP_PARTS as readonly string[]).includes(p) ? (p as DeepPart) : "hero";
+});
 
 const tool = computed(() => catalog.tools.find((t) => t.id === toolId.value) || null);
 const cat = computed(() =>
@@ -40,41 +50,52 @@ const postTools = computed<Tool[]>(() => {
     .filter((t): t is Tool => !!t);
 });
 
+/** The single app a deep-dive post is built around. */
+const deepTool = computed<Tool | null>(() => {
+  if (!post.value || !isDeepDive(post.value)) return null;
+  const id = post.value.tools[0];
+  return catalog.tools.find((t) => t.id === id) || null;
+});
+const deepCat = computed(() => {
+  const t = deepTool.value;
+  return t ? catalog.categories[t.category] || { label: t.category, color: "#888" } : null;
+});
+const slides = computed<PostSlide[]>(() => (post.value ? buildSlides(post.value) : []));
+
 const html = computed(() => {
   if (!post.value) return "";
   const preset = PRESETS.linkedin;
-  const total = post.value.tools.length + 2;
+  const total = slides.value.length;
   if (type.value === "intro") return introCardHTML(post.value, preset, false, total, postTools.value);
   if (type.value === "outro") return outroCardHTML(post.value, preset, false, total);
+  if (type.value === "deep") {
+    const index = slides.value.findIndex((s) => s.type === "deep" && s.part === part.value) + 1;
+    return deepTool.value && deepCat.value
+      ? deepCardHTML(part.value, deepTool.value, deepCat.value, { index, total, preset })
+      : "";
+  }
   return tool.value && cat.value ? toolCardHTML(tool.value, cat.value, preset, false) : "";
 });
 
-function isCurrent(s: Slide) {
+function isCurrent(s: PostSlide) {
   if (type.value === "intro") return s.type === "intro";
   if (type.value === "outro") return s.type === "outro";
+  if (type.value === "deep") return s.type === "deep" && s.part === part.value;
   return s.type === "tool" && s.tool === toolId.value;
 }
-const slides = computed<Slide[]>(() =>
-  post.value
-    ? [
-        { type: "intro" },
-        ...post.value.tools.map((t): Slide => ({ type: "tool", tool: t })),
-        { type: "outro" },
-      ]
-    : [],
-);
 const idx = computed(() => slides.value.findIndex(isCurrent));
 const prev = computed(() => (idx.value > 0 ? slides.value[idx.value - 1] : null));
 const next = computed(() =>
   idx.value >= 0 && idx.value < slides.value.length - 1 ? slides.value[idx.value + 1] : null,
 );
 
-function slideQuery(s: Slide) {
+function slideQuery(s: PostSlide) {
   const query: Record<string, string> = { post: postId.value, type: s.type };
   if (s.type === "tool") query.tool = s.tool;
+  if (s.type === "deep") query.part = s.part;
   return query;
 }
-function go(s: Slide) {
+function go(s: PostSlide) {
   router.push({ name: "slide", query: slideQuery(s) });
 }
 
@@ -110,7 +131,8 @@ async function download() {
   status.value = "Rendering…";
   try {
     const blob = await capturePng(node, 2);
-    downloadBlob(blob, `swapfoss-${postId.value}-${type.value}.png`);
+    const suffix = type.value === "deep" ? `deep-${part.value}` : type.value;
+    downloadBlob(blob, `swapfoss-${postId.value}-${suffix}.png`);
     status.value = "Saved ✓";
   } catch {
     status.value = "Failed — retry";

@@ -1,10 +1,8 @@
 import JSZip from "jszip";
+import { buildSlides, slideFilename, type PostSlide } from "./deep-cards";
 import type { Post } from "@/types";
 
-export type Slide =
-  | { type: "intro" }
-  | { type: "tool"; tool: string }
-  | { type: "outro" };
+export type Slide = PostSlide;
 
 export interface SlideJob {
   slide: Slide;
@@ -17,21 +15,29 @@ export type ProgressFn = (current: number, total: number, message: string) => vo
 
 /** Build the ordered slide list + filenames/labels for a post. */
 export function postSlideJobs(post: Post, toolName: (id: string) => string): SlideJob[] {
-  const slides: Slide[] = [
-    { type: "intro" },
-    ...post.tools.map((tool): Slide => ({ type: "tool", tool })),
-    { type: "outro" },
-  ];
+  const slides = buildSlides(post);
+  const total = slides.length;
 
   return slides.map((slide, i) => {
-    const num = String(i + 1).padStart(2, "0");
+    const num = i + 1;
     if (slide.type === "intro") {
-      return { slide, filename: `${num}-intro.png`, label: "intro" };
+      return { slide, filename: slideFilename(slide, num, total), label: "intro" };
     }
     if (slide.type === "outro") {
-      return { slide, filename: `${num}-outro.png`, label: "outro" };
+      return { slide, filename: slideFilename(slide, num, total), label: "outro" };
     }
-    return { slide, filename: `${num}-${slide.tool}.png`, label: toolName(slide.tool) };
+    if (slide.type === "deep") {
+      return {
+        slide,
+        filename: slideFilename(slide, num, total),
+        label: `${toolName(slide.tool)} — ${slide.part}`,
+      };
+    }
+    return {
+      slide,
+      filename: slideFilename(slide, num, total),
+      label: toolName(slide.tool),
+    };
   });
 }
 

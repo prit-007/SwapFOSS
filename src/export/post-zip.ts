@@ -1,5 +1,6 @@
 import { buildZip, postSlideJobs, type RenderSlide } from "./engine";
 import { introCardHTML, outroCardHTML, toolCardHTML } from "./cards";
+import { deepCardHTML } from "./deep-cards";
 import { renderCard } from "./render";
 import { PRESETS, type PresetKey } from "./presets";
 import type { Categories, Post, Tool } from "@/types";
@@ -19,10 +20,11 @@ export async function buildPostZip(
 ): Promise<{ blob: Blob; fileCount: number }> {
   const preset = PRESETS[opts.presetKey] ?? PRESETS.linkedin;
   const toolMap = new Map(opts.tools.map((t) => [t.id, t]));
-  const total = opts.post.tools.length + 2;
   const jobs = postSlideJobs(opts.post, (id) => toolMap.get(id)?.name ?? id);
+  const total = jobs.length;
 
-  const render: RenderSlide = async (slide) => {
+  const render: RenderSlide = async (slide, job) => {
+    const index = jobs.indexOf(job) + 1;
     if (slide.type === "intro") {
       return renderCard(introCardHTML(opts.post, preset, opts.lightTheme, total, opts.tools));
     }
@@ -31,6 +33,11 @@ export async function buildPostZip(
     }
     const tool = toolMap.get(slide.tool)!;
     const cat = opts.categories[tool.category] ?? { label: tool.category, color: "#888" };
+    if (slide.type === "deep") {
+      return renderCard(
+        deepCardHTML(slide.part, tool, cat, { index, total, preset, light: opts.lightTheme }),
+      );
+    }
     return renderCard(toolCardHTML(tool, cat, preset, opts.lightTheme));
   };
 

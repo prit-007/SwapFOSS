@@ -8,6 +8,7 @@ export const toolSchema = z.object({
   hook: z.string().min(1),
   bullets: z.array(z.string()).optional(),
   features: z.array(z.string()).optional(),
+  benefits: z.array(z.string()).optional(),
   setupSteps: z.array(z.string()).optional(),
   details: z.string().optional(),
   setup: z.string().min(1),
