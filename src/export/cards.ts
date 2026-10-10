@@ -1,35 +1,15 @@
-// Batch export engine — loads posts, verifies PIN, renders cards, bundles ZIP.
-import JSZip from "jszip";
-import * as htmlToImage from "html-to-image";
+import type { Category, Post, Tool } from "@/types";
+import { typeScale, type Preset } from "./presets";
 
-export const PIN = "swapfoss2026";
+const NOISE_URI =
+  "data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27300%27%20height=%27300%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%270.85%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3CfeColorMatrix%20type=%27saturate%27%20values=%270%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url(%23n)%27/%3E%3C/svg%3E";
 
-export const PRESETS = {
-  linkedin: { width: 1080, height: 1350, label: "LinkedIn" },
-  instagram: { width: 1080, height: 1080, label: "Instagram" },
-  twitter: { width: 1200, height: 675, label: "Twitter / X" },
-};
-
-export async function loadJSON(path) {
-  const res = await fetch(path);
-  if (!res.ok) throw new Error(`Failed to load ${path}`);
-  return res.json();
-}
-
-// Film-grain noise layer (fully percent-encoded so it survives inline styles).
-const NOISE_URI = "data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27300%27%20height=%27300%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%270.85%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3CfeColorMatrix%20type=%27saturate%27%20values=%270%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url(%23n)%27/%3E%3C/svg%3E";
-
-function typeScale(preset) {
-  const k = Math.min(1, Math.max(0.62, preset.height / 1350));
-  return {
-    h1: Math.round(80 * k),
-    sub: Math.round(26 * k),
-    wm: Math.round(320 * k),
-    cta: Math.max(15, Math.round(19 * k)),
-  };
-}
-
-function hlLastWord(text, c1, c2, hl) {
+function hlLastWord(
+  text: string,
+  c1: string,
+  c2: string,
+  hl?: { word: string; color?: string },
+): string {
   if (hl && hl.word && text.includes(hl.word)) {
     const style = hl.color
       ? `color:${hl.color};-webkit-text-fill-color:${hl.color};`
@@ -42,7 +22,13 @@ function hlLastWord(text, c1, c2, hl) {
   return `${text.slice(0, i)} <span style="${grad}">${text.slice(i + 1)}</span>`;
 }
 
-export function introCardHTML(post, preset, lightTheme, totalSlides, tools) {
+export function introCardHTML(
+  post: Post,
+  preset: Preset,
+  lightTheme: boolean,
+  totalSlides: number,
+  tools: Tool[],
+): string {
   const s = typeScale(preset);
   const bg = lightTheme ? "#ffffff" : "#0f172a";
   const text = lightTheme ? "#0F1115" : "#F5F3ED";
@@ -64,18 +50,27 @@ export function introCardHTML(post, preset, lightTheme, totalSlides, tools) {
   const pillBorder = lightTheme ? "rgba(0,0,0,0.10)" : "rgba(255,255,255,0.10)";
   const swipeColor = lightTheme ? "rgba(15,17,21,0.72)" : "rgba(255,255,255,0.8)";
   const swipeLine = lightTheme ? "rgba(15,17,21,0.35)" : "rgba(255,255,255,0.5)";
-  const introBody = Array.isArray(post.intro.pills) && post.intro.pills.length
-    ? `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px;">${post.intro.pills.map(p => `<span style="font-family:var(--font-mono);font-size:16px;color:${pillText};background:${pillBg};border:1px solid ${pillBorder};padding:9px 18px;border-radius:999px;white-space:nowrap;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">✓ ${p}</span>`).join("")}</div>`
-    : `<p style="font-family:var(--font-body);font-size:${s.sub}px;color:${muted};max-width:34ch;margin:0;line-height:1.5;">${post.intro.subhead}</p>`;
-  const icons = (tools || []).slice(0, 4).map((t, i) => {
-    const pos = [
-      "top:11%;left:7%;transform:rotate(-8deg);",
-      "top:17%;right:9%;transform:rotate(5deg);",
-      "bottom:21%;left:11%;transform:rotate(12deg);",
-      "bottom:14%;right:7%;transform:rotate(-6deg);",
-    ][i];
-    return `<img src="${t.logo}" alt="" style="position:absolute;${pos}width:76px;height:76px;object-fit:contain;filter:blur(1.5px) drop-shadow(0 16px 32px rgba(0,0,0,0.5));opacity:0.65;z-index:1;" />`;
-  }).join("");
+  const introBody =
+    Array.isArray(post.intro.pills) && post.intro.pills.length
+      ? `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px;">${post.intro.pills
+          .map(
+            (p) =>
+              `<span style="font-family:var(--font-mono);font-size:16px;color:${pillText};background:${pillBg};border:1px solid ${pillBorder};padding:9px 18px;border-radius:999px;white-space:nowrap;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">✓ ${p}</span>`,
+          )
+          .join("")}</div>`
+      : `<p style="font-family:var(--font-body);font-size:${s.sub}px;color:${muted};max-width:34ch;margin:0;line-height:1.5;">${post.intro.subhead}</p>`;
+  const icons = (tools || [])
+    .slice(0, 4)
+    .map((t, i) => {
+      const pos = [
+        "top:11%;left:7%;transform:rotate(-8deg);",
+        "top:17%;right:9%;transform:rotate(5deg);",
+        "bottom:21%;left:11%;transform:rotate(12deg);",
+        "bottom:14%;right:7%;transform:rotate(-6deg);",
+      ][i];
+      return `<img src="${t.logo}" alt="" style="position:absolute;${pos}width:76px;height:76px;object-fit:contain;filter:blur(1.5px) drop-shadow(0 16px 32px rgba(0,0,0,0.5));opacity:0.65;z-index:1;" />`;
+    })
+    .join("");
   return `
     <div class="export-card intro" style="--cat-color:linear-gradient(90deg,#FF5A5F,#FFC857); background-color:${bg}; background-image:${mesh}; color:${text}; width:${preset.width}px; height:${preset.height}px; position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:center; text-align:center; padding:64px;">
       <div style="position:absolute;inset:0;background-image:${grid};background-size:40px 40px;pointer-events:none;z-index:0;"></div>
@@ -97,7 +92,12 @@ export function introCardHTML(post, preset, lightTheme, totalSlides, tools) {
   `;
 }
 
-export function outroCardHTML(post, preset, lightTheme, totalSlides) {
+export function outroCardHTML(
+  post: Post,
+  preset: Preset,
+  lightTheme: boolean,
+  totalSlides: number,
+): string {
   const s = typeScale(preset);
   const bg = lightTheme ? "#ffffff" : "#0f172a";
   const text = lightTheme ? "#0F1115" : "#F5F3ED";
@@ -112,9 +112,12 @@ export function outroCardHTML(post, preset, lightTheme, totalSlides) {
     ? "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.10) 100%)"
     : "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.45) 100%)";
   const grid = `linear-gradient(to right, ${gridLine} 1px, transparent 1px), linear-gradient(to bottom, ${gridLine} 1px, transparent 1px)`;
-  const dots = [0, 1, 2].map(i =>
-    `<span style="width:9px;height:9px;border-radius:50%;background:${i === 2 ? "#4EA8DE" : (lightTheme ? "rgba(0,0,0,0.15)" : "rgba(255,255,255,0.18)")}"></span>`
-  ).join("");
+  const dots = [0, 1, 2]
+    .map(
+      (i) =>
+        `<span style="width:9px;height:9px;border-radius:50%;background:${i === 2 ? "#4EA8DE" : lightTheme ? "rgba(0,0,0,0.15)" : "rgba(255,255,255,0.18)"}"></span>`,
+    )
+    .join("");
   return `
     <div class="export-card outro" style="--cat-color:linear-gradient(90deg,#4EA8DE,#B983FF); background-color:${bg}; background-image:${mesh}; color:${text}; width:${preset.width}px; height:${preset.height}px; position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:center; text-align:center; padding:64px;">
       <div style="position:absolute;inset:0;background-image:${grid};background-size:40px 40px;pointer-events:none;z-index:0;"></div>
@@ -136,11 +139,16 @@ export function outroCardHTML(post, preset, lightTheme, totalSlides) {
   `;
 }
 
-export function toolCardHTML(tool, cat, preset, lightTheme) {
+export function toolCardHTML(
+  tool: Tool,
+  cat: Category,
+  preset: Preset,
+  lightTheme: boolean,
+): string {
   const hasLogo = !!tool.logo;
   const hasScreenshot = !!tool.screenshot;
-  const hasFeatures = tool.features && tool.features.length > 0;
-  const hasSetupSteps = tool.setupSteps && tool.setupSteps.length > 0;
+  const hasFeatures = !!tool.features && tool.features.length > 0;
+  const hasSetupSteps = !!tool.setupSteps && tool.setupSteps.length > 0;
   const isPortrait = tool.screenshotType === "portrait";
   const frameClass = isPortrait ? "device-frame portrait" : "device-frame landscape";
   const bg = lightTheme ? "#ffffff" : "#171A20";
@@ -157,7 +165,7 @@ export function toolCardHTML(tool, cat, preset, lightTheme) {
   return `
     <div class="export-card" style="--cat-color:${cat.color}; background:${bg}; color:${text}; width:${preset.width}px; height:${preset.height}px;">
       <div class="export-top" style="position:relative;">
-        <span class="tag" style="position:absolute;top:0;right:0;white-space:nowrap;background:${lightTheme ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.06)'};border-color:${border};color:${muted};font-size:13px;padding:5px 14px;">${cat.label}</span>
+        <span class="tag" style="position:absolute;top:0;right:0;white-space:nowrap;background:${lightTheme ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.06)"};border-color:${border};color:${muted};font-size:13px;padding:5px 14px;">${cat.label}</span>
         ${hasLogo ? `<img class="export-logo" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
         <div class="export-top-text">
           <span class="tool-name" style="color:${cat.color}">${tool.name}</span>
@@ -174,120 +182,37 @@ export function toolCardHTML(tool, cat, preset, lightTheme) {
       </div>
       <div class="export-bottom">
         <p class="export-hook" style="color:${text}">${tool.hook}</p>
-        ${hasFeatures ? `
+        ${
+          hasFeatures
+            ? `
         <div class="export-features">
-          ${tool.features.map(f => `<span class="export-feature-pill" style="white-space:nowrap;flex-shrink:0;background:${pillBg};border-color:${borderStrong};color:${lightTheme ? text : '#F5F3ED'};font-weight:500;">${f}</span>`).join("")}
+          ${tool
+            .features!.map(
+              (f) =>
+                `<span class="export-feature-pill" style="white-space:nowrap;flex-shrink:0;background:${pillBg};border-color:${borderStrong};color:${lightTheme ? text : "#F5F3ED"};font-weight:500;">${f}</span>`,
+            )
+            .join("")}
         </div>
-        ` : ""}
-        ${hasSetupSteps ? `
+        `
+            : ""
+        }
+        ${
+          hasSetupSteps
+            ? `
         <div class="export-setup">
           <span class="export-setup-label" style="color:${muted}">How to use:</span>
           <ol style="color:${setupColor};font-size:17px;line-height:1.7;">
-            ${tool.setupSteps.map(s => `<li>${s}</li>`).join("")}
+            ${tool.setupSteps!.map((s) => `<li>${s}</li>`).join("")}
           </ol>
         </div>
-        ` : ""}
+        `
+            : ""
+        }
         <div class="export-footer" style="border-color:${border}">
-          <span class="meta" style="color:${lightTheme ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.7)'}">${tool.link.replace(/^https?:\/\//, "")}</span>
-          <span class="meta" style="color:${lightTheme ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.7)'}">SwapFOSS</span>
+          <span class="meta" style="color:${lightTheme ? "rgba(0,0,0,0.6)" : "rgba(255,255,255,0.7)"}">${tool.link.replace(/^https?:\/\//, "")}</span>
+          <span class="meta" style="color:${lightTheme ? "rgba(0,0,0,0.6)" : "rgba(255,255,255,0.7)"}">SwapFOSS</span>
         </div>
       </div>
     </div>
   `;
 }
-
-async function capturePNG(element) {
-  const dataUrl = await htmlToImage.toPng(element, { pixelRatio: 2 });
-  const res = await fetch(dataUrl);
-  return res.blob();
-}
-
-export async function downloadPostZIP(postId, presetKey, lightTheme, progressCallback, postData) {
-  const preset = PRESETS[presetKey] || PRESETS.linkedin;
-  const [manifest, categories] = await Promise.all([
-    loadJSON("data/posts-manifest.json"),
-    loadJSON("data/categories.json"),
-  ]);
-  const post = postData || (await loadJSON(`data/posts/${postId}.json`));
-
-  const tools = await Promise.all(
-    post.tools.map(id => loadJSON(`data/tools/${id}.json`))
-  );
-
-  const total = 2 + tools.length;
-  let step = 0;
-  const zip = new JSZip();
-  const folder = zip.folder(postId);
-
-  // Render intro
-  step++;
-  if (progressCallback) progressCallback(step, total, "Rendering intro");
-  const introContainer = document.createElement("div");
-  introContainer.style.cssText = "position:fixed;left:-9999px;top:0;z-index:-1;";
-  introContainer.innerHTML = introCardHTML(post, preset, lightTheme, total, tools);
-  document.body.appendChild(introContainer);
-  const introBlob = await capturePNG(introContainer.firstElementChild);
-  introContainer.remove();
-  folder.file("01-intro.png", introBlob);
-
-  // Render tool cards
-  for (let i = 0; i < tools.length; i++) {
-    step++;
-    if (progressCallback) progressCallback(step, total, `Rendering ${tools[i].name}`);
-    const cat = categories[tools[i].category];
-    const container = document.createElement("div");
-    container.style.cssText = "position:fixed;left:-9999px;top:0;z-index:-1;";
-    container.innerHTML = toolCardHTML(tools[i], cat, preset, lightTheme);
-    document.body.appendChild(container);
-    const blob = await capturePNG(container.firstElementChild);
-    container.remove();
-    const num = String(i + 2).padStart(2, "0");
-    folder.file(`${num}-${tools[i].id}.png`, blob);
-  }
-
-  // Render outro
-  step++;
-  if (progressCallback) progressCallback(step, total, "Rendering outro");
-  const outroContainer = document.createElement("div");
-  outroContainer.style.cssText = "position:fixed;left:-9999px;top:0;z-index:-1;";
-  outroContainer.innerHTML = outroCardHTML(post, preset, lightTheme, total);
-  document.body.appendChild(outroContainer);
-  const outroBlob = await capturePNG(outroContainer.firstElementChild);
-  outroContainer.remove();
-  folder.file(`${String(total).padStart(2, "0")}-outro.png`, outroBlob);
-
-  // Generate ZIP
-  if (progressCallback) progressCallback(total, total, "Packaging ZIP");
-  const content = await zip.generateAsync({ type: "blob" });
-  const url = URL.createObjectURL(content);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `${postId}.zip`;
-  a.click();
-  URL.revokeObjectURL(url);
-
-  return { success: true, fileCount: total };
-}
-
-export function generateCaption(post, tools) {
-  const toolNames = tools.map(t => t.name);
-  const insteadOf = tools.map(t => t.insteadOf).filter(Boolean);
-  const uniqueInsteadOf = [...new Set(insteadOf.flatMap(s => s.split(" / ")))];
-  const replacements =
-    uniqueInsteadOf.length <= 2
-      ? uniqueInsteadOf.join(" and ")
-      : uniqueInsteadOf.slice(0, -1).join(", ") + ", and " + uniqueInsteadOf[uniqueInsteadOf.length - 1];
-  return `${post.intro.headline}\n\n${toolNames.length} tools that replace ${replacements}.\n${tools.map(t => `\n• ${t.name} — ${t.hook}`).join("")}\n\nAll free. All open-source. No subscriptions. No tracking.`;
-}
-
-// Expose the export helpers for console debugging and automated tests.
-Object.assign(window, {
-  loadJSON,
-  PIN,
-  PRESETS,
-  introCardHTML,
-  outroCardHTML,
-  toolCardHTML,
-  downloadPostZIP,
-  generateCaption,
-});

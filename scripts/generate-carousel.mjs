@@ -1,7 +1,7 @@
 // Usage: node scripts/generate-carousel.mjs post-001
 // Requires: npm install -D playwright  (then: npx playwright install chromium)
-// Build and serve the site first: npm run build && npm run serve
-// Then run this script against that server (defaults to http://localhost:3111).
+// Build and serve the site first: npm run build && npm run preview
+// Then run this script against that server (defaults to http://localhost:4173/SwapFOSS).
 
 import { chromium } from "playwright";
 import fs from "node:fs";
@@ -13,13 +13,13 @@ if (!POST_ID) {
   process.exit(1);
 }
 
-const BASE_URL = process.env.SWAPFOSS_URL || "http://localhost:3111";
+const BASE_URL = process.env.SWAPFOSS_URL || "http://localhost:4173/SwapFOSS";
 const OUT_DIR = path.resolve("output", POST_ID);
 
 async function shootSlide(page, url, outPath) {
   await page.goto(url, { waitUntil: "networkidle" });
-  await page.waitForSelector('body[data-ready="true"]');
-  const el = await page.$("#export-target");
+  await page.waitForSelector("#stage .export-card");
+  const el = await page.$("#stage .export-card");
   await el.screenshot({ path: outPath });
   console.log("Saved", outPath);
 }
@@ -39,7 +39,7 @@ async function main() {
   // Intro
   await shootSlide(
     page,
-    `${BASE_URL}/slide.html?post=${POST_ID}&type=intro`,
+    `${BASE_URL}/slide?post=${POST_ID}&type=intro`,
     path.join(OUT_DIR, `${String(slideNum++).padStart(2, "0")}-intro.png`)
   );
 
@@ -47,7 +47,7 @@ async function main() {
   for (const toolId of postData.tools) {
     await shootSlide(
       page,
-      `${BASE_URL}/slide.html?post=${POST_ID}&type=tool&tool=${toolId}`,
+      `${BASE_URL}/slide?post=${POST_ID}&type=tool&tool=${toolId}`,
       path.join(OUT_DIR, `${String(slideNum++).padStart(2, "0")}-${toolId}.png`)
     );
   }
@@ -55,7 +55,7 @@ async function main() {
   // Outro
   await shootSlide(
     page,
-    `${BASE_URL}/slide.html?post=${POST_ID}&type=outro`,
+    `${BASE_URL}/slide?post=${POST_ID}&type=outro`,
     path.join(OUT_DIR, `${String(slideNum++).padStart(2, "0")}-outro.png`)
   );
 

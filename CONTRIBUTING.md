@@ -52,7 +52,7 @@ This is the easiest way to contribute! Each tool is a single JSON file.
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/my-feature`)
 3. Make your changes
-4. Test locally (`npm install && npm run serve`)
+4. Test locally (`npm install && npm run dev`)
 5. Commit with a clear message
 6. Push to your fork
 7. Open a pull request
@@ -68,38 +68,37 @@ cd swapfoss
 npm install
 
 # Start dev server
-npm run serve
+npm run dev
 ```
 
-Open `http://localhost:3000` in your browser.
+Open `http://localhost:5173/SwapFOSS/` in your browser.
 
 ### Project Structure
 
 ```
-data/
+src/
+  views/               # Route views (Browse, Batch, Create, Card, Slide, NotFound)
+  components/          # UI components (layout, browse, batch, common)
+  stores/              # Pinia stores (catalog, drafts, batch)
+  data/                # JSON loaders + Zod validation
+  export/              # Card templates + PNG/ZIP render pipeline
+  router/index.ts      # History-mode routes
+public/data/
   tools/<id>.json      # One file per tool (source of truth)
   categories.json      # Category labels + colors
   manifest.json        # List of tool IDs to load
   posts/<id>.json      # Carousel post definitions
 
-index.html             # Main site
-card.html              # Single card PNG export
-slide.html             # Carousel slide renderer
-
-css/styles.css         # All styles
-js/data-loader.js      # Main site logic
-js/card-export.js      # Card export logic
-js/slide.js            # Slide renderer logic
-
+css/styles.css         # Design tokens + component styles
 scripts/generate-carousel.mjs  # Playwright batch screenshot tool
 ```
 
 ## Code Style
 
-- Vanilla JavaScript (no frameworks)
-- CSS custom properties for theming
-- Semantic HTML
-- No build step required
+- Vue 3 Single File Components + TypeScript (strict)
+- Pinia for shared state; Zod for runtime data validation
+- CSS custom properties for theming + Tailwind utilities
+- Vitest specs colocated as `src/**/*.spec.ts`; Playwright suites in `tests/e2e/`
 
 ## Pull Request Guidelines
 
