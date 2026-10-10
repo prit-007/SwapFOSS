@@ -11,6 +11,7 @@ import { generateCaption } from "@/export/caption";
 import { isDeepDive, buildSlides } from "@/export/deep-cards";
 import { downloadBlob } from "@/export/render";
 import LoadError from "@/components/common/LoadError.vue";
+import AppIcon from "@/components/common/AppIcon.vue";
 import SkeletonPosts from "@/components/batch/SkeletonPosts.vue";
 import type { Post, Tool } from "@/types";
 
@@ -143,7 +144,9 @@ onMounted(load);
         Download post-ready bundles — intro card, tool cards, and outro — as a ZIP.
         Enter the PIN to unlock downloads.
       </p>
-      <RouterLink to="/create" class="batch-create-link">+ Create a new post</RouterLink>
+      <RouterLink to="/create" class="batch-create-link">
+        <AppIcon name="add-01" /> Create a new post
+      </RouterLink>
     </div>
   </section>
 
@@ -165,7 +168,8 @@ onMounted(load);
         :aria-pressed="batch.bulkTheme"
         @click="toggleBulkTheme"
       >
-        <span class="batch-theme-icon">◐</span> Light
+        <AppIcon class="batch-theme-icon" :name="batch.bulkTheme ? 'moon-01' : 'sun-01'" />
+        <span class="batch-theme-label">{{ batch.bulkTheme ? "Dark" : "Light" }}</span>
       </button>
       <label class="batch-bulk-check">
         <input type="checkbox" :checked="batch.pinRemember" @change="onPinRemember" />
@@ -237,7 +241,11 @@ onMounted(load);
               :aria-pressed="batch.themeFor(post.id)"
               @click="batch.toggleTheme(post.id)"
             >
-              <span class="batch-theme-icon">◐</span> Light
+              <AppIcon
+                class="batch-theme-icon"
+                :name="batch.themeFor(post.id) ? 'moon-01' : 'sun-01'"
+              />
+              <span class="batch-theme-label">{{ batch.themeFor(post.id) ? "Dark" : "Light" }}</span>
             </button>
           </div>
           <div class="batch-control-row batch-pin-row">
@@ -251,7 +259,9 @@ onMounted(load);
             />
           </div>
           <button class="batch-download-btn" :disabled="progress[post.id]?.active" @click="download(post.id)">
-            <span v-show="!progress[post.id]?.active" class="batch-download-text">Download ZIP</span>
+            <span v-show="!progress[post.id]?.active" class="batch-download-text">
+              <AppIcon name="download-01" /> Download ZIP
+            </span>
             <span v-show="progress[post.id]?.active" class="batch-download-progress">
               <span class="batch-progress-bar">
                 <span class="batch-progress-fill" :style="{ width: `${progress[post.id]?.pct || 0}%` }"></span>
@@ -259,10 +269,13 @@ onMounted(load);
               <span class="batch-progress-label">{{ progress[post.id]?.label }}</span>
             </span>
           </button>
-          <button class="batch-caption-btn" @click="showCaption(post.id)">Generate caption</button>
+          <button class="batch-caption-btn" @click="showCaption(post.id)">
+            <AppIcon name="magic-wand-01" /> Generate caption
+          </button>
           <div v-if="captions[post.id]?.visible" class="batch-caption-box">
             <p class="batch-caption-text">{{ captions[post.id].text }}</p>
             <button class="batch-caption-copy" @click="copyCaption(post.id)">
+              <AppIcon :name="captions[post.id].copied ? 'tick-04' : 'copy-01'" />
               {{ captions[post.id].copied ? "Copied!" : "Copy" }}
             </button>
           </div>
@@ -271,14 +284,14 @@ onMounted(load);
             class="batch-draft-delete"
             @click="removeDraft(post.id)"
           >
-            Remove draft
+            <AppIcon name="delete-02" /> Remove draft
           </button>
         </div>
       </div>
     </div>
   </main>
 
-  <footer class="site-footer">
+  <footer v-reveal class="site-footer">
     <div class="wrap">Built for sharing free software with the world.</div>
   </footer>
 </template>

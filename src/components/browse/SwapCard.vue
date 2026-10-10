@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import AppIcon from "@/components/common/AppIcon.vue";
 import type { Category, Tool } from "@/types";
 
 const props = defineProps<{ tool: Tool; cat: Category; index: number }>();
@@ -24,7 +25,7 @@ const hasSetupSteps = computed(() => !!props.tool.setupSteps?.length);
     <div
       class="card-media"
       :class="{ 'no-screenshot': !hasScreenshot }"
-      :data-fallback-text="tool.name"
+      :data-fallback-text="!hasScreenshot && !hasLogo ? tool.name : ''"
     >
       <img
         v-if="hasScreenshot"
@@ -53,7 +54,7 @@ const hasSetupSteps = computed(() => !!props.tool.setupSteps?.length);
           <span class="tag">{{ cat.label || tool.category }}</span>
           <div class="swap-row">
             <span class="swap-from">{{ tool.insteadOf }}</span>
-            <span class="swap-arrow">→</span>
+            <span class="swap-arrow"><AppIcon name="arrow-right-01" /></span>
             <span class="swap-to">{{ tool.name }}</span>
           </div>
         </div>
@@ -64,7 +65,7 @@ const hasSetupSteps = computed(() => !!props.tool.setupSteps?.length);
       </div>
       <div v-if="hasSetupSteps" class="setup-steps">
         <button class="setup-toggle" @click="setupOpen = !setupOpen">
-          {{ setupOpen ? "How to use ↑" : "How to use ↓" }}
+          How to use <AppIcon :name="setupOpen ? 'arrow-up-01' : 'arrow-down-01'" />
         </button>
         <div class="setup-body" :class="{ open: setupOpen }">
           <ol>
@@ -74,7 +75,8 @@ const hasSetupSteps = computed(() => !!props.tool.setupSteps?.length);
       </div>
       <div v-if="tool.details" class="details-expand">
         <button class="details-toggle" @click="detailsOpen = !detailsOpen">
-          {{ detailsOpen ? "Read less ↑" : "Read more ↓" }}
+          {{ detailsOpen ? "Read less" : "Read more" }}
+          <AppIcon :name="detailsOpen ? 'arrow-up-01' : 'arrow-down-01'" />
         </button>
         <div class="details-body" :class="{ open: detailsOpen }">
           <p>{{ tool.details }}</p>
@@ -83,8 +85,12 @@ const hasSetupSteps = computed(() => !!props.tool.setupSteps?.length);
       <div class="card-footer">
         <span class="meta">{{ tool.setup }}</span>
         <div style="display: flex; gap: 8px">
-          <button class="share-btn" @click="emit('share', tool.id)">Share ↗</button>
-          <a class="link-btn" :href="tool.link" target="_blank" rel="noopener">Visit ↗</a>
+          <button class="share-btn" @click="emit('share', tool.id)">
+            <AppIcon name="share-01" /> Share
+          </button>
+          <a class="link-btn" :href="tool.link" target="_blank" rel="noopener">
+            <AppIcon name="external-link" /> Visit
+          </a>
         </div>
       </div>
     </div>

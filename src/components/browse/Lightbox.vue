@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
+import AppIcon from "@/components/common/AppIcon.vue";
 import type { Tool } from "@/types";
 
 const props = defineProps<{ tool: Tool }>();
@@ -30,7 +31,7 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
       aria-label="Close screenshot"
       @click="emit('close')"
     >
-      ✕
+      <AppIcon name="cancel-01" :size="18" />
     </button>
     <div class="lightbox-content">
       <img :src="tool.screenshot" :alt="`${tool.name} screenshot`" />

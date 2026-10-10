@@ -4,6 +4,7 @@ import { useCatalogStore } from "@/stores/catalog";
 import { useDraftsStore } from "@/stores/drafts";
 import { loadJSON } from "@/data/api";
 import LoadError from "@/components/common/LoadError.vue";
+import AppIcon from "@/components/common/AppIcon.vue";
 import type { Post, PostIntro, Tool } from "@/types";
 
 const catalog = useCatalogStore();
@@ -204,7 +205,7 @@ onMounted(init);
 
   <main class="wrap create-layout" id="main" tabindex="-1">
     <form class="create-form" novalidate @submit.prevent>
-      <div class="create-section">
+      <div v-reveal class="create-section">
         <h2 class="create-section-title">Basics</h2>
         <div class="create-field">
           <span class="batch-label" id="format-label">Format</span>
@@ -242,7 +243,7 @@ onMounted(init);
         </div>
       </div>
 
-      <div class="create-section">
+      <div v-reveal class="create-section">
         <h2 class="create-section-title">Intro card</h2>
         <div class="create-field">
           <label class="batch-label" for="f-eyebrow">Eyebrow</label>
@@ -274,7 +275,7 @@ onMounted(init);
         </div>
       </div>
 
-      <div class="create-section">
+      <div v-reveal class="create-section">
         <h2 class="create-section-title">Tools</h2>
         <p class="create-hint">{{ toolsHint }}</p>
         <LoadError v-if="error" what="tools" @retry="init" />
@@ -299,7 +300,7 @@ onMounted(init);
         </div>
       </div>
 
-      <div class="create-section">
+      <div v-reveal class="create-section">
         <h2 class="create-section-title">Outro card</h2>
         <div class="create-field">
           <label class="batch-label" for="f-outro-headline">Headline</label>
@@ -312,9 +313,15 @@ onMounted(init);
       </div>
 
       <div class="create-actions">
-        <button type="button" class="batch-download-btn" @click="saveDraft">Save draft</button>
-        <button type="button" class="batch-caption-btn" @click="downloadJSON">Download JSON</button>
-        <button type="button" class="batch-caption-btn" @click="copyJSON">Copy JSON</button>
+        <button type="button" class="batch-download-btn" @click="saveDraft">
+          <AppIcon name="floppy-disk" /> Save draft
+        </button>
+        <button type="button" class="batch-caption-btn" @click="downloadJSON">
+          <AppIcon name="download-01" /> Download JSON
+        </button>
+        <button type="button" class="batch-caption-btn" @click="copyJSON">
+          <AppIcon name="copy-01" /> Copy JSON
+        </button>
         <a
           class="batch-caption-btn"
           :class="{ 'create-btn-disabled': errors.length }"
@@ -323,15 +330,15 @@ onMounted(init);
           rel="noopener"
           @click="errors.length && $event.preventDefault()"
         >
-          Open on GitHub
+          <AppIcon name="github-01" /> Open on GitHub
         </a>
         <span class="create-status" :class="{ 'create-status-error': status.isError }">{{ status.msg }}</span>
       </div>
     </form>
 
-    <aside class="create-preview">
+    <aside v-reveal class="create-preview">
       <div class="create-preview-sticky">
-        <span class="batch-tools-label">Live preview</span>
+        <span class="batch-tools-label"><AppIcon name="eye" /> Live preview</span>
         <div class="create-preview-card">
           <span class="batch-intro-eyebrow">{{ post.intro.eyebrow || "Eyebrow" }}</span>
           <p class="batch-intro-headline">{{ post.intro.headline || "Your headline" }}</p>
@@ -339,7 +346,9 @@ onMounted(init);
             {{ post.intro.subhead || "Your subhead" }}
           </p>
           <div v-if="post.intro.pills" class="create-preview-pills">
-            <span v-for="p in post.intro.pills" :key="p" class="stat-pill">✓ {{ p }}</span>
+            <span v-for="p in post.intro.pills" :key="p" class="stat-pill">
+              <AppIcon name="tick-04" /> {{ p }}
+            </span>
           </div>
         </div>
         <div class="create-preview-tools">
@@ -387,8 +396,12 @@ onMounted(init);
           </span>
         </div>
         <div class="create-draft-actions">
-          <button class="batch-caption-btn" @click="loadDraft(d.id)">Edit</button>
-          <button class="batch-caption-btn" @click="removeDraft(d.id)">Delete</button>
+          <button class="batch-caption-btn" @click="loadDraft(d.id)">
+            <AppIcon name="edit-01" /> Edit
+          </button>
+          <button class="batch-caption-btn" @click="removeDraft(d.id)">
+            <AppIcon name="delete-02" /> Delete
+          </button>
         </div>
       </div>
     </div>

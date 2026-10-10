@@ -8,6 +8,7 @@ import SkeletonGrid from "@/components/browse/SkeletonGrid.vue";
 import Lightbox from "@/components/browse/Lightbox.vue";
 import ShareMenu from "@/components/browse/ShareMenu.vue";
 import LoadError from "@/components/common/LoadError.vue";
+import AppIcon from "@/components/common/AppIcon.vue";
 import type { Tool } from "@/types";
 
 const route = useRoute();
@@ -107,20 +108,7 @@ async function copyCaption() {
   <main class="wrap" id="main" tabindex="-1">
     <div class="index-toolbar">
       <div class="search-box">
-        <svg
-          class="search-icon"
-          width="15"
-          height="15"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          aria-hidden="true"
-        >
-          <circle cx="11" cy="11" r="7" />
-          <path d="M21 21l-4.3-4.3" />
-        </svg>
+        <AppIcon class="search-icon" name="search-01" :size="15" />
         <input
           id="tool-search"
           type="search"
@@ -176,18 +164,20 @@ async function copyCaption() {
         style="--pill-color: var(--text-muted)"
         @click="clearAll"
       >
-        Clear search &amp; filters
+        <AppIcon name="refresh-01" /> Clear search &amp; filters
       </button>
     </div>
 
-    <div class="caption-box">
+    <div v-reveal class="caption-box">
       <span class="caption-label">Suggested post caption</span>
       <p>{{ captionText }}</p>
-      <button @click="copyCaption">{{ captionCopied ? "Copied!" : "Copy caption" }}</button>
+      <button id="copy-caption-btn" @click="copyCaption">
+        <AppIcon name="copy-01" /> {{ captionCopied ? "Copied!" : "Copy caption" }}
+      </button>
     </div>
   </main>
 
-  <section class="dev-credits">
+  <section v-reveal class="dev-credits">
     <div class="wrap">
       <div class="dev-credits-label">Developer's Paradise</div>
       <p class="dev-credits-tagline">Where bugs fear to tread and coffee never runs out</p>
@@ -215,7 +205,7 @@ async function copyCaption() {
     </div>
   </section>
 
-  <footer class="site-footer">
+  <footer v-reveal class="site-footer">
     <div class="wrap">
       <div class="footer-row">
         <span>

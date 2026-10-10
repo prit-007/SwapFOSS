@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
+import AppIcon from "@/components/common/AppIcon.vue";
 </script>
 
 <template>
@@ -8,7 +9,9 @@ import { RouterLink } from "vue-router";
     <div class="wrap">
       <div class="brand">Swap<span>FOSS</span></div>
       <nav class="site-nav">
-        <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener">
+          <AppIcon name="github-01" /> GitHub
+        </a>
         <RouterLink to="/">Browse</RouterLink>
         <RouterLink to="/batch">Batch export</RouterLink>
         <RouterLink to="/create">Create</RouterLink>

@@ -17,7 +17,17 @@ import { capturePng } from "@/export/capture";
 import { downloadBlob } from "@/export/render";
 import StageLoader from "@/components/common/StageLoader.vue";
 import LoadError from "@/components/common/LoadError.vue";
+import AppIcon from "@/components/common/AppIcon.vue";
+import type { IconName } from "@/icons";
 import type { Post, Tool } from "@/types";
+
+type StatusKey = "idle" | "rendering" | "saved" | "failed";
+const STATUS: Record<StatusKey, { icon: IconName; label: string }> = {
+  idle: { icon: "download-01", label: "Download PNG" },
+  rendering: { icon: "refresh-01", label: "Rendering…" },
+  saved: { icon: "tick-04", label: "Saved" },
+  failed: { icon: "cancel-01", label: "Failed — retry" },
+};
 
 const route = useRoute();
 const router = useRouter();
@@ -27,7 +37,8 @@ const stage = ref<HTMLElement | null>(null);
 const post = ref<Post | null>(null);
 const error = ref(false);
 const busy = ref(false);
-const status = ref("Download PNG");
+const statusKey = ref<StatusKey>("idle");
+const status = computed(() => STATUS[statusKey.value]);
 
 const postId = computed(() => (route.query.post as string) || "");
 const type = computed(() => (route.query.type as string) || "intro");
@@ -128,17 +139,17 @@ async function download() {
   const node = stage.value?.querySelector(".export-card") as HTMLElement | null;
   if (!node || !post.value) return;
   busy.value = true;
-  status.value = "Rendering…";
+  statusKey.value = "rendering";
   try {
     const blob = await capturePng(node, 2);
     const suffix = type.value === "deep" ? `deep-${part.value}` : type.value;
     downloadBlob(blob, `swapfoss-${postId.value}-${suffix}.png`);
-    status.value = "Saved ✓";
+    statusKey.value = "saved";
   } catch {
-    status.value = "Failed — retry";
+    statusKey.value = "failed";
   } finally {
     busy.value = false;
-    setTimeout(() => (status.value = "Download PNG"), 1600);
+    setTimeout(() => (statusKey.value = "idle"), 1600);
   }
 }
 </script>
@@ -146,10 +157,16 @@ async function download() {
 <template>
   <a class="skip-link" href="#stage">Skip to content</a>
   <div id="slide-toolbar">
-    <RouterLink id="slide-back" to="/">← Home</RouterLink>
-    <button :disabled="!prev" @click="prev && go(prev)">← Prev</button>
-    <button :disabled="!next" @click="next && go(next)">Next →</button>
-    <button id="slide-download" :disabled="busy || !html" @click="download">{{ status }}</button>
+    <RouterLink id="slide-back" to="/"><AppIcon name="arrow-left-01" /> Home</RouterLink>
+    <button :disabled="!prev" @click="prev && go(prev)">
+      <AppIcon name="arrow-left-01" /> Prev
+    </button>
+    <button :disabled="!next" @click="next && go(next)">
+      Next <AppIcon name="arrow-right-01" />
+    </button>
+    <button id="slide-download" :disabled="busy || !html" @click="download">
+      <AppIcon :name="status.icon" /> {{ status.label }}
+    </button>
     <span>1080×1350 — ready for posting</span>
   </div>
   <div id="stage" ref="stage" tabindex="-1">

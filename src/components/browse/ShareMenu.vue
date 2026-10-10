@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
+import AppIcon from "@/components/common/AppIcon.vue";
 import type { Tool } from "@/types";
 
 const props = defineProps<{ tool: Tool; dataUrl: string }>();
@@ -66,7 +67,9 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
     <div class="share-menu">
       <div class="share-menu-header">
         <span class="share-menu-title">Share card</span>
-        <button class="share-menu-close" aria-label="Close" @click="emit('close')">✕</button>
+        <button class="share-menu-close" aria-label="Close" @click="emit('close')">
+          <AppIcon name="cancel-01" :size="15" />
+        </button>
       </div>
       <div class="share-menu-body">
         <div class="share-menu-preview">
@@ -74,23 +77,30 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
         </div>
         <div class="share-menu-platforms">
           <button class="share-platform" @click="act('whatsapp')">
-            <span class="share-platform-icon">💬</span> WhatsApp
+            <span class="share-platform-icon"><AppIcon name="whatsapp" :size="16" /></span>
+            WhatsApp
           </button>
           <button class="share-platform" @click="act('twitter')">
-            <span class="share-platform-icon">🐦</span> Twitter / X
+            <span class="share-platform-icon"><AppIcon name="twitter" :size="16" /></span>
+            Twitter / X
           </button>
           <button class="share-platform" @click="act('linkedin')">
-            <span class="share-platform-icon">💼</span> LinkedIn
+            <span class="share-platform-icon"><AppIcon name="linkedin-01" :size="16" /></span>
+            LinkedIn
           </button>
           <button class="share-platform" @click="act('email')">
-            <span class="share-platform-icon">✉️</span> Email
+            <span class="share-platform-icon"><AppIcon name="mail-01" :size="16" /></span>
+            Email
           </button>
           <button class="share-platform" @click="act('copy')">
-            <span class="share-platform-icon">{{ copied ? "✅" : "🔗" }}</span>
+            <span class="share-platform-icon">
+              <AppIcon :name="copied ? 'tick-04' : 'link-01'" :size="16" />
+            </span>
             {{ copied ? "Copied!" : "Copy link" }}
           </button>
           <button class="share-platform" @click="act('download')">
-            <span class="share-platform-icon">⬇️</span> Download PNG
+            <span class="share-platform-icon"><AppIcon name="download-01" :size="16" /></span>
+            Download PNG
           </button>
         </div>
       </div>
