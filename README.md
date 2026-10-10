@@ -52,35 +52,46 @@ That's it — the site picks it up automatically.
 
 | Layer | What |
 |-------|------|
-| Frontend | Vanilla HTML, CSS, JS — no framework, bundled by [Vite](https://vite.dev) |
-| Styling | CSS custom properties, glassmorphism, responsive grid |
-| Fonts | Space Grotesk (display) + IBM Plex Sans (body) |
+| Frontend | [Vue 3](https://vuejs.org) SPA + [Vue Router](https://router.vuejs.org) (history mode + GH Pages 404 fallback), bundled by [Vite](https://vite.dev) |
+| Language | TypeScript (strict) |
+| State | [Pinia](https://pinia.vuejs.org) stores (catalog, drafts, batch) |
+| Validation | [Zod](https://zod.dev) schemas for all JSON data |
+| Styling | CSS custom properties + glassmorphism + Tailwind utilities (no preflight), responsive grid |
+| Fonts | Space Grotesk (display) + IBM Plex Sans (body), self-hosted |
 | Export | [html-to-image](https://github.com/bubkoo/html-to-image) (client-side PNG rendering) |
 | ZIP | [JSZip](https://github.com/stuk/jszip) (client-side ZIP bundling) |
+| Tests | Vitest + @vue/test-utils (unit), Playwright (e2e) |
 | Hosting | GitHub Pages (Vite build output) |
 
 ### Project structure
 
 ```
-index.html                    Main site — browse all tools by category
-batch.html                    Batch export — download post bundles with PIN
-create.html                   Compose a new carousel post as JSON
-card.html                     Single card preview — card.html?tool=<id>
-slide.html                    Slide preview — slide.html?post=<id>&type=intro|tool|outro
-vite.config.js                Multi-page Vite build (5 HTML entries)
-
-js/
-  data-loader.js              Loads tools + categories, renders grid, wires filters + share
-  share.js                    Share menu (Web Share API + custom fallback)
-  batch-export.js             Batch engine — PIN gate, rendering, ZIP bundling
-  batch-page.js               Batch page UI (grid of posts, downloads, captions)
-  card-export.js              Single card export (card.html)
-  slide.js                    Slide renderer (slide.html)
-
+index.html                    SPA shell
+vite.config.ts                Vite + Vue + Tailwind config (single entry, base "./")
+src/
+  main.ts                     App bootstrap (Pinia + Router + global CSS)
+  App.vue                     Root <RouterView/>
+  router/index.ts             History-mode routes (/, /batch, /create, /card, /slide)
+  views/                      BrowseView, BatchView, CreateView, CardView, SlideView, NotFoundView
+  components/
+    layout/                   SiteHeader, SiteLayout
+    browse/                   SwapCard, Lightbox, ShareMenu, SkeletonGrid
+    batch/                    SkeletonPosts
+    common/                   StageLoader, LoadError
+  stores/                     Pinia: catalog, drafts, batch
+  composables/                useShareCard
+  data/                       api.ts, validation.ts (Zod), catalog.ts loaders
+  export/                     cards.ts (HTML builders), engine.ts, post-zip.ts, capture.ts,
+                              render.ts, presets.ts, highlight.ts, caption.ts
+  types/index.ts              Shared data types
+  styles/main.css             Tailwind theme + utilities (preflight disabled)
 css/
-  styles.css                  All styles — design tokens, cards, export, batch, share menu
+  styles.css                  Design tokens, cards, export, batch, share menu
   fonts.css                   @font-face rules (self-hosted woff2)
-
+tests/
+  setup.ts                    Vitest jsdom setup
+  e2e/                        Playwright smoke + export suites
+playwright.config.ts
 public/                       Copied verbatim into dist/ by Vite
   data/
     categories.json           Category labels + colors
@@ -95,21 +106,25 @@ public/                       Copied verbatim into dist/ by Vite
 assets/fonts/                 Self-hosted woff2 (bundled + hashed by Vite)
 ```
 
+Unit specs live next to the code they cover (`src/**/*.spec.ts`); e2e suites live in `tests/e2e/`.
+
 ### Running locally
 
 ```bash
 npm install       # first time only
-npm run dev       # dev server with instant reload (http://localhost:5173)
+npm run dev       # dev server with instant reload (http://localhost:5173/SwapFOSS/)
 
 # production build + serve:
-npm run build     # outputs dist/
-npm run preview   # vite preview (http://localhost:4173)
-npm run serve     # http-server dist -p 3111 (used by npm run carousel)
+npm run build     # vue-tsc --noEmit && vite build → dist/
+npm run preview   # vite preview at http://localhost:4173/SwapFOSS/
 
+npm run typecheck # vue-tsc --noEmit
+npm test          # Vitest unit tests
+npm run e2e       # Playwright e2e (builds + previews automatically)
 npm run validate  # validate tool/post JSON files (also runs in CI)
 ```
 
-The site fetches JSON data files, so you must open it via a server (not `file://`).
+The site fetches JSON data files and uses clean history-mode URLs, so it can be served from any static host that falls back to index.html (see the GH Pages 404-handler in public/404.html).
 
 ### Adding a tool
 
@@ -153,7 +168,7 @@ Optional intro fields:
 
 ### Batch export (PIN: `swapfoss2026`)
 
-The batch page at `batch.html` renders all cards off-screen and bundles them as a ZIP:
+The batch page at `/batch` renders all cards off-screen and bundles them as a ZIP:
 
 - **Export presets:** LinkedIn (1080×1350), Instagram (1080×1080), Twitter/X (1200×675)
 - **Light/dark theme toggle** for different platform aesthetics
@@ -163,7 +178,7 @@ The batch page at `batch.html` renders all cards off-screen and bundles them as 
 
 ### Single card export
 
-Open `card.html?tool=jellyfin` → click "Download PNG". Quick one-off export, no install needed.
+Open `/card?tool=jellyfin` → click "Download PNG". Quick one-off export, no install needed.
 
 ---
 

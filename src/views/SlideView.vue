@@ -1,0 +1,189 @@
+<script setup lang="ts">
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { RouterLink, useRoute, useRouter } from "vue-router";
+import { useCatalogStore } from "@/stores/catalog";
+import { loadPost } from "@/data/catalog";
+import { PRESETS } from "@/export/presets";
+import { introCardHTML, outroCardHTML, toolCardHTML } from "@/export/cards";
+import { capturePng } from "@/export/capture";
+import { downloadBlob } from "@/export/render";
+import StageLoader from "@/components/common/StageLoader.vue";
+import LoadError from "@/components/common/LoadError.vue";
+import type { Post, Tool } from "@/types";
+
+type Slide = { type: "intro" } | { type: "tool"; tool: string } | { type: "outro" };
+
+const route = useRoute();
+const router = useRouter();
+const catalog = useCatalogStore();
+
+const stage = ref<HTMLElement | null>(null);
+const post = ref<Post | null>(null);
+const error = ref(false);
+const busy = ref(false);
+const status = ref("Download PNG");
+
+const postId = computed(() => (route.query.post as string) || "");
+const type = computed(() => (route.query.type as string) || "intro");
+const toolId = computed(() => (route.query.tool as string) || "");
+
+const tool = computed(() => catalog.tools.find((t) => t.id === toolId.value) || null);
+const cat = computed(() =>
+  tool.value
+    ? catalog.categories[tool.value.category] || { label: tool.value.category, color: "#888" }
+    : null,
+);
+const postTools = computed<Tool[]>(() => {
+  if (!post.value) return [];
+  return post.value.tools
+    .map((id) => catalog.tools.find((t) => t.id === id))
+    .filter((t): t is Tool => !!t);
+});
+
+const html = computed(() => {
+  if (!post.value) return "";
+  const preset = PRESETS.linkedin;
+  const total = post.value.tools.length + 2;
+  if (type.value === "intro") return introCardHTML(post.value, preset, false, total, postTools.value);
+  if (type.value === "outro") return outroCardHTML(post.value, preset, false, total);
+  return tool.value && cat.value ? toolCardHTML(tool.value, cat.value, preset, false) : "";
+});
+
+function isCurrent(s: Slide) {
+  if (type.value === "intro") return s.type === "intro";
+  if (type.value === "outro") return s.type === "outro";
+  return s.type === "tool" && s.tool === toolId.value;
+}
+const slides = computed<Slide[]>(() =>
+  post.value
+    ? [
+        { type: "intro" },
+        ...post.value.tools.map((t): Slide => ({ type: "tool", tool: t })),
+        { type: "outro" },
+      ]
+    : [],
+);
+const idx = computed(() => slides.value.findIndex(isCurrent));
+const prev = computed(() => (idx.value > 0 ? slides.value[idx.value - 1] : null));
+const next = computed(() =>
+  idx.value >= 0 && idx.value < slides.value.length - 1 ? slides.value[idx.value + 1] : null,
+);
+
+function slideQuery(s: Slide) {
+  const query: Record<string, string> = { post: postId.value, type: s.type };
+  if (s.type === "tool") query.tool = s.tool;
+  return query;
+}
+function go(s: Slide) {
+  router.push({ name: "slide", query: slideQuery(s) });
+}
+
+function onKey(e: KeyboardEvent) {
+  const el = e.target as HTMLElement;
+  if (el?.matches?.("input, textarea, select")) return;
+  if (e.key === "ArrowRight" && next.value) go(next.value);
+  else if (e.key === "ArrowLeft" && prev.value) go(prev.value);
+}
+
+async function load() {
+  error.value = false;
+  try {
+    if (!catalog.tools.length) await catalog.load();
+    if (catalog.error) throw new Error(catalog.error);
+    post.value = await loadPost(postId.value);
+  } catch {
+    error.value = true;
+  }
+}
+
+onMounted(() => {
+  load();
+  window.addEventListener("keydown", onKey);
+});
+onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
+watch(() => route.query, load);
+
+async function download() {
+  const node = stage.value?.querySelector(".export-card") as HTMLElement | null;
+  if (!node || !post.value) return;
+  busy.value = true;
+  status.value = "Rendering…";
+  try {
+    const blob = await capturePng(node, 2);
+    downloadBlob(blob, `swapfoss-${postId.value}-${type.value}.png`);
+    status.value = "Saved ✓";
+  } catch {
+    status.value = "Failed — retry";
+  } finally {
+    busy.value = false;
+    setTimeout(() => (status.value = "Download PNG"), 1600);
+  }
+}
+</script>
+
+<template>
+  <a class="skip-link" href="#stage">Skip to content</a>
+  <div id="slide-toolbar">
+    <RouterLink id="slide-back" to="/">← Home</RouterLink>
+    <button :disabled="!prev" @click="prev && go(prev)">← Prev</button>
+    <button :disabled="!next" @click="next && go(next)">Next →</button>
+    <button id="slide-download" :disabled="busy || !html" @click="download">{{ status }}</button>
+    <span>1080×1350 — ready for posting</span>
+  </div>
+  <div id="stage" ref="stage" tabindex="-1">
+    <LoadError v-if="error" what="slide" @retry="load" />
+    <StageLoader v-else-if="!html" text="Loading slide…" />
+    <div v-else v-html="html"></div>
+  </div>
+</template>
+
+<style>
+body:has(#slide-toolbar) {
+  margin: 0;
+  background: var(--bg);
+}
+#slide-toolbar {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+#slide-toolbar button,
+#slide-back {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 9px 16px;
+  border-radius: 8px;
+}
+#slide-back {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  padding: 10px 6px;
+}
+#slide-toolbar button {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+#slide-toolbar button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+#slide-download {
+  background: #f5f3ed !important;
+  color: #0f1115 !important;
+  border: none !important;
+  padding: 10px 18px !important;
+}
+#slide-toolbar > span {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 13px;
+}
+</style>
