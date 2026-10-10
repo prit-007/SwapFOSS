@@ -4,7 +4,6 @@ import App from "./App.vue";
 import { createAppRouter } from "./router";
 import reveal from "./directives/reveal";
 import "../css/fonts.css";
-import "../css/styles.css";
 import "./styles/main.css";
 
 const app = createApp(App);

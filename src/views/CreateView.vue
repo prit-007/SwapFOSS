@@ -339,7 +339,7 @@ onMounted(init);
     <aside v-reveal class="create-preview">
       <div class="create-preview-sticky">
         <span class="batch-tools-label"><AppIcon name="eye" /> Live preview</span>
-        <div class="create-preview-card">
+        <div class="create-preview-card rounded-xl bg-white/[0.03] ring-1 ring-white/10">
           <span class="batch-intro-eyebrow">{{ post.intro.eyebrow || "Eyebrow" }}</span>
           <p class="batch-intro-headline">{{ post.intro.headline || "Your headline" }}</p>
           <p v-show="!post.intro.pills" class="batch-intro-subhead">
@@ -372,7 +372,7 @@ onMounted(init);
             {{ c }}
           </span>
         </div>
-        <div class="create-preview-card create-preview-outro">
+        <div class="create-preview-card create-preview-outro rounded-xl bg-white/[0.03] ring-1 ring-white/10">
           <p class="batch-intro-headline">{{ post.outro.headline || "Closing headline" }}</p>
           <p class="batch-intro-subhead">{{ post.outro.subhead || "Closing subhead" }}</p>
         </div>

@@ -183,17 +183,25 @@ onMounted(load);
       <div
         v-for="(post, i) in posts"
         :key="post.id"
-        class="batch-post-card"
+        class="batch-post-card relative overflow-hidden rounded-2xl border border-white/[0.07] bg-gradient-to-b from-white/[0.05] to-white/[0.02] shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-0.5 hover:border-white/[0.14] hover:shadow-xl hover:shadow-black/30"
         :class="{ 'batch-post-deep': isDeepDive(post) }"
         :style="{ '--card-index': i }"
       >
-        <div class="batch-post-header">
+        <div class="batch-post-header flex items-start justify-between gap-3">
           <h2 class="batch-post-title">{{ post.title }}</h2>
-          <span class="batch-post-count">
-            {{ draftIds.has(post.id) ? "Draft · " : "" }}{{ countText(post) }}
-          </span>
+          <div class="flex shrink-0 items-center gap-3">
+            <span class="batch-post-count">
+              {{ draftIds.has(post.id) ? "Draft · " : "" }}{{ countText(post) }}
+            </span>
+            <RouterLink
+              class="batch-post-preview inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/80 no-underline transition hover:border-white/25 hover:bg-white/10 hover:text-white"
+              :to="{ path: '/slide', query: { post: post.id, type: 'intro' } }"
+            >
+              <AppIcon name="eye" /> Preview
+            </RouterLink>
+          </div>
         </div>
-        <div class="batch-post-intro">
+        <div class="batch-post-intro rounded-xl bg-white/[0.03] ring-1 ring-white/10">
           <span class="batch-intro-eyebrow">{{ post.intro.eyebrow }}</span>
           <p class="batch-intro-headline">{{ post.intro.headline }}</p>
           <p class="batch-intro-subhead">{{ post.intro.subhead }}</p>
@@ -205,7 +213,7 @@ onMounted(load);
               v-for="t in toolsFor(post)"
               v-show="t.logo"
               :key="t.id"
-              class="batch-tool-thumb"
+              class="batch-tool-thumb rounded-lg ring-1 ring-white/10"
               :src="t.logo"
               :alt="t.name"
               :title="t.name"
