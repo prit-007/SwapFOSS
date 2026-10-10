@@ -9,6 +9,7 @@ export interface Tool {
   hook: string;
   bullets?: string[];
   features?: string[];
+  benefits?: string[];
   setupSteps?: string[];
   details?: string;
   setup: string;

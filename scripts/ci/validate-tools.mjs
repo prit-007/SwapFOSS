@@ -20,7 +20,6 @@ const REQUIRED_FIELDS = [
   "repo",
 ];
 
-const VALID_CATEGORIES = ["media", "music", "dev", "home", "messaging", "security"];
 const VALID_DIFFICULTIES = ["easy", "medium", "hard"];
 
 let errors = 0;
@@ -58,6 +57,8 @@ try {
 } catch (e) {
   fail(`Cannot read categories.json: ${e.message}`);
 }
+// Categories are the source of truth for valid tool categories.
+const VALID_CATEGORIES = categories ? Object.keys(categories) : [];
 
 // 2. Load manifest
 console.log("\n▸ Validating manifest.json");
@@ -124,6 +125,17 @@ if (manifest?.tools) {
       }
     }
 
+    // Validate benefits (optional, deep-dive slides) — array of 1-6 strings
+    if (tool.benefits !== undefined) {
+      if (!Array.isArray(tool.benefits)) {
+        fail('"benefits" must be an array');
+      } else if (tool.benefits.length < 1 || tool.benefits.length > 6) {
+        fail(`"benefits" must have 1-6 items, got ${tool.benefits.length}`);
+      } else if (tool.benefits.some(b => typeof b !== "string" || !b.trim())) {
+        fail('"benefits" items must be non-empty strings');
+      }
+    }
+
     // Validate URLs
     for (const urlField of ["link", "repo"]) {
       if (tool[urlField] && !/^https?:\/\//.test(tool[urlField])) {
@@ -166,6 +178,12 @@ if (fs.existsSync(postsDir)) {
     try {
       const post = JSON.parse(fs.readFileSync(postPath, "utf-8"));
       if (!post.id) fail(`Post ${postFile}: missing "id"`);
+      else if (post.id !== postFile.replace(/\.json$/, "")) {
+        fail(`Post ${postFile}: id "${post.id}" does not match filename`);
+      }
+      if (post.format !== undefined && post.format !== "deep-dive") {
+        fail(`Post ${postFile}: unknown format "${post.format}" (only "deep-dive" is allowed)`);
+      }
       if (!post.tools || !Array.isArray(post.tools) || post.tools.length === 0) {
         fail(`Post ${postFile}: missing or empty "tools" array`);
       } else {
@@ -173,6 +191,9 @@ if (fs.existsSync(postsDir)) {
         const missing = post.tools.filter(t => !manifestSet.has(t));
         if (missing.length > 0) {
           fail(`Post ${postFile}: references tools not in manifest: ${missing.join(", ")}`);
+        }
+        if (post.format === "deep-dive" && post.tools.length !== 1) {
+          fail(`Post ${postFile}: deep-dive format must feature exactly one tool (got ${post.tools.length})`);
         }
       }
       pass(`${postFile} — valid`);

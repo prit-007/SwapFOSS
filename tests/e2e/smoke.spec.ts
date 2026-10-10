@@ -117,3 +117,65 @@ test("batch export rejects a wrong PIN and accepts the right one", async ({ page
   ]);
   expect(download.suggestedFilename()).toMatch(/^post-\d{3}\.zip$/);
 });
+
+test("deep-dive post renders the hero slide with a clean history URL", async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto("slide?post=post-006&type=deep&part=hero");
+  await expect(page.locator("#stage .export-card.deep.deep-hero")).toBeVisible();
+  await expect(page.locator("#stage .export-card")).toContainText("Umbrel");
+  await expect(page.locator("#stage .deep-hero-hook")).toContainText("home server");
+  await expect(page.locator("#stage .deep-counter")).toContainText("02 / 06");
+  expect(errors).toEqual([]);
+});
+
+test("deep-dive slide prev/next walks the fixed 6-slide carousel", async ({ page }) => {
+  await page.goto("slide?post=post-006&type=deep&part=features");
+  await expect(page.locator("#stage .deep-title")).toContainText("Everything Umbrel does");
+  await page.click("#slide-toolbar button:has-text('Next')");
+  await expect(page).toHaveURL(/type=deep&part=benefits/);
+  await expect(page.locator("#stage .deep-title")).toContainText("Why Umbrel is worth it");
+});
+
+test("batch page labels deep-dive posts with their slide count", async ({ page }) => {
+  await page.goto("batch");
+  const deepCard = page.locator(".batch-post-card.batch-post-deep").first();
+  await expect(deepCard).toBeVisible();
+  await expect(deepCard.locator(".batch-post-count")).toContainText("Deep dive · 6 slides");
+  await expect(deepCard.locator(".batch-tools-label")).toContainText("Featured app:");
+});
+
+test("deep-dive ZIP export contains all 6 slides", async ({ page }) => {
+  await page.goto("batch");
+  const deepCard = page.locator(".batch-post-card.batch-post-deep").first();
+  await expect(deepCard).toBeVisible();
+  await deepCard.locator(".batch-pin-input").fill("swapfoss2026");
+  const [download] = await Promise.all([
+    page.waitForEvent("download", { timeout: 60_000 }),
+    deepCard.locator(".batch-download-btn").click(),
+  ]);
+  expect(download.suggestedFilename()).toBe("post-006.zip");
+  expect(await download.path()).toBeTruthy();
+});
+
+test("create page deep-dive mode enforces a single app and shows the slide strip", async ({ page }) => {
+  await page.goto("create");
+  await expect(page.locator("#f-id")).toHaveValue(/post-\d{3}/);
+
+  await page.click(".create-format-btn:has-text('Deep dive')");
+  await expect(page.locator(".create-format-btn:has-text('Deep dive')")).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await expect(
+    page.locator("p.create-hint", { hasText: "exactly one app" }),
+  ).toBeVisible();
+
+  // Single-select: choosing a second app replaces the first.
+  const options = page.locator(".create-tool-option");
+  await options.filter({ hasText: "Umbrel" }).locator("input").check();
+  await options.filter({ hasText: "Jellyfin" }).locator("input").check();
+  const checked = await page.locator(".create-tool-option input:checked").count();
+  expect(checked).toBe(1);
+  await expect(page.locator(".create-slide-strip")).toBeVisible();
+  await expect(page.locator(".create-slide-chip").nth(1)).toContainText("Jellyfin");
+});

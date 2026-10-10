@@ -16,6 +16,9 @@ if (!POST_ID) {
 const BASE_URL = process.env.SWAPFOSS_URL || "http://localhost:4173/SwapFOSS";
 const OUT_DIR = path.resolve("output", POST_ID);
 
+// Mirrors DEEP_PARTS in src/export/deep-cards.ts (Node can't import the TS module).
+const DEEP_PARTS = ["hero", "features", "benefits", "setup"];
+
 async function shootSlide(page, url, outPath) {
   await page.goto(url, { waitUntil: "networkidle" });
   await page.waitForSelector("#stage .export-card");
@@ -35,28 +38,41 @@ async function main() {
   const page = await browser.newPage({ viewport: { width: 1200, height: 1500 } });
 
   let slideNum = 1;
+  const pad = (n) => String(n).padStart(2, "0");
+  const isDeep = postData.format === "deep-dive";
 
   // Intro
   await shootSlide(
     page,
     `${BASE_URL}/slide?post=${POST_ID}&type=intro`,
-    path.join(OUT_DIR, `${String(slideNum++).padStart(2, "0")}-intro.png`)
+    path.join(OUT_DIR, `${pad(slideNum++)}-intro.png`)
   );
 
-  // One slide per tool, in the order listed in the post
-  for (const toolId of postData.tools) {
-    await shootSlide(
-      page,
-      `${BASE_URL}/slide?post=${POST_ID}&type=tool&tool=${toolId}`,
-      path.join(OUT_DIR, `${String(slideNum++).padStart(2, "0")}-${toolId}.png`)
-    );
+  if (isDeep) {
+    // Deep dives always render the fixed 6-slide carousel: intro + 4 deep parts + outro.
+    for (const part of DEEP_PARTS) {
+      await shootSlide(
+        page,
+        `${BASE_URL}/slide?post=${POST_ID}&type=deep&part=${part}`,
+        path.join(OUT_DIR, `${pad(slideNum++)}-${part}.png`)
+      );
+    }
+  } else {
+    // One slide per tool, in the order listed in the post
+    for (const toolId of postData.tools) {
+      await shootSlide(
+        page,
+        `${BASE_URL}/slide?post=${POST_ID}&type=tool&tool=${toolId}`,
+        path.join(OUT_DIR, `${pad(slideNum++)}-${toolId}.png`)
+      );
+    }
   }
 
   // Outro
   await shootSlide(
     page,
     `${BASE_URL}/slide?post=${POST_ID}&type=outro`,
-    path.join(OUT_DIR, `${String(slideNum++).padStart(2, "0")}-outro.png`)
+    path.join(OUT_DIR, `${pad(slideNum++)}-outro.png`)
   );
 
   await browser.close();

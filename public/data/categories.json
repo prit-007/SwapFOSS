@@ -1,8 +1,30 @@
 {
-  "media": { "label": "Media & Streaming", "color": "#FF5A5F" },
-  "music": { "label": "Music", "color": "#FFC857" },
-  "dev": { "label": "Dev Tools", "color": "#4EA8DE" },
-  "home": { "label": "Home & Entertainment", "color": "#6BCB77" },
-  "messaging": { "label": "Messaging", "color": "#B983FF" },
-  "security": { "label": "Security & Privacy", "color": "#2DD4BF" }
+  "media": {
+    "label": "Media & Streaming",
+    "color": "#FF5A5F"
+  },
+  "music": {
+    "label": "Music",
+    "color": "#FFC857"
+  },
+  "dev": {
+    "label": "Dev Tools",
+    "color": "#4EA8DE"
+  },
+  "home": {
+    "label": "Home & Entertainment",
+    "color": "#6BCB77"
+  },
+  "messaging": {
+    "label": "Messaging",
+    "color": "#B983FF"
+  },
+  "security": {
+    "label": "Security & Privacy",
+    "color": "#2DD4BF"
+  },
+  "cloud": {
+    "label": "Cloud & Self-Hosted",
+    "color": "#F472B6"
+  }
 }

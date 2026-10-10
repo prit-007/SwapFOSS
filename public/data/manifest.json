@@ -1,3 +1,29 @@
 {
-  "tools": ["jellyfin", "streamio", "metrolist", "spotiflac", "spotube", "echo-music", "jami", "frappe-framework", "erpnext", "forgejo", "frappe-books", "mihon", "nuclear", "aniyomi", "arr-suite", "smarttube", "freetube", "newpipe", "bitwarden", "ente-auth", "pihole", "tale"]
+  "tools": [
+    "jellyfin",
+    "streamio",
+    "metrolist",
+    "spotiflac",
+    "spotube",
+    "echo-music",
+    "jami",
+    "frappe-framework",
+    "erpnext",
+    "forgejo",
+    "frappe-books",
+    "mihon",
+    "nuclear",
+    "aniyomi",
+    "arr-suite",
+    "smarttube",
+    "freetube",
+    "newpipe",
+    "bitwarden",
+    "ente-auth",
+    "pihole",
+    "tale",
+    "umbrel",
+    "immich",
+    "nextcloud"
+  ]
 }

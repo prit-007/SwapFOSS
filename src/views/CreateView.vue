@@ -22,6 +22,7 @@ const form = reactive({
   outroSubhead: "",
 });
 const selectedTools = ref<string[]>([]);
+const format = ref<"swap" | "deep">("swap");
 const error = ref(false);
 const status = reactive({ msg: "", isError: false });
 let statusTimer: ReturnType<typeof setTimeout> | undefined;
@@ -38,13 +39,14 @@ const post = computed<Post>(() => {
     .filter(Boolean);
   if (pills.length) intro.pills = pills;
   if (form.hlWord.trim()) intro.hl = { word: form.hlWord.trim(), color: form.hlColor };
-  return {
+  const base: Post = {
     id: form.id.trim(),
     title: form.title.trim(),
     intro,
     tools: [...selectedTools.value],
     outro: { headline: form.outroHeadline.trim(), subhead: form.outroSubhead.trim() },
   };
+  return format.value === "deep" ? { ...base, format: "deep-dive" } : base;
 });
 
 const errors = computed(() => validate(post.value));
@@ -59,6 +61,17 @@ const grouped = computed(() => {
     (groups[t.category] = groups[t.category] || []).push(t);
   });
   return groups;
+});
+const toolsHint = computed(() =>
+  format.value === "deep"
+    ? "Deep dive posts feature exactly one app — pick the star of the show. Its features, benefits, and setup slides are generated from that app's own data."
+    : "Pick at least one. Cards render in the order listed below.",
+);
+/** The fixed 6-slide strip a deep dive will export. */
+const slideChips = computed(() => {
+  if (format.value !== "deep") return [];
+  const appName = selected.value[0]?.name || "One app";
+  return ["Intro", appName, "Features", "Benefits", "Setup", "Outro"];
 });
 const githubHref = computed(() => {
   if (errors.value.length) return undefined;
@@ -78,7 +91,11 @@ function validate(p: Post): string[] {
   if (p.intro.hl && !p.intro.headline.includes(p.intro.hl.word)) {
     errs.push(`Highlight word "${p.intro.hl.word}" is not in the headline`);
   }
-  if (!p.tools.length) errs.push("Pick at least one tool");
+  if (p.format === "deep-dive") {
+    if (p.tools.length !== 1) errs.push("Deep dive posts feature exactly one app");
+  } else if (!p.tools.length) {
+    errs.push("Pick at least one tool");
+  }
   if (!p.outro.headline) errs.push("Outro headline is required");
   if (!p.outro.subhead) errs.push("Outro subhead is required");
   return errs;
@@ -89,6 +106,27 @@ function showStatus(msg: string, isError = false) {
   status.isError = isError;
   clearTimeout(statusTimer);
   statusTimer = setTimeout(() => (status.msg = ""), 3000);
+}
+
+function setFormat(next: "swap" | "deep") {
+  format.value = next;
+  // Deep dives feature exactly one app, so trim any multi-selection down.
+  if (next === "deep" && selectedTools.value.length > 1) {
+    selectedTools.value = [selectedTools.value[0]];
+  }
+}
+
+function onToolChange(id: string, e: Event) {
+  const checked = (e.target as HTMLInputElement).checked;
+  if (format.value === "deep") {
+    selectedTools.value = checked ? [id] : [];
+    return;
+  }
+  if (checked) {
+    if (!selectedTools.value.includes(id)) selectedTools.value.push(id);
+  } else {
+    selectedTools.value = selectedTools.value.filter((x) => x !== id);
+  }
 }
 
 async function init() {
@@ -117,6 +155,7 @@ function loadDraft(id: string) {
   form.hlColor = d.intro.hl?.color || "#FF5A5F";
   form.outroHeadline = d.outro.headline || "";
   form.outroSubhead = d.outro.subhead || "";
+  setFormat(d.format === "deep-dive" ? "deep" : "swap");
   selectedTools.value = [...d.tools];
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -168,6 +207,31 @@ onMounted(init);
       <div class="create-section">
         <h2 class="create-section-title">Basics</h2>
         <div class="create-field">
+          <span class="batch-label" id="format-label">Format</span>
+          <div class="create-format-toggle" role="group" aria-labelledby="format-label">
+            <button
+              type="button"
+              class="create-format-btn"
+              :class="{ active: format === 'swap' }"
+              :aria-pressed="format === 'swap'"
+              @click="setFormat('swap')"
+            >
+              Swap post
+              <small>2–3 apps side by side</small>
+            </button>
+            <button
+              type="button"
+              class="create-format-btn"
+              :class="{ active: format === 'deep' }"
+              :aria-pressed="format === 'deep'"
+              @click="setFormat('deep')"
+            >
+              Deep dive
+              <small>one app, told properly</small>
+            </button>
+          </div>
+        </div>
+        <div class="create-field">
           <label class="batch-label" for="f-id">Post ID</label>
           <input id="f-id" v-model="form.id" class="batch-pin-input" type="text" placeholder="post-004" />
           <span class="create-hint">Must match the filename: post-004.json</span>
@@ -212,7 +276,7 @@ onMounted(init);
 
       <div class="create-section">
         <h2 class="create-section-title">Tools</h2>
-        <p class="create-hint">Pick at least one. Cards render in the order listed below.</p>
+        <p class="create-hint">{{ toolsHint }}</p>
         <LoadError v-if="error" what="tools" @retry="init" />
         <div v-else class="create-tool-groups">
           <div v-for="(tools, catId) in grouped" :key="catId" class="create-tool-group">
@@ -221,7 +285,12 @@ onMounted(init);
             </span>
             <div class="create-tool-options">
               <label v-for="t in tools" :key="t.id" class="create-tool-option">
-                <input v-model="selectedTools" type="checkbox" :value="t.id" />
+                <input
+                  type="checkbox"
+                  :checked="selectedTools.includes(t.id)"
+                  :value="t.id"
+                  @change="onToolChange(t.id, $event)"
+                />
                 <img v-if="t.logo" class="batch-tool-thumb" :src="t.logo" alt="" />
                 <span>{{ t.name }}</span>
               </label>
@@ -283,6 +352,17 @@ onMounted(init);
             :title="t.name"
           />
         </div>
+        <div v-if="slideChips.length" class="create-slide-strip">
+          <span class="create-slide-strip-label">{{ slideChips.length }} slides</span>
+          <span
+            v-for="(c, i) in slideChips"
+            :key="c"
+            class="create-slide-chip"
+            :class="{ 'deep-active': i > 0 && i < slideChips.length - 1 }"
+          >
+            {{ c }}
+          </span>
+        </div>
         <div class="create-preview-card create-preview-outro">
           <p class="batch-intro-headline">{{ post.outro.headline || "Closing headline" }}</p>
           <p class="batch-intro-subhead">{{ post.outro.subhead || "Closing subhead" }}</p>
@@ -302,7 +382,9 @@ onMounted(init);
         <div class="create-draft-info">
           <strong>{{ d.id }}</strong>
           <span>{{ d.title || "Untitled" }}</span>
-          <span class="batch-post-count">{{ d.tools.length }} tool{{ d.tools.length !== 1 ? "s" : "" }}</span>
+          <span class="batch-post-count">
+            {{ d.format === "deep-dive" ? "Deep dive" : `${d.tools.length} tool${d.tools.length !== 1 ? "s" : ""}` }}
+          </span>
         </div>
         <div class="create-draft-actions">
           <button class="batch-caption-btn" @click="loadDraft(d.id)">Edit</button>

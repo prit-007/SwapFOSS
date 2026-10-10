@@ -8,6 +8,7 @@ import { loadPosts } from "@/data/catalog";
 import { PRESETS, type PresetKey } from "@/export/presets";
 import { buildPostZip } from "@/export/post-zip";
 import { generateCaption } from "@/export/caption";
+import { isDeepDive, buildSlides } from "@/export/deep-cards";
 import { downloadBlob } from "@/export/render";
 import LoadError from "@/components/common/LoadError.vue";
 import SkeletonPosts from "@/components/batch/SkeletonPosts.vue";
@@ -42,6 +43,11 @@ function toolsFor(post: Post): Tool[] {
 }
 function catsFor(post: Post): string[] {
   return [...new Set(toolsFor(post).map((t) => t.category))];
+}
+function countText(post: Post): string {
+  return isDeepDive(post)
+    ? `Deep dive · ${buildSlides(post).length} slides`
+    : `${toolsFor(post).length} tool${toolsFor(post).length !== 1 ? "s" : ""}`;
 }
 
 async function load() {
@@ -174,13 +180,13 @@ onMounted(load);
         v-for="(post, i) in posts"
         :key="post.id"
         class="batch-post-card"
+        :class="{ 'batch-post-deep': isDeepDive(post) }"
         :style="{ '--card-index': i }"
       >
         <div class="batch-post-header">
           <h2 class="batch-post-title">{{ post.title }}</h2>
           <span class="batch-post-count">
-            {{ draftIds.has(post.id) ? "Draft · " : "" }}{{ toolsFor(post).length }}
-            tool{{ toolsFor(post).length !== 1 ? "s" : "" }}
+            {{ draftIds.has(post.id) ? "Draft · " : "" }}{{ countText(post) }}
           </span>
         </div>
         <div class="batch-post-intro">
@@ -189,7 +195,7 @@ onMounted(load);
           <p class="batch-intro-subhead">{{ post.intro.subhead }}</p>
         </div>
         <div class="batch-post-tools">
-          <span class="batch-tools-label">Tools included:</span>
+          <span class="batch-tools-label">{{ isDeepDive(post) ? "Featured app:" : "Tools included:" }}</span>
           <div class="batch-tool-thumbs">
             <img
               v-for="t in toolsFor(post)"
