@@ -57,3 +57,15 @@ export const toolManifestSchema = z.object({
 export const postManifestSchema = z.object({
   posts: z.array(z.string()),
 });
+
+export const popularityEntrySchema = z.object({
+  repo: z.string().nullable(),
+  host: z.string(),
+  stars: z.number().nullable(),
+});
+
+export const popularitySchema = z.object({
+  generatedAt: z.string().optional(),
+  source: z.string().optional(),
+  tools: z.record(z.string(), popularityEntrySchema),
+});

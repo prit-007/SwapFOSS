@@ -13,11 +13,13 @@ import { downloadBlob } from "@/export/render";
 import LoadError from "@/components/common/LoadError.vue";
 import AppIcon from "@/components/common/AppIcon.vue";
 import SkeletonPosts from "@/components/batch/SkeletonPosts.vue";
+import { useToast } from "@/composables/useToast";
 import type { Post, Tool } from "@/types";
 
 const catalog = useCatalogStore();
 const drafts = useDraftsStore();
 const batch = useBatchStore();
+const toast = useToast();
 
 const posts = ref<Post[]>([]);
 const draftIds = ref<Set<string>>(new Set());
@@ -109,6 +111,7 @@ async function download(postId: string) {
     });
     downloadBlob(blob, `${postId}.zip`);
     progress[postId] = { active: true, pct: 100, label: "Done!", done: true };
+    toast.show(`${postId}.zip downloaded`, { icon: "download-01" });
     setTimeout(() => (progress[postId] = { active: false, pct: 0, label: "", done: false }), 1500);
   } catch {
     progress[postId] = { active: true, pct: 0, label: "Error — try again", done: false };
@@ -124,9 +127,14 @@ function showCaption(postId: string) {
 async function copyCaption(postId: string) {
   const c = captions[postId];
   if (!c) return;
-  await navigator.clipboard.writeText(c.text);
-  c.copied = true;
-  setTimeout(() => (c.copied = false), 1500);
+  try {
+    await navigator.clipboard.writeText(c.text);
+    c.copied = true;
+    toast.show("Caption copied to clipboard", { icon: "copy-01" });
+    setTimeout(() => (c.copied = false), 1500);
+  } catch {
+    toast.show("Couldn't copy — clipboard blocked", { tone: "error" });
+  }
 }
 function removeDraft(postId: string) {
   drafts.remove(postId);

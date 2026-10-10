@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useCatalogStore } from "@/stores/catalog";
+import { SORT_OPTIONS, isSortKey, useCatalogStore, type SortKey } from "@/stores/catalog";
 import { useShareCard } from "@/composables/useShareCard";
+import { useToast } from "@/composables/useToast";
 import SwapCard from "@/components/browse/SwapCard.vue";
 import SkeletonGrid from "@/components/browse/SkeletonGrid.vue";
 import Lightbox from "@/components/browse/Lightbox.vue";
@@ -11,9 +12,12 @@ import LoadError from "@/components/common/LoadError.vue";
 import AppIcon from "@/components/common/AppIcon.vue";
 import type { Tool } from "@/types";
 
+type ViewMode = "grid" | "list";
+
 const route = useRoute();
 const router = useRouter();
 const catalog = useCatalogStore();
+const toast = useToast();
 const {
   open: shareOpen,
   toolId: shareToolId,
@@ -24,6 +28,8 @@ const {
 
 const category = ref((route.query.category as string) || "all");
 const q = ref((route.query.q as string) || "");
+const sort = ref<SortKey>(isSortKey(route.query.sort) ? route.query.sort : "featured");
+const view = ref<ViewMode>(route.query.view === "list" ? "list" : "grid");
 const previewTool = ref<Tool | null>(null);
 const captionCopied = ref(false);
 
@@ -31,7 +37,9 @@ const captionText =
   "I built a visual directory for FOSS tools that normal people can actually use. What tool should I add next?";
 
 const filterIds = computed(() => ["all", ...catalog.categoryIds]);
-const shown = computed(() => catalog.query({ category: category.value, q: q.value }));
+const shown = computed(() =>
+  catalog.query({ category: category.value, q: q.value, sort: sort.value }),
+);
 const total = computed(() => catalog.tools.length);
 const resultLabel = computed(() =>
   shown.value.length === total.value
@@ -45,7 +53,9 @@ const emptyTitle = computed(() => {
 
 onMounted(() => {
   if (!catalog.tools.length) catalog.load();
+  window.addEventListener("keydown", onKeydown);
 });
+onBeforeUnmount(() => window.removeEventListener("keydown", onKeydown));
 
 watch(
   () => route.query,
@@ -53,6 +63,8 @@ watch(
     const cat = query.category as string | undefined;
     category.value = cat && catalog.categories[cat] ? cat : "all";
     q.value = (query.q as string) || "";
+    sort.value = isSortKey(query.sort) ? query.sort : "featured";
+    view.value = query.view === "list" ? "list" : "grid";
   },
 );
 
@@ -60,6 +72,8 @@ function syncURL(mode: "push" | "replace") {
   const query: Record<string, string> = {};
   if (category.value !== "all") query.category = category.value;
   if (q.value.trim()) query.q = q.value.trim();
+  if (sort.value !== "featured") query.sort = sort.value;
+  if (view.value !== "grid") query.view = view.value;
   router[mode]({ query });
 }
 
@@ -73,12 +87,45 @@ function onSearchInput(e: Event) {
   syncURL("replace");
 }
 
-function clearAll() {
+function onSortChange(e: Event) {
+  const value = (e.target as HTMLSelectElement).value;
+  sort.value = isSortKey(value) ? value : "featured";
+  syncURL("replace");
+}
+
+function setView(next: ViewMode) {
+  view.value = next;
+  syncURL("replace");
+}
+
+function clearAll(focus = true) {
   category.value = "all";
   q.value = "";
   syncURL("replace");
-  const input = document.getElementById("tool-search") as HTMLInputElement | null;
-  input?.focus();
+  if (focus) {
+    const input = document.getElementById("tool-search") as HTMLInputElement | null;
+    input?.focus();
+  }
+}
+
+function onKeydown(e: KeyboardEvent) {
+  const el = e.target as HTMLElement | null;
+  const typing =
+    !!el &&
+    (el.tagName === "INPUT" ||
+      el.tagName === "TEXTAREA" ||
+      el.tagName === "SELECT" ||
+      el.isContentEditable);
+
+  if (e.key === "/" && !typing) {
+    e.preventDefault();
+    (document.getElementById("tool-search") as HTMLInputElement | null)?.focus();
+    return;
+  }
+  if (e.key === "Escape") {
+    (document.activeElement as HTMLElement | null)?.blur?.();
+    if (q.value || category.value !== "all") clearAll(false);
+  }
 }
 
 async function onShare(id: string) {
@@ -88,9 +135,14 @@ async function onShare(id: string) {
 }
 
 async function copyCaption() {
-  await navigator.clipboard.writeText(captionText);
-  captionCopied.value = true;
-  setTimeout(() => (captionCopied.value = false), 1500);
+  try {
+    await navigator.clipboard.writeText(captionText);
+    captionCopied.value = true;
+    toast.show("Caption copied to clipboard", { icon: "copy-01" });
+    setTimeout(() => (captionCopied.value = false), 1500);
+  } catch {
+    toast.show("Couldn't copy — clipboard blocked", { tone: "error" });
+  }
 }
 </script>
 
@@ -119,8 +171,42 @@ async function copyCaption() {
           :value="q"
           @input="onSearchInput"
         />
+        <kbd class="search-hint" aria-hidden="true">/</kbd>
       </div>
-      <span class="result-count" role="status" aria-live="polite">{{ resultLabel }}</span>
+      <div class="toolbar-controls">
+        <div class="sort-control">
+          <label class="sr-only" for="tool-sort">Sort tools</label>
+          <select id="tool-sort" class="sort-select" :value="sort" @change="onSortChange">
+            <option v-for="opt in SORT_OPTIONS" :key="opt.key" :value="opt.key">
+              {{ opt.label }}
+            </option>
+          </select>
+          <AppIcon class="sort-chevron" name="arrow-down-01" :size="14" />
+        </div>
+        <div class="view-toggle" role="group" aria-label="View mode">
+          <button
+            class="view-btn"
+            :class="{ active: view === 'grid' }"
+            type="button"
+            aria-label="Grid view"
+            :aria-pressed="view === 'grid'"
+            @click="setView('grid')"
+          >
+            <AppIcon name="grid-view" :size="16" />
+          </button>
+          <button
+            class="view-btn"
+            :class="{ active: view === 'list' }"
+            type="button"
+            aria-label="List view"
+            :aria-pressed="view === 'list'"
+            @click="setView('list')"
+          >
+            <AppIcon name="list-view" :size="16" />
+          </button>
+        </div>
+        <span class="result-count" role="status" aria-live="polite">{{ resultLabel }}</span>
+      </div>
     </div>
 
     <div class="filters">
@@ -138,18 +224,20 @@ async function copyCaption() {
         @click="selectCategory(id)"
       >
         {{ id === "all" ? "All" : catalog.categories[id]?.label }}
+        <span class="filter-count">{{ catalog.countFor(id) }}</span>
       </button>
     </div>
 
     <LoadError v-if="catalog.error" what="tools" @retry="catalog.load()" />
     <SkeletonGrid v-else-if="catalog.loading && !catalog.tools.length" />
-    <div v-else class="grid" :aria-busy="false">
+    <div v-else class="grid" :class="{ list: view === 'list' }" :aria-busy="false">
       <SwapCard
         v-for="(tool, i) in shown"
         :key="tool.id"
         :tool="tool"
         :cat="catalog.categories[tool.category] || { label: tool.category, color: '#888' }"
         :index="i"
+        :variant="view"
         @share="onShare"
         @preview="previewTool = $event"
       />
@@ -162,7 +250,7 @@ async function copyCaption() {
         class="filter-btn"
         type="button"
         style="--pill-color: var(--text-muted)"
-        @click="clearAll"
+        @click="clearAll()"
       >
         <AppIcon name="refresh-01" /> Clear search &amp; filters
       </button>
