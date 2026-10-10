@@ -1,5 +1,6 @@
 import type { Category, Post, Tool } from "@/types";
 import { type Preset, PRESETS } from "./presets";
+import { iconSvg } from "./icon";
 
 /** The fixed body slides of a deep-dive carousel (between intro and outro). */
 export const DEEP_PARTS = ["hero", "features", "benefits", "setup"] as const;
@@ -66,7 +67,7 @@ function deepBodyHTML(part: DeepPart, tool: Tool): string {
         ${hasLogo ? `<img class="deep-hero-logo" src="${tool.logo}" alt="${name} logo" />` : ""}
         <div class="deep-hero-text">
           <span class="deep-hero-name">${name}</span>
-          <span class="deep-hero-swap"><span class="strike">${tool.insteadOf}</span> → ${name}</span>
+          <span class="deep-hero-swap"><span class="strike">${tool.insteadOf}</span> ${iconSvg("arrow-right-01", { size: 16 })} ${name}</span>
         </div>
       </div>
       <p class="deep-hero-hook">${tool.hook}</p>
@@ -85,7 +86,7 @@ function deepBodyHTML(part: DeepPart, tool: Tool): string {
       <div class="deep-body">
         <h2 class="deep-title">Everything ${name} does</h2>
         <ul class="deep-list">
-          ${bullets.map((b) => `<li><span class="deep-mark">✓</span><span>${b}</span></li>`).join("")}
+          ${bullets.map((b) => `<li><span class="deep-mark">${iconSvg("tick-04", { size: 22, stroke: 2 })}</span><span>${b}</span></li>`).join("")}
         </ul>
         ${pills.length ? `<div class="deep-pills">${pills.map((f) => `<span class="deep-pill">${f}</span>`).join("")}</div>` : ""}
       </div>

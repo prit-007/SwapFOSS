@@ -4,14 +4,16 @@ import { setActivePinia, createPinia } from "pinia";
 vi.mock("@/data/catalog", () => ({
   loadCategories: vi.fn(),
   loadTools: vi.fn(),
+  loadPopularity: vi.fn(),
 }));
 
-import { loadCategories, loadTools } from "@/data/catalog";
-import { useCatalogStore } from "./catalog";
-import type { Tool } from "@/types";
+import { loadCategories, loadPopularity, loadTools } from "@/data/catalog";
+import { sortTools, useCatalogStore } from "./catalog";
+import type { Popularity, Tool } from "@/types";
 
 const mockLoadCategories = vi.mocked(loadCategories);
 const mockLoadTools = vi.mocked(loadTools);
+const mockLoadPopularity = vi.mocked(loadPopularity);
 
 const tools: Tool[] = [
   {
@@ -45,11 +47,15 @@ const categories = {
   security: { label: "Security & Privacy", color: "#2DD4BF" },
 };
 
+const emptyPopularity: Popularity = { tools: {} };
+
 describe("catalog store", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
     mockLoadCategories.mockReset();
     mockLoadTools.mockReset();
+    mockLoadPopularity.mockReset();
+    mockLoadPopularity.mockResolvedValue(emptyPopularity);
   });
 
   it("loads tools and categories", async () => {
@@ -110,5 +116,59 @@ describe("catalog store", () => {
     expect(catalog.query({ category: "security", q: "password" }).map((t) => t.id)).toEqual([
       "bitwarden",
     ]);
+  });
+
+  it("merges star counts from popularity data", async () => {
+    mockLoadCategories.mockResolvedValue(categories);
+    mockLoadTools.mockResolvedValue(tools);
+    mockLoadPopularity.mockResolvedValue({
+      tools: {
+        jellyfin: { repo: "jellyfin/jellyfin", host: "github", stars: 100 },
+        bitwarden: { repo: "bitwarden/clients", host: "github", stars: null },
+      },
+    });
+    const catalog = useCatalogStore();
+    await catalog.load();
+    expect(catalog.tools.find((t) => t.id === "jellyfin")?.stars).toBe(100);
+    expect(catalog.tools.find((t) => t.id === "bitwarden")?.stars).toBeNull();
+    expect(catalog.totalStars).toBe(100);
+  });
+
+  it("sorts by popularity, name, and difficulty", async () => {
+    mockLoadCategories.mockResolvedValue(categories);
+    mockLoadTools.mockResolvedValue(tools);
+    mockLoadPopularity.mockResolvedValue({
+      tools: {
+        jellyfin: { repo: "jellyfin/jellyfin", host: "github", stars: 10 },
+        bitwarden: { repo: "bitwarden/clients", host: "github", stars: 999 },
+      },
+    });
+    const catalog = useCatalogStore();
+    await catalog.load();
+    expect(catalog.query({ category: "all", q: "", sort: "popular" }).map((t) => t.id)).toEqual([
+      "bitwarden",
+      "jellyfin",
+    ]);
+    expect(catalog.query({ category: "all", q: "", sort: "az" }).map((t) => t.id)).toEqual([
+      "bitwarden",
+      "jellyfin",
+    ]);
+    expect(catalog.query({ category: "all", q: "", sort: "za" }).map((t) => t.id)).toEqual([
+      "jellyfin",
+      "bitwarden",
+    ]);
+    expect(catalog.query({ category: "all", q: "", sort: "difficulty" }).map((t) => t.id)).toEqual([
+      "bitwarden",
+      "jellyfin",
+    ]);
+  });
+
+  it("sortTools keeps featured order and puts unknown stars last", () => {
+    const a: Tool = { ...tools[0], id: "a", name: "Alpha", stars: null };
+    const b: Tool = { ...tools[0], id: "b", name: "Beta", stars: 5 };
+    const c: Tool = { ...tools[0], id: "c", name: "Gamma", stars: 50 };
+    expect(sortTools([a, b, c], "featured").map((t) => t.id)).toEqual(["a", "b", "c"]);
+    expect(sortTools([a, b, c], "popular").map((t) => t.id)).toEqual(["c", "b", "a"]);
+    expect(sortTools([a, b, c], "az").map((t) => t.id)).toEqual(["a", "b", "c"]);
   });
 });

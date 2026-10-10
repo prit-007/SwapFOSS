@@ -15,6 +15,7 @@ import {
 } from "@/export/deep-cards";
 import { capturePng } from "@/export/capture";
 import { downloadBlob } from "@/export/render";
+import { usePreviewScale } from "@/composables/usePreviewScale";
 import StageLoader from "@/components/common/StageLoader.vue";
 import LoadError from "@/components/common/LoadError.vue";
 import AppIcon from "@/components/common/AppIcon.vue";
@@ -33,7 +34,7 @@ const route = useRoute();
 const router = useRouter();
 const catalog = useCatalogStore();
 
-const stage = ref<HTMLElement | null>(null);
+const { stage, frameStyle, stageStyle } = usePreviewScale();
 const post = ref<Post | null>(null);
 const error = ref(false);
 const busy = ref(false);
@@ -196,10 +197,10 @@ async function download() {
       </button>
     </div>
   </div>
-  <div id="stage" ref="stage" tabindex="-1">
+  <div id="stage" ref="stage" tabindex="-1" :style="stageStyle()">
     <LoadError v-if="error" what="slide" @retry="load" />
     <StageLoader v-else-if="!html" text="Loading slide…" />
-    <div v-else v-html="html"></div>
+    <div v-else class="stage-frame" :style="frameStyle()" v-html="html"></div>
   </div>
 </template>
 

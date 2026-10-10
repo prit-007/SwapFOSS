@@ -9,6 +9,7 @@ import { downloadBlob } from "@/export/render";
 import StageLoader from "@/components/common/StageLoader.vue";
 import LoadError from "@/components/common/LoadError.vue";
 import AppIcon from "@/components/common/AppIcon.vue";
+import { usePreviewScale } from "@/composables/usePreviewScale";
 import type { IconName } from "@/icons";
 
 type StatusKey = "idle" | "rendering" | "saved" | "failed";
@@ -22,7 +23,7 @@ const STATUS: Record<StatusKey, { icon: IconName; label: string }> = {
 const route = useRoute();
 const catalog = useCatalogStore();
 
-const stage = ref<HTMLElement | null>(null);
+const { stage, frameStyle, stageStyle } = usePreviewScale();
 const busy = ref(false);
 const statusKey = ref<StatusKey>("idle");
 const status = computed(() => STATUS[statusKey.value]);
@@ -74,10 +75,10 @@ async function download() {
     </button>
     <span class="hint">1080×1350 — ready for LinkedIn or Instagram</span>
   </div>
-  <div id="stage" ref="stage" tabindex="-1">
+  <div id="stage" ref="stage" tabindex="-1" :style="stageStyle()">
     <LoadError v-if="catalog.error" what="card" @retry="catalog.load()" />
     <StageLoader v-else-if="!html" text="Loading card…" />
-    <div v-else v-html="html"></div>
+    <div v-else class="stage-frame" :style="frameStyle()" v-html="html"></div>
   </div>
 </template>
 

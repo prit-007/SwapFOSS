@@ -1,5 +1,6 @@
 import type { Category, Post, Tool } from "@/types";
 import { typeScale, type Preset } from "./presets";
+import { iconSvg } from "./icon";
 
 const NOISE_URI =
   "data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27300%27%20height=%27300%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%270.85%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3CfeColorMatrix%20type=%27saturate%27%20values=%270%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url(%23n)%27/%3E%3C/svg%3E";
@@ -55,7 +56,7 @@ export function introCardHTML(
       ? `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px;">${post.intro.pills
           .map(
             (p) =>
-              `<span style="font-family:var(--font-mono);font-size:16px;color:${pillText};background:${pillBg};border:1px solid ${pillBorder};padding:9px 18px;border-radius:999px;white-space:nowrap;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">✓ ${p}</span>`,
+              `<span style="display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:16px;color:${pillText};background:${pillBg};border:1px solid ${pillBorder};padding:9px 18px;border-radius:999px;white-space:nowrap;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">${iconSvg("tick-04", { size: 17, color: pillText })}${p}</span>`,
           )
           .join("")}</div>`
       : `<p style="font-family:var(--font-body);font-size:${s.sub}px;color:${muted};max-width:34ch;margin:0;line-height:1.5;">${post.intro.subhead}</p>`;
@@ -87,7 +88,7 @@ export function introCardHTML(
         <h1 style="font-family:var(--font-display);font-weight:700;font-size:${s.h1}px;line-height:1.08;margin:0;max-width:15ch;color:${text};letter-spacing:-0.025em;">${hlLastWord(post.intro.headline, "#FF5A5F", "#FFC857", post.intro.hl)}</h1>
         ${introBody}
       </div>
-      <div style="position:absolute;bottom:48px;left:0;right:0;z-index:3;display:flex;align-items:center;justify-content:center;gap:12px;font-family:var(--font-mono);font-size:17px;letter-spacing:0.32em;text-transform:uppercase;color:${swipeColor};"><span style="display:block;width:40px;height:2px;background:linear-gradient(90deg,transparent,${swipeLine});"></span>Swipe →<span style="display:block;width:40px;height:2px;background:linear-gradient(-90deg,transparent,${swipeLine});"></span></div>
+      <div style="position:absolute;bottom:48px;left:0;right:0;z-index:3;display:flex;align-items:center;justify-content:center;gap:12px;font-family:var(--font-mono);font-size:17px;letter-spacing:0.32em;text-transform:uppercase;color:${swipeColor};"><span style="display:block;width:40px;height:2px;background:linear-gradient(90deg,transparent,${swipeLine});"></span>Swipe ${iconSvg("arrow-right-01", { size: 18, color: swipeColor })}<span style="display:block;width:40px;height:2px;background:linear-gradient(-90deg,transparent,${swipeLine});"></span></div>
     </div>
   `;
 }
@@ -131,7 +132,7 @@ export function outroCardHTML(
       <div style="display:flex;flex-direction:column;align-items:center;gap:28px;position:relative;z-index:2;margin-top:auto;margin-bottom:auto;max-width:760px;">
         <h1 style="font-family:var(--font-display);font-weight:700;font-size:${s.h1}px;line-height:1.08;margin:0;max-width:15ch;color:${text};letter-spacing:-0.025em;">${hlLastWord(post.outro.headline, "#4EA8DE", "#B983FF")}</h1>
         <p style="font-family:var(--font-body);font-size:${s.sub}px;color:${muted};max-width:34ch;margin:0;line-height:1.5;">${post.outro.subhead}</p>
-        <div style="margin-top:8px;padding:20px 44px;border-radius:999px;font-family:var(--font-display);font-size:${s.cta}px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#ffffff;background:linear-gradient(135deg,#4EA8DE,#B983FF);box-shadow:0 12px 40px rgba(78,168,222,0.35);white-space:nowrap;">Follow for more swaps →</div>
+        <div style="display:inline-flex;align-items:center;gap:10px;margin-top:8px;padding:20px 44px;border-radius:999px;font-family:var(--font-display);font-size:${s.cta}px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#ffffff;background:linear-gradient(135deg,#4EA8DE,#B983FF);box-shadow:0 12px 40px rgba(78,168,222,0.35);white-space:nowrap;">Follow for more swaps ${iconSvg("arrow-right-01", { size: s.cta, color: "#ffffff", stroke: 2 })}</div>
         <span style="font-family:var(--font-mono);font-size:16px;letter-spacing:0.1em;color:${faint};">github.com/prit-007/SwapFOSS</span>
       </div>
       <div style="position:absolute;bottom:48px;left:0;right:0;z-index:3;display:flex;justify-content:center;gap:9px;">${dots}</div>
@@ -169,7 +170,7 @@ export function toolCardHTML(
         ${hasLogo ? `<img class="export-logo" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
         <div class="export-top-text">
           <span class="tool-name" style="color:${cat.color}">${tool.name}</span>
-          <span class="swap-line" style="color:${muted}"><span class="strike" style="color:${faint}">${tool.insteadOf}</span> → ${tool.name}</span>
+          <span class="swap-line" style="color:${muted}"><span class="strike" style="color:${faint}">${tool.insteadOf}</span> ${iconSvg("arrow-right-01", { size: 17, color: muted })} ${tool.name}</span>
         </div>
       </div>
       <div class="${frameClass}">

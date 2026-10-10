@@ -198,3 +198,146 @@ test("slide dots jump to a specific slide and reflect the current one", async ({
   await expect(page.locator(".slide-dot.active")).toHaveCount(1);
   await expect(page.locator(".slide-counter")).toContainText("2 / 6");
 });
+
+test("sort selector reorders the grid and syncs the URL", async ({ page }) => {
+  await page.goto("");
+  await expect(page.locator(".swap-card").first()).toBeVisible();
+
+  const names = await page.locator(".swap-card .swap-to").allInnerTexts();
+  const min = [...names].sort((a, b) => a.localeCompare(b))[0];
+  const max = [...names].sort((a, b) => b.localeCompare(a))[0];
+
+  await page.selectOption("#tool-sort", "az");
+  await expect(page).toHaveURL(/sort=az/);
+  await expect(page.locator(".swap-card .swap-to").first()).toHaveText(min);
+
+  await page.selectOption("#tool-sort", "za");
+  await expect(page).toHaveURL(/sort=za/);
+  await expect(page.locator(".swap-card .swap-to").first()).toHaveText(max);
+});
+
+test("view toggle switches grid/list, syncs URL, and survives reload", async ({ page }) => {
+  await page.goto("");
+  await expect(page.locator(".swap-card").first()).toBeVisible();
+  await expect(page.locator(".grid.list")).toHaveCount(0);
+
+  await page.locator('.view-btn[aria-label="List view"]').click();
+  await expect(page.locator(".grid.list")).toHaveCount(1);
+  await expect(page).toHaveURL(/view=list/);
+  await expect(page.locator('.view-btn[aria-label="List view"]')).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+
+  await page.reload();
+  await expect(page.locator(".grid.list")).toHaveCount(1);
+});
+
+test("sort + view deep links apply on load", async ({ page }) => {
+  await page.goto("?sort=az&view=list");
+  await expect(page.locator("#tool-sort")).toHaveValue("az");
+  await expect(page.locator(".grid.list")).toHaveCount(1);
+});
+
+test("category filter counts add up to the total", async ({ page }) => {
+  await page.goto("");
+  await expect(page.locator(".filter-btn").nth(1)).toBeVisible();
+  const counts = (await page.locator(".filter-btn .filter-count").allInnerTexts()).map(Number);
+  const [total, ...perCategory] = counts;
+  expect(total).toBeGreaterThan(15);
+  expect(perCategory.reduce((a, b) => a + b, 0)).toBe(total);
+});
+
+test("slash focuses search and Escape clears it", async ({ page }) => {
+  await page.goto("");
+  await expect(page.locator(".swap-card").first()).toBeVisible();
+
+  await page.keyboard.press("/");
+  await expect(page.locator("#tool-search")).toBeFocused();
+  await page.keyboard.type("jellyfin");
+  await expect(page.locator("#tool-search")).toHaveValue("jellyfin");
+  await expect(page.locator(".result-count")).toContainText("of");
+
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#tool-search")).toHaveValue("");
+  await expect(page.locator(".result-count")).toContainText(/^\d+ tools$/);
+});
+
+test("cards show difficulty and star badges", async ({ page }) => {
+  await page.goto("");
+  await expect(page.locator(".card-chip-diff").first()).toBeVisible();
+  const diffs = await page
+    .locator(".card-chip-diff")
+    .evaluateAll((els) => els.map((el) => el.getAttribute("data-diff")));
+  expect(diffs.length).toBeGreaterThan(0);
+  expect(diffs.every((d) => ["easy", "medium", "hard"].includes(d!))).toBe(true);
+
+  expect(await page.locator(".card-chip-stars").count()).toBeGreaterThan(0);
+});
+
+test("copying the caption shows a toast", async ({ page }) => {
+  await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("");
+  await page.click("#copy-caption-btn");
+  await expect(page.locator(".toast")).toContainText("Caption copied");
+});
+
+test("back-to-top appears after scrolling and returns to the top", async ({ page }) => {
+  await page.goto("");
+  await expect(page.locator(".swap-card").first()).toBeVisible();
+  await expect(page.locator(".back-to-top")).toBeHidden();
+
+  await page.evaluate(() => window.scrollTo(0, 2500));
+  await expect(page.locator(".back-to-top")).toBeVisible();
+  await page.click(".back-to-top");
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(50);
+});
+
+test.describe("mobile viewport", () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+
+  async function expectNoHorizontalOverflow(page: Page) {
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(1);
+  }
+
+  test("browse has no horizontal scroll", async ({ page }) => {
+    await page.goto("");
+    await expect(page.locator(".swap-card").first()).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+  });
+
+  test("batch has no horizontal scroll", async ({ page }) => {
+    await page.goto("batch");
+    await expect(page.locator(".batch-post-card").first()).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+  });
+
+  test("create has no horizontal scroll", async ({ page }) => {
+    await page.goto("create");
+    await expect(page.locator("#f-id")).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+  });
+
+  test("slide page scales the 1080x1350 card to fit", async ({ page }) => {
+    await page.goto("slide?post=post-001&type=intro");
+    await expect(page.locator("#stage .export-card.intro")).toBeVisible();
+    const box = await page.locator("#stage .export-card").boundingBox();
+    expect(box).toBeTruthy();
+    expect(box!.width).toBeLessThanOrEqual(390);
+    expect(box!.width).toBeGreaterThan(300);
+    await expectNoHorizontalOverflow(page);
+  });
+
+  test("card page scales the 1080x1350 card to fit", async ({ page }) => {
+    await page.goto("card?tool=jellyfin");
+    await expect(page.locator("#stage .export-card")).toBeVisible();
+    const box = await page.locator("#stage .export-card").boundingBox();
+    expect(box).toBeTruthy();
+    expect(box!.width).toBeLessThanOrEqual(390);
+    expect(box!.width).toBeGreaterThan(300);
+    await expectNoHorizontalOverflow(page);
+  });
+});

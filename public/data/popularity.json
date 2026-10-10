@@ -1,0 +1,131 @@
+{
+  "generatedAt": "2026-10-10T20:18:41.934Z",
+  "source": "github",
+  "tools": {
+    "jellyfin": {
+      "repo": "jellyfin/jellyfin",
+      "host": "github",
+      "stars": 57980
+    },
+    "streamio": {
+      "repo": "https://github.com/Stremio",
+      "host": "other",
+      "stars": null
+    },
+    "metrolist": {
+      "repo": "mostafaalagamy/Metrolist",
+      "host": "github",
+      "stars": 13393
+    },
+    "spotiflac": {
+      "repo": "spotbye/SpotiFLAC",
+      "host": "github",
+      "stars": 11461
+    },
+    "spotube": {
+      "repo": "KRTirtho/spotube",
+      "host": "github",
+      "stars": 49757
+    },
+    "echo-music": {
+      "repo": "EchoMusicApp/Echo-Music",
+      "host": "github",
+      "stars": 1766
+    },
+    "jami": {
+      "repo": "https://git.jami.net/savoirfairelinux/jami",
+      "host": "other",
+      "stars": null
+    },
+    "frappe-framework": {
+      "repo": "frappe/frappe",
+      "host": "github",
+      "stars": 10913
+    },
+    "erpnext": {
+      "repo": "frappe/erpnext",
+      "host": "github",
+      "stars": 39983
+    },
+    "forgejo": {
+      "repo": "https://codeberg.org/forgejo/forgejo",
+      "host": "other",
+      "stars": null
+    },
+    "frappe-books": {
+      "repo": "frappe/books",
+      "host": "github",
+      "stars": 5000
+    },
+    "mihon": {
+      "repo": "mihonapp/mihon",
+      "host": "github",
+      "stars": 24194
+    },
+    "nuclear": {
+      "repo": "nukeop/nuclear",
+      "host": "github",
+      "stars": 18649
+    },
+    "aniyomi": {
+      "repo": "aniyomiorg/aniyomi",
+      "host": "github",
+      "stars": 7773
+    },
+    "arr-suite": {
+      "repo": "Sonarr/Sonarr",
+      "host": "github",
+      "stars": 16953
+    },
+    "smarttube": {
+      "repo": "yuliskov/SmartTube",
+      "host": "github",
+      "stars": 34779
+    },
+    "freetube": {
+      "repo": "FreeTubeApp/FreeTube",
+      "host": "github",
+      "stars": 22030
+    },
+    "newpipe": {
+      "repo": "TeamNewPipe/NewPipe",
+      "host": "github",
+      "stars": 40045
+    },
+    "bitwarden": {
+      "repo": "bitwarden/clients",
+      "host": "github",
+      "stars": 13952
+    },
+    "ente-auth": {
+      "repo": "ente-io/ente",
+      "host": "github",
+      "stars": 29346
+    },
+    "pihole": {
+      "repo": "pi-hole/pi-hole",
+      "host": "github",
+      "stars": 61227
+    },
+    "tale": {
+      "repo": "tale-project/tale",
+      "host": "github",
+      "stars": 33
+    },
+    "umbrel": {
+      "repo": "getumbrel/umbrel",
+      "host": "github",
+      "stars": 12337
+    },
+    "immich": {
+      "repo": "immich-app/immich",
+      "host": "github",
+      "stars": 115959
+    },
+    "nextcloud": {
+      "repo": "nextcloud/server",
+      "host": "github",
+      "stars": 37055
+    }
+  }
+}

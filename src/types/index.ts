@@ -19,6 +19,20 @@ export interface Tool {
   logo?: string;
   screenshot?: string;
   screenshotType?: ScreenshotType;
+  /** GitHub star count, merged in from public/data/popularity.json. */
+  stars?: number | null;
+}
+
+export interface PopularityEntry {
+  repo: string | null;
+  host: string;
+  stars: number | null;
+}
+
+export interface Popularity {
+  generatedAt?: string;
+  source?: string;
+  tools: Record<string, PopularityEntry>;
 }
 
 export interface Category {

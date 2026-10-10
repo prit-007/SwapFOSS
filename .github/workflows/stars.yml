@@ -1,0 +1,39 @@
+name: Refresh GitHub stars
+
+on:
+  schedule:
+    # Twice a day: 06:00 and 18:00 UTC
+    - cron: "0 6,18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-stars
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    name: Fetch star counts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Fetch star counts
+        run: npm run stars
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit updated popularity.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data/popularity.json
+          if git diff --staged --quiet; then
+            echo "No star changes to commit."
+          else
+            git commit -m "chore: refresh GitHub star counts"
+            git push
+          fi
