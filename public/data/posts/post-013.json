@@ -1,0 +1,17 @@
+{
+  "id": "post-013",
+  "format": "deep-dive",
+  "title": "Sunshine + Moonlight: game streaming without the lock-in",
+  "intro": {
+    "eyebrow": "Deep dive — Sunshine + Moonlight",
+    "headline": "Your PC games, on every screen.",
+    "subhead": "An open-source host and client turn your gaming rig into your own cloud — 4K, low latency, no subscription, no NVIDIA required.",
+    "pills": ["4K streaming", "Any GPU", "Cross-platform"],
+    "hl": { "word": "every screen", "color": "#FFC857" }
+  },
+  "tools": ["sunshine-moonlight"],
+  "outro": {
+    "headline": "Own your game streaming.",
+    "subhead": "Sunshine on the PC, Moonlight on everything else. What's the first game you're playing from the couch?"
+  }
+}

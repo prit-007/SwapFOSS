@@ -30,6 +30,7 @@
     "rustdesk",
     "home-assistant",
     "wled-hyperion",
-    "simplelogin"
+    "simplelogin",
+    "sunshine-moonlight"
   ]
 }
