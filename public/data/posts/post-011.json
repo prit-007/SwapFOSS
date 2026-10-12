@@ -1,0 +1,17 @@
+{
+  "id": "post-011",
+  "format": "deep-dive",
+  "title": "RustDesk: remote desktop without the paywall",
+  "intro": {
+    "eyebrow": "Deep dive — RustDesk",
+    "headline": "Remote desktop you actually control.",
+    "subhead": "RustDesk replaces TeamViewer and AnyDesk out of the box — or self-host the entire relay for total privacy.",
+    "pills": ["Self-hostable", "No commercial limits", "Cross-platform"],
+    "hl": { "word": "control", "color": "#0A84FF" }
+  },
+  "tools": ["rustdesk"],
+  "outro": {
+    "headline": "No subscriptions. No 'commercial use detected'.",
+    "subhead": "RustDesk is open source and works on every platform. Are you self-hosting, or starting with the public servers?"
+  }
+}

@@ -26,5 +26,9 @@
   "cloud": {
     "label": "Cloud & Self-Hosted",
     "color": "#F472B6"
+  },
+  "utility": {
+    "label": "Utilities",
+    "color": "#F97316"
   }
 }

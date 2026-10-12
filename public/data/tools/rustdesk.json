@@ -1,0 +1,34 @@
+{
+  "id": "rustdesk",
+  "name": "RustDesk",
+  "category": "utility",
+  "insteadOf": "TeamViewer / AnyDesk",
+  "hook": "Self-hostable remote desktop that replaces TeamViewer and AnyDesk — no commercial-use limits, no paywalls.",
+  "bullets": [
+    "Remote-control Windows, Mac, Linux, Android, and iOS from anywhere",
+    "Works out of the box on public rendezvous servers — or fully self-hosted",
+    "No commercial-use limits, session caps, or paywalls like TeamViewer and AnyDesk",
+    "Built-in file transfer, TCP tunnelling, clipboard sync, and audio"
+  ],
+  "features": ["Self-hostable", "Cross-platform", "End-to-end encryption", "File transfer", "No paywall"],
+  "benefits": [
+    "TeamViewer-style remote access with zero subscription and no 'commercial use detected' lockouts",
+    "Run your own relay server so your screen traffic never passes through a third party",
+    "Reach your home PC from your phone, or support a relative's laptop in one click",
+    "Open source and auditable, with clients for every major platform"
+  ],
+  "setupSteps": [
+    "Install RustDesk on both the machine you want to control and the device you'll control it from",
+    "On the host, note its ID and set a permanent password (or approve each connection manually)",
+    "On the other device, enter the host's ID and connect",
+    "For full privacy, deploy your own rustdesk-server and point the clients at it"
+  ],
+  "details": "RustDesk is an open-source remote desktop application and a drop-in alternative to TeamViewer and AnyDesk. It ships clients for Windows, macOS, Linux, Android, iOS, and the web, and works out of the box using public rendezvous and relay servers so you can be remote-controlling a machine in seconds with no configuration. Because the server component is also open source, you can self-host your own rendezvous and relay infrastructure for full control over your traffic and to sidestep the commercial-use limits, session timeouts, and paywalls common to proprietary tools. It supports file transfer, TCP tunnelling, clipboard sync, multi-monitor, audio, and hardware-accelerated video encoding, with end-to-end encryption between peers. Licensed under AGPL-3.0 and maintained by the RustDesk project.",
+  "setup": "Client works instantly; self-host the server for full privacy",
+  "difficulty": "easy",
+  "link": "https://rustdesk.com",
+  "repo": "https://github.com/rustdesk/rustdesk",
+  "logo": "assets/logos/rustdesk.svg",
+  "screenshot": "assets/screenshots/rustdesk.webp",
+  "screenshotType": "landscape"
+}

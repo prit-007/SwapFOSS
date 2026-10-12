@@ -1,0 +1,16 @@
+{
+  "id": "post-012",
+  "title": "Small tools that quietly replace big tech",
+  "intro": {
+    "eyebrow": "The everyday utility belt",
+    "headline": "Small tools. Big replacements.",
+    "subhead": "Share files between any devices, link your phone to your PC, and stop handing out your real email — all open source, all free.",
+    "pills": ["No accounts", "Cross-platform", "Privacy-first"],
+    "hl": { "word": "Small", "color": "#B983FF" }
+  },
+  "tools": ["localsend", "kde-connect", "simplelogin"],
+  "outro": {
+    "headline": "Three tiny apps, three paid services gone.",
+    "subhead": "LocalSend, KDE Connect, and SimpleLogin each replace something you used to pay for. Which one are you installing first?"
+  }
+}

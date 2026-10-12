@@ -1,0 +1,34 @@
+{
+  "id": "wled-hyperion",
+  "name": "WLED + Hyperion",
+  "category": "home",
+  "insteadOf": "Philips Hue Play Sync Box",
+  "hook": "DIY ambient backlight that syncs your TV to on-screen colors — for a fraction of the commercial price.",
+  "bullets": [
+    "WLED firmware drives cheap addressable LED strips from an ESP32 board",
+    "Hyperion captures what's on screen and maps its colors onto the LEDs in real time",
+    "Runs entirely on your own hardware — no account, no cloud, no sync box",
+    "Endlessly customizable effects, zones, and integrations"
+  ],
+  "features": ["DIY hardware", "Real-time sync", "No subscription", "Local only", "MIT licensed"],
+  "benefits": [
+    "The Hue Play Sync Box experience for a fraction of the price",
+    "Zero-latency ambilight that matches whatever you're watching",
+    "Works with any HDMI input or your media server, not a locked ecosystem",
+    "Cheap, replaceable parts and a huge community of effect creators"
+  ],
+  "setupSteps": [
+    "Flash WLED onto an inexpensive ESP32 (or ESP8266) board",
+    "Wire your addressable LED strip to the board and mount it behind your TV",
+    "Install Hyperion on a Raspberry Pi or alongside your media server",
+    "Point Hyperion at the screen capture source and tune the LED zones"
+  ],
+  "details": "This is a build-it-yourself ambilight project that replaces a Philips Hue Play HDMI Sync Box costing hundreds of dollars. WLED is open-source firmware for inexpensive ESP32 (and ESP8266) boards that drives addressable LED strips with dozens of effects and a slick web UI. Hyperion is the software that captures whatever is playing on your TV or media server and maps its colors onto the LEDs in real time, so the light behind your screen matches what's on it with near-zero latency. Run Hyperion on a Raspberry Pi or alongside your media server, flash WLED onto a cheap ESP32, stick an addressable strip to the back of your TV, and you have a fully local, endlessly customizable ambient backlight setup for a fraction of the commercial price. Both projects are open source and licensed under the MIT license.",
+  "setup": "Hardware + software build (ESP32 + LED strip)",
+  "difficulty": "hard",
+  "link": "https://kno.wled.ge",
+  "repo": "https://github.com/wled/WLED",
+  "logo": "assets/logos/wled-hyperion.png",
+  "screenshot": "assets/screenshots/wled-hyperion.webp",
+  "screenshotType": "landscape"
+}

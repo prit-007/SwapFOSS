@@ -1,0 +1,34 @@
+{
+  "id": "kde-connect",
+  "name": "KDE Connect",
+  "category": "utility",
+  "insteadOf": "Apple Continuity / Microsoft Phone Link",
+  "hook": "Turns your phone and computer into one — clipboard, files, notifications, SMS, and remote control over your own Wi-Fi.",
+  "bullets": [
+    "Share the clipboard, files, and links between phone and computer",
+    "See phone notifications on your desktop and reply to SMS from your keyboard",
+    "Use your phone as a wireless trackpad, media remote, or presentation clicker",
+    "Pause media, check battery, and find your phone — all encrypted and on your LAN"
+  ],
+  "features": ["Clipboard sync", "SMS from desktop", "Notifications", "Remote input", "Cross-platform"],
+  "benefits": [
+    "Continuity and Phone Link without locking you into Apple, Google, or Microsoft",
+    "Your data stays on your own Wi-Fi — no cloud relay account required",
+    "Answer texts and dismiss notifications without reaching for your phone",
+    "Turn an old phone into a keyboard, trackpad, and remote for your PC"
+  ],
+  "setupSteps": [
+    "Install KDE Connect on your computer (distro package, Windows or macOS build) and the app on your phone",
+    "Connect both devices to the same Wi-Fi network",
+    "Open the app, tap the device shown in the list, and confirm the pairing code",
+    "Optionally grant notification, SMS, and storage permissions on Android"
+  ],
+  "details": "KDE Connect bridges your phone and your computer so they work as one. Pair them over the local network and you get a shared clipboard, file and link transfer, phone notifications mirrored to your desktop, the ability to reply to SMS from your keyboard, media playback control, a phone-as-trackpad remote, a presentation clicker, battery status, and a 'find my phone' ring. Everything is encrypted and runs directly over your own Wi-Fi with no cloud account and no Google or Microsoft services involved. It's developed by KDE, works on Linux (any desktop), Windows, macOS, Android, and iOS, and is licensed under GPL-2.0+.",
+  "setup": "Install on both devices, then pair them",
+  "difficulty": "easy",
+  "link": "https://kdeconnect.kde.org",
+  "repo": "https://github.com/KDE/kdeconnect-kde",
+  "logo": "assets/logos/kde-connect.svg",
+  "screenshot": "assets/screenshots/kde-connect.png",
+  "screenshotType": "landscape"
+}
