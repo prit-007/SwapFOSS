@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import AppIcon from "@/components/common/AppIcon.vue";
+import { formatStars } from "@/utils/formatStars";
 import type { Category, Difficulty, Tool } from "@/types";
 
 const props = defineProps<{
@@ -27,12 +28,6 @@ const DIFFICULTY_LABELS: Record<Difficulty, string> = {
   hard: "Hard",
 };
 const difficultyLabel = computed(() => DIFFICULTY_LABELS[props.tool.difficulty]);
-
-function formatStars(n: number): string {
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M`;
-  if (n >= 1000) return `${(n / 1000).toFixed(n >= 10_000 ? 0 : 1).replace(/\.0$/, "")}k`;
-  return String(n);
-}
 const starsLabel = computed(() => formatStars(props.tool.stars ?? 0));
 </script>
 

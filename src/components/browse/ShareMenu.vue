@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import AppIcon from "@/components/common/AppIcon.vue";
 import type { Tool } from "@/types";
 
@@ -7,9 +7,11 @@ const props = defineProps<{ tool: Tool; dataUrl: string }>();
 const emit = defineEmits<{ close: [] }>();
 
 const copied = ref(false);
+const closeBtn = ref<HTMLButtonElement | null>(null);
+let lastFocus: HTMLElement | null = null;
 
 function shareUrl() {
-  return `${location.origin}${location.pathname}`;
+  return `${location.origin}${location.pathname}card?tool=${encodeURIComponent(props.tool.id)}`;
 }
 function shareText() {
   return `Check out ${props.tool.name} — a free, open-source alternative to ${props.tool.insteadOf}`;
@@ -52,8 +54,16 @@ async function act(platform: string) {
 function onKey(e: KeyboardEvent) {
   if (e.key === "Escape") emit("close");
 }
-onMounted(() => document.addEventListener("keydown", onKey));
-onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
+onMounted(async () => {
+  document.addEventListener("keydown", onKey);
+  lastFocus = document.activeElement as HTMLElement | null;
+  await nextTick();
+  closeBtn.value?.focus();
+});
+onBeforeUnmount(() => {
+  document.removeEventListener("keydown", onKey);
+  lastFocus?.focus?.();
+});
 </script>
 
 <template>
@@ -67,7 +77,7 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
     <div class="share-menu">
       <div class="share-menu-header">
         <span class="share-menu-title">Share card</span>
-        <button class="share-menu-close" aria-label="Close" @click="emit('close')">
+        <button ref="closeBtn" class="share-menu-close" aria-label="Close" @click="emit('close')">
           <AppIcon name="cancel-01" :size="15" />
         </button>
       </div>

@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AppIcon from "@/components/common/AppIcon.vue";
+</script>
 
 <template>
   <section class="hero">
@@ -8,6 +10,8 @@
     </div>
   </section>
   <main class="wrap" id="main" tabindex="-1">
-    <RouterLink class="filter-btn" to="/" style="--pill-color: var(--text-muted)">← Back to Browse</RouterLink>
+    <RouterLink class="filter-btn" to="/" style="--pill-color: var(--text-muted)">
+      <AppIcon name="arrow-left-01" :size="14" /> Back to Browse
+    </RouterLink>
   </main>
 </template>

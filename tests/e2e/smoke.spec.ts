@@ -282,6 +282,28 @@ test("copying the caption shows a toast", async ({ page }) => {
   await expect(page.locator(".toast")).toContainText("Caption copied");
 });
 
+test("hero shows a stat strip with tools, categories, and stars", async ({ page }) => {
+  await page.goto("");
+  await expect(page.locator(".hero-stat")).toHaveCount(3);
+  await expect(page.locator(".hero-stat").nth(0)).toContainText("open-source tools");
+  await expect(page.locator(".hero-stat").nth(1)).toContainText("categories");
+  await expect(page.locator(".hero-stat").nth(2)).toContainText("GitHub stars");
+});
+
+test("share menu copies a deep link to the tool card", async ({ page }) => {
+  await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("");
+  await expect(page.locator(".share-btn").first()).toBeVisible();
+  await page.locator(".share-btn").first().click();
+  await expect(page.locator(".share-menu")).toBeVisible();
+  const copied = page.locator(".share-platform", { hasText: "Copy link" });
+  await copied.click();
+  await expect(page.locator(".share-platform", { hasText: "Copied" })).toBeVisible();
+  await expect
+    .poll(() => page.evaluate(() => navigator.clipboard.readText()))
+    .toMatch(/card\?tool=/);
+});
+
 test("back-to-top appears after scrolling and returns to the top", async ({ page }) => {
   await page.goto("");
   await expect(page.locator(".swap-card").first()).toBeVisible();
