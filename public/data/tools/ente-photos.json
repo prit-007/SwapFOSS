@@ -1,0 +1,34 @@
+{
+  "id": "ente-photos",
+  "name": "Ente Photos",
+  "category": "cloud",
+  "insteadOf": "Google Photos / iCloud Photos",
+  "hook": "End-to-end encrypted photo backup that even Ente can't see — on every platform, with a self-hostable server.",
+  "bullets": [
+    "End-to-end encrypted backups for photos and videos, on mobile and desktop",
+    "Private albums, shared links, face recognition, and a familiar timeline",
+    "Cross-platform apps plus a self-hostable server for full ownership",
+    "Import your existing Google or Apple Photos library in a few taps"
+  ],
+  "features": ["E2E encrypted", "Cross-platform", "Self-hostable", "Face recognition", "Free tier"],
+  "benefits": [
+    "Google Photos without handing over your memories to be scanned",
+    "End-to-end encryption means no one — including Ente — can view your library",
+    "Run your own server or use Ente's, and export your data any time",
+    "Bring your existing library across and keep your albums intact"
+  ],
+  "setupSteps": [
+    "Install Ente Photos on your phone and desktop (or self-host the server)",
+    "Create an account and choose the folders to back up",
+    "Import a Google Photos or Apple Photos library if you're switching",
+    "Share albums privately or set up a family plan"
+  ],
+  "details": "Ente Photos is an end-to-end encrypted photo and video backup service built as a privacy-first alternative to Google Photos and iCloud Photos. Your library is encrypted on your device before it ever reaches the server, so neither Ente nor anyone else can view your memories — not even to scan them for advertising. It offers a familiar timeline, albums, private and shared links, face recognition, and apps for Android, iOS, Windows, macOS, and Linux, plus a web app and a CLI. You can import an existing Google or Apple library in a few taps, and because Ente is open source (AGPL-3.0) you can also self-host the server and keep every byte on hardware you control. A generous free tier and paid plans fund the hosted service.",
+  "setup": "Hosted app — or self-host your own server",
+  "difficulty": "easy",
+  "link": "https://ente.io",
+  "repo": "https://github.com/ente/ente",
+  "logo": "assets/logos/ente-photos.png",
+  "screenshot": "assets/screenshots/ente-photos.jpg",
+  "screenshotType": "portrait"
+}

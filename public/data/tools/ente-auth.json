@@ -19,7 +19,7 @@
   "setup": "App (mobile, desktop & web)",
   "difficulty": "easy",
   "link": "https://ente.io/auth",
-  "repo": "https://github.com/ente-io/ente",
+  "repo": "https://github.com/ente/ente",
   "logo": "assets/logos/ente-auth.png",
   "screenshot": "assets/screenshots/ente-auth.jpg",
   "screenshotType": "portrait"
