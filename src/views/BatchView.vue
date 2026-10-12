@@ -187,7 +187,18 @@ onMounted(load);
 
     <LoadError v-if="error" what="posts" @retry="load" />
     <SkeletonPosts v-else-if="!loaded" />
-    <div v-else class="posts-grid">
+    <template v-else>
+      <div v-if="!posts.length" class="empty-state">
+        <p class="empty-state-title">Nothing to export yet</p>
+        <p class="empty-state-sub">
+          Publish a post to the repo, or save a draft on the Create page, and it'll
+          show up here ready for batch export.
+        </p>
+        <RouterLink class="filter-btn" to="/create" style="--pill-color: var(--text-muted)">
+          <AppIcon name="add-01" :size="14" /> Create a post
+        </RouterLink>
+      </div>
+      <div v-else class="posts-grid">
       <div
         v-for="(post, i) in posts"
         :key="post.id"
@@ -265,12 +276,15 @@ onMounted(load);
             </button>
           </div>
           <div class="batch-control-row batch-pin-row">
-            <label class="batch-label">PIN</label>
+            <label class="batch-label" :for="`batch-pin-${post.id}`">PIN</label>
             <input
+              :id="`batch-pin-${post.id}`"
               v-model="pins[post.id]"
               class="batch-pin-input"
               :class="{ 'batch-pin-error': pinError[post.id] }"
+              :aria-invalid="pinError[post.id] || undefined"
               type="password"
+              autocomplete="off"
               placeholder="Enter PIN"
             />
           </div>
@@ -279,10 +293,18 @@ onMounted(load);
               <AppIcon name="download-01" /> Download ZIP
             </span>
             <span v-show="progress[post.id]?.active" class="batch-download-progress">
-              <span class="batch-progress-bar">
+              <span
+                class="batch-progress-bar"
+                role="progressbar"
+                :aria-valuenow="Math.round(progress[post.id]?.pct || 0)"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
                 <span class="batch-progress-fill" :style="{ width: `${progress[post.id]?.pct || 0}%` }"></span>
               </span>
-              <span class="batch-progress-label">{{ progress[post.id]?.label }}</span>
+              <span class="batch-progress-label" role="status" aria-live="polite">
+                {{ progress[post.id]?.label }}
+              </span>
             </span>
           </button>
           <button class="batch-caption-btn" @click="showCaption(post.id)">
@@ -305,6 +327,7 @@ onMounted(load);
         </div>
       </div>
     </div>
+    </template>
   </main>
 
   <footer v-reveal class="site-footer">
