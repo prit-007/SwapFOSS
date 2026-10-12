@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-12T05:23:21.744Z",
+  "generatedAt": "2026-10-12T06:16:59.918Z",
   "source": "github",
   "tools": {
     "jellyfin": {
@@ -15,7 +15,7 @@
     "metrolist": {
       "repo": "mostafaalagamy/Metrolist",
       "host": "github",
-      "stars": 13435
+      "stars": 13436
     },
     "spotiflac": {
       "repo": "spotbye/SpotiFLAC",
@@ -25,12 +25,12 @@
     "spotube": {
       "repo": "KRTirtho/spotube",
       "host": "github",
-      "stars": 49805
+      "stars": 49807
     },
     "echo-music": {
       "repo": "EchoMusicApp/Echo-Music",
       "host": "github",
-      "stars": 1800
+      "stars": 1802
     },
     "jami": {
       "repo": "https://git.jami.net/savoirfairelinux/jami",
@@ -45,7 +45,7 @@
     "erpnext": {
       "repo": "frappe/erpnext",
       "host": "github",
-      "stars": 40031
+      "stars": 40033
     },
     "forgejo": {
       "repo": "https://codeberg.org/forgejo/forgejo",
@@ -60,17 +60,17 @@
     "mihon": {
       "repo": "mihonapp/mihon",
       "host": "github",
-      "stars": 24252
+      "stars": 24254
     },
     "nuclear": {
       "repo": "nukeop/nuclear",
       "host": "github",
-      "stars": 18662
+      "stars": 18663
     },
     "aniyomi": {
       "repo": "aniyomiorg/aniyomi",
       "host": "github",
-      "stars": 7786
+      "stars": 7787
     },
     "arr-suite": {
       "repo": "Sonarr/Sonarr",
@@ -80,12 +80,12 @@
     "smarttube": {
       "repo": "yuliskov/SmartTube",
       "host": "github",
-      "stars": 34847
+      "stars": 34848
     },
     "freetube": {
       "repo": "FreeTubeApp/FreeTube",
       "host": "github",
-      "stars": 22041
+      "stars": 22042
     },
     "newpipe": {
       "repo": "TeamNewPipe/NewPipe",
@@ -120,7 +120,7 @@
     "immich": {
       "repo": "immich-app/immich",
       "host": "github",
-      "stars": 116060
+      "stars": 116063
     },
     "nextcloud": {
       "repo": "nextcloud/server",
@@ -130,7 +130,7 @@
     "localsend": {
       "repo": "localsend/localsend",
       "host": "github",
-      "stars": 94028
+      "stars": 94035
     },
     "kde-connect": {
       "repo": "KDE/kdeconnect-kde",
@@ -140,7 +140,7 @@
     "rustdesk": {
       "repo": "rustdesk/rustdesk",
       "host": "github",
-      "stars": 125552
+      "stars": 125554
     },
     "home-assistant": {
       "repo": "home-assistant/core",
@@ -156,6 +156,11 @@
       "repo": "simple-login/app",
       "host": "github",
       "stars": 7045
+    },
+    "sunshine-moonlight": {
+      "repo": "LizardByte/Sunshine",
+      "host": "github",
+      "stars": 42114
     }
   }
 }

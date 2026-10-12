@@ -1,0 +1,34 @@
+{
+  "id": "sunshine-moonlight",
+  "name": "Sunshine + Moonlight",
+  "category": "media",
+  "insteadOf": "NVIDIA GameStream / Steam Link / Parsec",
+  "hook": "Stream games from your PC to any screen — an open-source GameStream host and client that runs almost anywhere.",
+  "bullets": [
+    "Sunshine is the host that replaces NVIDIA GameStream on your gaming PC",
+    "Moonlight is the client — play on a TV, phone, tablet, or another computer",
+    "Hardware-accelerated 4K/120 streaming with low latency over your network",
+    "Works with NVIDIA, AMD, and Intel GPUs on Windows, Linux, and macOS hosts"
+  ],
+  "features": ["Hardware encoding", "4K / 120 FPS", "Any GPU", "Cross-platform", "Open source"],
+  "benefits": [
+    "GameStream and Steam Link without being locked to NVIDIA or a Steam Deck",
+    "Play your whole PC library on the couch, in bed, or on the road",
+    "Turns even an old laptop or a Raspberry Pi into a capable streaming client",
+    "Free and open source, with a web UI to manage apps and paired clients"
+  ],
+  "setupSteps": [
+    "Install Sunshine on the gaming PC (the host) and add your games as apps",
+    "Install Moonlight on the device you want to play on (the client)",
+    "Put both on the same network and pair them with the code shown in Moonlight",
+    "Pick a game and stream — tune bitrate and resolution to your connection"
+  ],
+  "details": "Sunshine and Moonlight are the open-source answer to NVIDIA GameStream. Sunshine runs on the gaming PC and acts as the host: it captures the screen with your GPU's hardware encoder (NVENC, AMD AMF, or Intel Quick Sync) and streams it over your local network, replacing the GeForce Experience GameStream host that NVIDIA discontinued. Moonlight is the client — available for Windows, macOS, Linux, Android, iOS, Apple TV, and even a Raspberry Pi — and it decodes the stream with impressively low latency at up to 4K and 120 FPS. Together they let you play your full PC library on a TV, phone, tablet, or a second computer, with no subscription and no vendor lock-in. Sunshine's web UI makes pairing and per-app configuration simple, and both projects are free and open source.",
+  "setup": "Host + client on your home network",
+  "difficulty": "medium",
+  "link": "https://app.lizardbyte.dev/Sunshine/",
+  "repo": "https://github.com/LizardByte/Sunshine",
+  "logo": "assets/logos/sunshine-moonlight.png",
+  "screenshot": "assets/screenshots/sunshine-moonlight.webp",
+  "screenshotType": "landscape"
+}
