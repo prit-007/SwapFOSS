@@ -1,0 +1,17 @@
+{
+  "id": "post-009",
+  "format": "deep-dive",
+  "title": "Home Assistant: one brain for your whole smart home",
+  "intro": {
+    "eyebrow": "Deep dive — Home Assistant",
+    "headline": "Your smart home shouldn't need the cloud.",
+    "subhead": "Home Assistant ties hundreds of devices from dozens of brands into one local dashboard that keeps working when the internet doesn't.",
+    "pills": ["Local-first", "2000+ integrations", "No cloud required"],
+    "hl": { "word": "cloud", "color": "#18BCF2" }
+  },
+  "tools": ["home-assistant"],
+  "outro": {
+    "headline": "Take back the brain of your smart home.",
+    "subhead": "Home Assistant is free, runs on hardware you already own, and gets smarter with every integration. Which room are you automating first?"
+  }
+}

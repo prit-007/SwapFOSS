@@ -1,0 +1,34 @@
+{
+  "id": "localsend",
+  "name": "LocalSend",
+  "category": "utility",
+  "insteadOf": "AirDrop / ShareIt / Pushbullet",
+  "hook": "Instantly share files, text, and media across Windows, Mac, Linux, Android, and iOS over your local Wi-Fi — no internet, no servers, no accounts.",
+  "bullets": [
+    "Share files, photos, text, and clipboard between any mix of phones and computers",
+    "Runs entirely on your local Wi-Fi — no internet, no servers, no accounts",
+    "Automatic device discovery plus QR codes and shareable links",
+    "Encrypted device-to-device transfers over HTTPS"
+  ],
+  "features": ["Cross-platform", "LAN only", "No account", "Encrypted", "MIT licensed"],
+  "benefits": [
+    "AirDrop for everyone — but it talks to Android, Windows, and Linux too",
+    "No cloud in the middle: your files never leave your own network",
+    "No sign-up, no ads, no tracking — just open the app and send",
+    "Send a link or a whole folder without emailing it to yourself first"
+  ],
+  "setupSteps": [
+    "Install LocalSend on both devices (F-Droid, App Store, Microsoft Store, or a direct download)",
+    "Make sure both devices are on the same Wi-Fi network",
+    "Open the app — nearby devices appear automatically",
+    "Pick the files, tap a device, and accept the transfer on the other end"
+  ],
+  "details": "LocalSend is a free, open-source, cross-platform app for sharing files, photos, text, and clipboard content between devices on the same local network. Unlike AirDrop, Quick Share, or Pushbullet, it works identically across Android, iOS, Windows, macOS, and Linux and never touches the internet — transfers go directly device-to-device over your Wi-Fi, so nothing is uploaded to a server and no account is required. Devices are discovered automatically, or you can pair via a QR code or shareable link, and every transfer is protected with HTTPS encryption. It's built with Flutter, licensed under MIT, and has no ads, no tracking, and no size limits beyond your own storage.",
+  "setup": "No setup — install on both devices and send",
+  "difficulty": "easy",
+  "link": "https://localsend.org",
+  "repo": "https://github.com/localsend/localsend",
+  "logo": "assets/logos/localsend.png",
+  "screenshot": "assets/screenshots/localsend.png",
+  "screenshotType": "landscape"
+}

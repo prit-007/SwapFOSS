@@ -1,0 +1,34 @@
+{
+  "id": "simplelogin",
+  "name": "SimpleLogin",
+  "category": "security",
+  "insteadOf": "Giving out your real email address",
+  "hook": "Open-source email aliases — give every site a unique address that forwards to your real inbox.",
+  "bullets": [
+    "Generate a unique email alias for every website you sign up to",
+    "Aliases forward to your real inbox — disable one and the spam stops",
+    "Custom domains, catch-all addresses, and PGP encryption",
+    "Built by Proton and AGPL-licensed — self-host it if you prefer"
+  ],
+  "features": ["Email aliases", "Custom domains", "PGP", "Browser extensions", "Self-hostable"],
+  "benefits": [
+    "Stop handing your real address to every sketchy signup form",
+    "Instantly see which site leaked or sold your data — each alias is unique",
+    "Delete a spammy alias without ever changing your real email",
+    "Own your identity: run it yourself or use Proton's hosted service"
+  ],
+  "setupSteps": [
+    "Create an account at simplelogin.io or self-host the open-source server",
+    "Install the browser extension or mobile app to create aliases inline",
+    "Connect a custom domain if you want to use your own addresses",
+    "Replace your real email with an alias and delete the ones you no longer want"
+  ],
+  "details": "SimpleLogin is an open-source email alias service (built by Proton) that lets you hide your real email address from every website you sign up for. Instead of handing out your personal address, SimpleLogin generates a unique alias on the fly — a random address or one on your own custom domain — that forwards to your real inbox. When a site starts spamming you, just disable or delete that single alias; your real address was never exposed, and you can instantly see who leaked your data. It offers browser extensions and mobile apps to create aliases inline, supports PGP encryption, custom domains, and catch-all addresses, and can be self-hosted if you'd rather run the whole thing yourself. Licensed under AGPL-3.0.",
+  "setup": "Hosted account — or self-host your own",
+  "difficulty": "easy",
+  "link": "https://simplelogin.io",
+  "repo": "https://github.com/simple-login/app",
+  "logo": "assets/logos/simplelogin.png",
+  "screenshot": "assets/screenshots/simplelogin.png",
+  "screenshotType": "portrait"
+}

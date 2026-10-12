@@ -1,0 +1,17 @@
+{
+  "id": "post-010",
+  "format": "deep-dive",
+  "title": "WLED + Hyperion: ambilight without the price tag",
+  "intro": {
+    "eyebrow": "Deep dive — WLED + Hyperion",
+    "headline": "Ambient backlight. Without the $250 box.",
+    "subhead": "An ESP32, a cheap addressable LED strip, and open-source software recreate Hue-style screen sync for a fraction of the cost.",
+    "pills": ["DIY hardware", "Real-time sync", "Fraction of the price"],
+    "hl": { "word": "Ambient", "color": "#FF5A5F" }
+  },
+  "tools": ["wled-hyperion"],
+  "outro": {
+    "headline": "Build once, enjoy forever.",
+    "subhead": "WLED and Hyperion turn a $20 board and a strip of LEDs into a zero-latency ambilight setup. What are you lighting up first?"
+  }
+}

@@ -24,6 +24,12 @@
     "tale",
     "umbrel",
     "immich",
-    "nextcloud"
+    "nextcloud",
+    "localsend",
+    "kde-connect",
+    "rustdesk",
+    "home-assistant",
+    "wled-hyperion",
+    "simplelogin"
   ]
 }

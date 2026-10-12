@@ -1,0 +1,34 @@
+{
+  "id": "home-assistant",
+  "name": "Home Assistant",
+  "category": "home",
+  "insteadOf": "Google Home / Apple HomeKit / Amazon Alexa",
+  "hook": "The local brain of your smart home — one dashboard for thousands of devices, no cloud required.",
+  "bullets": [
+    "Unifies lights, cameras, sensors, and 2,000+ integrations in one dashboard",
+    "Automations run locally — your smart home keeps working when the internet goes down",
+    "Works with Zigbee, Z-Wave, Matter, MQTT, ESPHome, and big-name brands",
+    "Free and open source, with companion apps for Android and iOS"
+  ],
+  "features": ["Local control", "2000+ integrations", "Automations", "No cloud required", "Open source"],
+  "benefits": [
+    "Google Home and Alexa without shipping your data to Big Tech",
+    "Your devices keep working offline — no outage can brick your home",
+    "Mix cheap sensors and disparate brands that were never meant to talk",
+    "Automate everything from presence to energy use with one rule engine"
+  ],
+  "setupSteps": [
+    "Install Home Assistant OS on a Raspberry Pi, mini PC, or NAS (or run it in Docker)",
+    "Open the dashboard and add your devices through Discover or an integration",
+    "Build a dashboard with the drag-and-drop cards you care about",
+    "Add automations to react to time, presence, device state, and events"
+  ],
+  "details": "Home Assistant is the most popular open-source home automation platform — a local 'brain' that unifies thousands of smart devices and services into a single dashboard and automation engine. It talks to lights, switches, sensors, cameras, thermostats, media players, and 2,000+ integrations from brands like Philips Hue, Zigbee, Z-Wave, MQTT, ESPHome, and Matter, and it runs entirely on your own hardware so automations keep working even when the internet goes down. Beyond dashboards, its UI- and YAML-driven automation engine can react to time, presence, device state, and events, and companion apps for Android and iOS add widgets, sensors, and notifications. It's free, open source (Apache-2.0), actively developed, and backed by the Open Home Foundation and a huge community of integration maintainers.",
+  "setup": "Self-hosted (Raspberry Pi, mini PC, or NAS)",
+  "difficulty": "medium",
+  "link": "https://www.home-assistant.io",
+  "repo": "https://github.com/home-assistant/core",
+  "logo": "assets/logos/home-assistant.png",
+  "screenshot": "assets/screenshots/home-assistant.jpg",
+  "screenshotType": "landscape"
+}
