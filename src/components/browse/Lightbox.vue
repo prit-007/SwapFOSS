@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import AppIcon from "@/components/common/AppIcon.vue";
+import { trapTabKeydown } from "@/utils/focus";
 import type { Tool } from "@/types";
 
 const props = defineProps<{ tool: Tool }>();
 const emit = defineEmits<{ close: [] }>();
 const closeBtn = ref<HTMLButtonElement | null>(null);
+const dialogEl = ref<HTMLDivElement | null>(null);
 let lastFocus: HTMLElement | null = null;
 
 function onKey(e: KeyboardEvent) {
   if (e.key === "Escape") emit("close");
+  else if (dialogEl.value) trapTabKeydown(e, dialogEl.value);
 }
 onMounted(() => {
   document.addEventListener("keydown", onKey);
@@ -24,6 +27,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
+    ref="dialogEl"
     class="lightbox"
     role="dialog"
     aria-modal="true"

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import AppIcon from "@/components/common/AppIcon.vue";
+import { trapTabKeydown } from "@/utils/focus";
 import type { Tool } from "@/types";
 
 const props = defineProps<{ tool: Tool; dataUrl: string }>();
@@ -8,6 +9,7 @@ const emit = defineEmits<{ close: [] }>();
 
 const copied = ref(false);
 const closeBtn = ref<HTMLButtonElement | null>(null);
+const overlay = ref<HTMLDivElement | null>(null);
 let lastFocus: HTMLElement | null = null;
 
 function shareUrl() {
@@ -53,6 +55,7 @@ async function act(platform: string) {
 
 function onKey(e: KeyboardEvent) {
   if (e.key === "Escape") emit("close");
+  else if (overlay.value) trapTabKeydown(e, overlay.value);
 }
 onMounted(async () => {
   document.addEventListener("keydown", onKey);
@@ -68,6 +71,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
+    ref="overlay"
     class="share-overlay"
     role="dialog"
     aria-modal="true"

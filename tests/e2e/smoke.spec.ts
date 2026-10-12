@@ -304,6 +304,21 @@ test("share menu copies a deep link to the tool card", async ({ page }) => {
     .toMatch(/card\?tool=/);
 });
 
+test("share menu traps Tab focus inside the dialog", async ({ page }) => {
+  await page.goto("");
+  await page.locator(".share-btn").first().click();
+  await expect(page.locator(".share-menu")).toBeVisible();
+  await expect(page.locator(".share-menu-close")).toBeFocused();
+  const inDialog = () =>
+    page.evaluate(() => !!document.activeElement?.closest(".share-overlay"));
+  for (let i = 0; i < 12; i++) {
+    await page.keyboard.press("Tab");
+    expect(await inDialog()).toBe(true);
+  }
+  await page.keyboard.press("Shift+Tab");
+  expect(await inDialog()).toBe(true);
+});
+
 test("back-to-top appears after scrolling and returns to the top", async ({ page }) => {
   await page.goto("");
   await expect(page.locator(".swap-card").first()).toBeVisible();
