@@ -7,7 +7,7 @@ import AppIcon from "@/components/common/AppIcon.vue";
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="wrap">
-      <div class="brand">Swap<span>FOSS</span></div>
+      <RouterLink class="brand" to="/" aria-label="SwapFOSS home">Swap<span>FOSS</span></RouterLink>
       <nav class="site-nav">
         <a href="https://github.com/prit-007/SwapFOSS" target="_blank" rel="noopener">
           <AppIcon name="github-01" /> GitHub

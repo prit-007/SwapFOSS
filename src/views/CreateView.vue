@@ -279,6 +279,19 @@ onMounted(init);
         <h2 class="create-section-title">Tools</h2>
         <p class="create-hint">{{ toolsHint }}</p>
         <LoadError v-if="error" what="tools" @retry="init" />
+        <div
+          v-else-if="catalog.loading && !Object.keys(grouped).length"
+          class="create-tools-loading"
+          role="status"
+          aria-label="Loading tools"
+        >
+          <span class="skeleton skeleton-pill"></span>
+          <span class="skeleton skeleton-pill"></span>
+          <span class="skeleton skeleton-pill"></span>
+          <span class="skeleton skeleton-pill"></span>
+          <span class="skeleton skeleton-pill"></span>
+          <span class="skeleton skeleton-pill"></span>
+        </div>
         <div v-else class="create-tool-groups">
           <div v-for="(tools, catId) in grouped" :key="catId" class="create-tool-group">
             <span class="batch-cat-badge" :style="{ '--pill-color': catalog.categories[catId]?.color }">

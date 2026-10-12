@@ -10,6 +10,7 @@ import Lightbox from "@/components/browse/Lightbox.vue";
 import ShareMenu from "@/components/browse/ShareMenu.vue";
 import LoadError from "@/components/common/LoadError.vue";
 import AppIcon from "@/components/common/AppIcon.vue";
+import { formatStars } from "@/utils/formatStars";
 import type { Tool } from "@/types";
 
 type ViewMode = "grid" | "list";
@@ -41,6 +42,7 @@ const shown = computed(() =>
   catalog.query({ category: category.value, q: q.value, sort: sort.value }),
 );
 const total = computed(() => catalog.tools.length);
+const totalStarsLabel = computed(() => formatStars(catalog.totalStars));
 const resultLabel = computed(() =>
   shown.value.length === total.value
     ? `${total.value} tools`
@@ -154,6 +156,17 @@ async function copyCaption() {
         No subscriptions. No one watching what you watch, hear, or send. Same jobs
         done, none of the strings attached — one tool at a time.
       </p>
+      <div v-if="!catalog.loading && !catalog.error" class="hero-stats">
+        <span class="hero-stat">
+          <AppIcon name="grid-view" :size="15" /> {{ total }} open-source tools
+        </span>
+        <span class="hero-stat">
+          <AppIcon name="list-view" :size="15" /> {{ filterIds.length - 1 }} categories
+        </span>
+        <span class="hero-stat">
+          <AppIcon name="star" :size="15" /> {{ totalStarsLabel }} GitHub stars
+        </span>
+      </div>
     </div>
   </section>
 
