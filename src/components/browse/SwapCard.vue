@@ -29,6 +29,13 @@ const DIFFICULTY_LABELS: Record<Difficulty, string> = {
 };
 const difficultyLabel = computed(() => DIFFICULTY_LABELS[props.tool.difficulty]);
 const starsLabel = computed(() => formatStars(props.tool.stars ?? 0));
+
+function onPreviewKey(e: KeyboardEvent) {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    emit("preview", props.tool);
+  }
+}
 </script>
 
 <template>
@@ -55,7 +62,11 @@ const starsLabel = computed(() => formatStars(props.tool.stars ?? 0));
         :alt="`${tool.name} screenshot`"
         loading="lazy"
         class="screenshot-img"
+        tabindex="0"
+        role="button"
+        :aria-label="`Preview ${tool.name} screenshot`"
         @click="emit('preview', tool)"
+        @keydown="onPreviewKey"
       />
       <div
         v-if="hasScreenshot"
@@ -98,21 +109,33 @@ const starsLabel = computed(() => formatStars(props.tool.stars ?? 0));
         <span v-for="f in tool.features" :key="f" class="feature-pill">{{ f }}</span>
       </div>
       <div v-if="hasSetupSteps" class="setup-steps">
-        <button class="setup-toggle" @click="setupOpen = !setupOpen">
+        <button
+          class="setup-toggle"
+          type="button"
+          :aria-expanded="setupOpen"
+          :aria-controls="`setup-${tool.id}`"
+          @click="setupOpen = !setupOpen"
+        >
           How to use <AppIcon :name="setupOpen ? 'arrow-up-01' : 'arrow-down-01'" />
         </button>
-        <div class="setup-body" :class="{ open: setupOpen }">
+        <div :id="`setup-${tool.id}`" class="setup-body" :class="{ open: setupOpen }">
           <ol>
             <li v-for="(s, i) in tool.setupSteps" :key="i">{{ s }}</li>
           </ol>
         </div>
       </div>
       <div v-if="tool.details" class="details-expand">
-        <button class="details-toggle" @click="detailsOpen = !detailsOpen">
+        <button
+          class="details-toggle"
+          type="button"
+          :aria-expanded="detailsOpen"
+          :aria-controls="`details-${tool.id}`"
+          @click="detailsOpen = !detailsOpen"
+        >
           {{ detailsOpen ? "Read less" : "Read more" }}
           <AppIcon :name="detailsOpen ? 'arrow-up-01' : 'arrow-down-01'" />
         </button>
-        <div class="details-body" :class="{ open: detailsOpen }">
+        <div :id="`details-${tool.id}`" class="details-body" :class="{ open: detailsOpen }">
           <p>{{ tool.details }}</p>
         </div>
       </div>

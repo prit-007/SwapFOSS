@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import AppIcon from "@/components/common/AppIcon.vue";
+import { useScrollLock } from "@/composables/useScrollLock";
 import { trapTabKeydown } from "@/utils/focus";
 import type { Tool } from "@/types";
 
@@ -8,6 +9,7 @@ const props = defineProps<{ tool: Tool }>();
 const emit = defineEmits<{ close: [] }>();
 const closeBtn = ref<HTMLButtonElement | null>(null);
 const dialogEl = ref<HTMLDivElement | null>(null);
+const { lock: lockScroll, unlock: unlockScroll } = useScrollLock();
 let lastFocus: HTMLElement | null = null;
 
 function onKey(e: KeyboardEvent) {
@@ -16,11 +18,13 @@ function onKey(e: KeyboardEvent) {
 }
 onMounted(() => {
   document.addEventListener("keydown", onKey);
+  lockScroll();
   lastFocus = document.activeElement as HTMLElement | null;
   closeBtn.value?.focus();
 });
 onBeforeUnmount(() => {
   document.removeEventListener("keydown", onKey);
+  unlockScroll();
   lastFocus?.focus?.();
 });
 </script>

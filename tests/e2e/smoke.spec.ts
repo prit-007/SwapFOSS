@@ -319,6 +319,50 @@ test("share menu traps Tab focus inside the dialog", async ({ page }) => {
   expect(await inDialog()).toBe(true);
 });
 
+test("screenshot preview opens from the keyboard and locks body scroll", async ({ page }) => {
+  await page.goto("");
+  const shot = page.locator(".screenshot-img").first();
+  await expect(shot).toBeVisible();
+  await shot.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator(".lightbox")).toBeVisible();
+  expect(await page.evaluate(() => document.body.style.overflow)).toBe("hidden");
+  await page.click(".lightbox-close");
+  await expect(page.locator(".lightbox")).toHaveCount(0);
+  expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
+});
+
+test("card toggles expose aria-expanded", async ({ page }) => {
+  await page.goto("");
+  const toggle = page.locator(".setup-toggle").first();
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
+  await expect(toggle).toContainText("How to use");
+});
+
+test("slide viewer swipes between slides on touch", async ({ page }) => {
+  await page.goto("slide?post=post-006&type=deep&part=hero");
+  await expect(page.locator("#stage .export-card.deep.deep-hero")).toBeVisible();
+  const stage = page.locator("#stage");
+  await stage.dispatchEvent("touchstart", {
+    touches: [{ identifier: 1, clientX: 320, clientY: 420 }],
+  });
+  await stage.dispatchEvent("touchend", {
+    changedTouches: [{ identifier: 1, clientX: 170, clientY: 420 }],
+  });
+  await expect(page).toHaveURL(/part=features/);
+  await expect(page.locator("#stage .export-card.deep.deep-features")).toBeVisible();
+
+  await stage.dispatchEvent("touchstart", {
+    touches: [{ identifier: 2, clientX: 170, clientY: 420 }],
+  });
+  await stage.dispatchEvent("touchend", {
+    changedTouches: [{ identifier: 2, clientX: 320, clientY: 420 }],
+  });
+  await expect(page).toHaveURL(/part=hero/);
+});
+
 test("back-to-top appears after scrolling and returns to the top", async ({ page }) => {
   await page.goto("");
   await expect(page.locator(".swap-card").first()).toBeVisible();
