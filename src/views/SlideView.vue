@@ -118,6 +118,19 @@ function onKey(e: KeyboardEvent) {
   else if (e.key === "ArrowLeft" && prev.value) go(prev.value);
 }
 
+let touchStartX: number | null = null;
+function onTouchStart(e: TouchEvent) {
+  touchStartX = e.touches[0]?.clientX ?? null;
+}
+function onTouchEnd(e: TouchEvent) {
+  if (touchStartX === null) return;
+  const dx = (e.changedTouches[0]?.clientX ?? touchStartX) - touchStartX;
+  touchStartX = null;
+  if (Math.abs(dx) < 40) return;
+  if (dx < 0 && next.value) go(next.value);
+  else if (dx > 0 && prev.value) go(prev.value);
+}
+
 async function load() {
   error.value = false;
   try {
@@ -197,7 +210,14 @@ async function download() {
       </button>
     </div>
   </div>
-  <div id="stage" ref="stage" tabindex="-1" :style="stageStyle()">
+  <div
+    id="stage"
+    ref="stage"
+    tabindex="-1"
+    :style="stageStyle()"
+    @touchstart.passive="onTouchStart"
+    @touchend="onTouchEnd"
+  >
     <LoadError v-if="error" what="slide" @retry="load" />
     <StageLoader v-else-if="!html" text="Loading slide…" />
     <div v-else class="stage-frame" :style="frameStyle()" v-html="html"></div>
