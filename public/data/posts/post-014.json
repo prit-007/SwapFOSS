@@ -1,0 +1,16 @@
+{
+  "id": "post-014",
+  "title": "The Ente suite: private by default",
+  "intro": {
+    "eyebrow": "One family of apps, fully encrypted",
+    "headline": "Your photos, codes, and IDs — end-to-end encrypted.",
+    "subhead": "Ente is a single open-source family of apps that keeps your memories, 2FA codes, and important documents genuinely private.",
+    "pills": ["End-to-end encrypted", "Open source", "Cross-platform"],
+    "hl": { "word": "encrypted", "color": "#FF5A5F" }
+  },
+  "tools": ["ente-photos", "ente-auth", "ente-locker"],
+  "outro": {
+    "headline": "One login, three private places.",
+    "subhead": "Ente Photos for memories, Ente Auth for 2FA, Ente Locker for documents — all end-to-end encrypted. Which are you moving over first?"
+  }
+}

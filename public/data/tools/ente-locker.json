@@ -1,0 +1,34 @@
+{
+  "id": "ente-locker",
+  "name": "Ente Locker",
+  "category": "security",
+  "insteadOf": "Storing IDs and documents in the cloud",
+  "hook": "An end-to-end encrypted locker for your passports, IDs, insurance, and important documents.",
+  "bullets": [
+    "End-to-end encrypted vault for documents, IDs, and secure notes",
+    "Available on mobile and the web, with everything kept private",
+    "Family sharing so the people who need access can get it",
+    "Built on the same open-source stack as Ente Photos and Ente Auth"
+  ],
+  "features": ["E2E encrypted", "Secure vault", "Family sharing", "Cross-platform", "Open source"],
+  "benefits": [
+    "A digital safe for the documents you'd never put in a random cloud drive",
+    "End-to-end encryption means only you can open your locker",
+    "Stop hunting for scanned IDs across email and your camera roll",
+    "Share critical documents with family without losing control of them"
+  ],
+  "setupSteps": [
+    "Install Ente Locker on your phone (or open it on the web)",
+    "Create an account — the same Ente login works across the suite",
+    "Add documents, IDs, and notes to your locker",
+    "Organize items and share a locker with family if you want"
+  ],
+  "details": "Ente Locker is an end-to-end encrypted vault from the makers of Ente Photos and Ente Auth, designed to hold the sensitive documents you shouldn't scatter across email, cloud drives, and your camera roll — passports, IDs, insurance papers, medical records, and secure notes. Everything is encrypted on your device so only you can open it, and the app is available on mobile and the web with the same account used across the rest of the Ente suite. You can organize items, add files and notes, and share a locker with family members who need access to critical documents. Like the rest of Ente, it's open source (AGPL-3.0), cross-platform, and can be self-hosted if you'd rather run it yourself.",
+  "setup": "App (mobile & web)",
+  "difficulty": "easy",
+  "link": "https://ente.io/locker",
+  "repo": "https://github.com/ente/ente",
+  "logo": "assets/logos/ente-locker.png",
+  "screenshot": "assets/screenshots/ente-locker.jpg",
+  "screenshotType": "portrait"
+}

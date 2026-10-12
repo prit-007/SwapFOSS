@@ -31,6 +31,8 @@
     "home-assistant",
     "wled-hyperion",
     "simplelogin",
-    "sunshine-moonlight"
+    "sunshine-moonlight",
+    "ente-photos",
+    "ente-locker"
   ]
 }
