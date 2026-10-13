@@ -1,0 +1,16 @@
+{
+  "id": "post-015",
+  "title": "Session: no phone number, no metadata trail",
+  "intro": {
+    "eyebrow": "Private messaging, by default",
+    "headline": "Chat without tying it to your phone number.",
+    "subhead": "Session is a decentralized, E2E-encrypted messenger that hides your IP address and never asks for a phone number or email.",
+    "pills": ["No phone number", "E2E encrypted", "Onion routing", "Open source"],
+    "hl": { "word": "metadata", "color": "#FF5A5F" }
+  },
+  "tools": ["session"],
+  "outro": {
+    "headline": "Your identity stays yours.",
+    "subhead": "Session gives you private messaging with minimal metadata exposure — perfect when you want to keep your identity and location private."
+  }
+}
