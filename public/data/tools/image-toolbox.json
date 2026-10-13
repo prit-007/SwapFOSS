@@ -1,0 +1,40 @@
+{
+  "id": "image-toolbox",
+  "name": "Image Toolbox",
+  "category": "utility",
+  "insteadOf": "Snapseed / Lightroom (mobile)",
+  "hook": "Feature-rich Android image editor with color grading, batch processing and Material You UI.",
+  "bullets": [
+    "Color grading, filters and adjustments",
+    "Background removal, EXIF editing, watermarking",
+    "Batch processing",
+    "Material You design"
+  ],
+  "features": [
+    "Color grading",
+    "Background removal",
+    "EXIF editing",
+    "Batch processing",
+    "Material You",
+    "Open source"
+  ],
+  "benefits": [
+    "Powerful alternative to Snapseed/Lightroom",
+    "Lots of pro features without paywalls",
+    "Polished Material You UX"
+  ],
+  "setupSteps": [
+    "Install Image Toolbox",
+    "Open image",
+    "Apply edits/batch tools",
+    "Save/share"
+  ],
+  "details": "Image Toolbox (T8RIN) is a feature-rich, open-source Android image editor offering advanced adjustments, background removal, EXIF editing, watermarking, and batch processing with Material You UI.",
+  "setup": "App (Android)",
+  "difficulty": "easy",
+  "link": "https://github.com/T8RIN/ImageToolbox",
+  "repo": "https://github.com/T8RIN/ImageToolbox",
+  "logo": "assets/logos/image-toolbox.png",
+  "screenshot": "assets/screenshots/image-toolbox.jpg",
+  "screenshotType": "portrait"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "pocket-paint",
+  "name": "Pocket Paint",
+  "category": "utility",
+  "insteadOf": "Picsart",
+  "hook": "Layer-based drawing and photo manipulation with brushes and transparency.",
+  "bullets": [
+    "True layer support with transparency",
+    "Brushes, shapes, stamps",
+    "Open-source (Catrobat)",
+    "Great for creative edits"
+  ],
+  "features": [
+    "Layers",
+    "Brushes",
+    "Shapes",
+    "Transparency",
+    "Open source"
+  ],
+  "benefits": [
+    "Photoshop-like layering without subscriptions",
+    "Privacy-friendly",
+    "Reliable FOSS tool"
+  ],
+  "setupSteps": [
+    "Install Pocket Paint",
+    "Open/create canvas",
+    "Edit with layers/brushes",
+    "Export"
+  ],
+  "details": "Pocket Paint (Catrobat) is an open-source painting/photo editing app with layers, transparency, brushes, shapes \u2014 a solid Picsart alternative without constant paywalls.",
+  "setup": "App (Android)",
+  "difficulty": "easy",
+  "link": "https://github.com/Catrobat/Paintroid",
+  "repo": "https://github.com/Catrobat/Paintroid",
+  "logo": "assets/logos/pocket-paint.png",
+  "screenshot": "assets/screenshots/pocket-paint.jpg",
+  "screenshotType": "portrait"
+}

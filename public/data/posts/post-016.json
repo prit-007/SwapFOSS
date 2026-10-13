@@ -1,0 +1,16 @@
+{
+  "id": "post-016",
+  "title": "The Creator Stack: edit, enhance, and draw for free",
+  "intro": {
+    "eyebrow": "No CapCut, no Snapseed lock-in",
+    "headline": "Create videos, edit photos, and draw — all open-source.",
+    "subhead": "LibreCuts, Image Toolbox, and Pocket Paint cover video, photo, and layer-based editing without watermarks or paywalls.",
+    "pills": ["Video editing", "Photo editing", "Layer-based", "Open source"],
+    "hl": { "word": "open-source", "color": "#FF5A5F" }
+  },
+  "tools": ["librecuts", "image-toolbox", "pocket-paint"],
+  "outro": {
+    "headline": "Your creative tools, on your terms.",
+    "subhead": "Skip the ads, watermarks, and subscriptions. Edit and create with tools you can actually own."
+  }
+}

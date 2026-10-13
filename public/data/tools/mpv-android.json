@@ -1,0 +1,39 @@
+{
+  "id": "mpv-android",
+  "name": "mpv-android",
+  "category": "media",
+  "insteadOf": "MX Player (power user)",
+  "hook": "Minimal, high-performance mpv-based player for 4K/HDR and complex formats.",
+  "bullets": [
+    "mpv engine: plays virtually anything",
+    "4K, HDR, Dolby Vision support",
+    "Advanced subtitles & gestures",
+    "Zero ads, minimal UI"
+  ],
+  "features": [
+    "mpv engine",
+    "4K/HDR",
+    "Advanced subtitles",
+    "Gesture controls",
+    "Open source"
+  ],
+  "benefits": [
+    "Maximum format compatibility/quality",
+    "Lightweight, no bloat/ads",
+    "Great for power users"
+  ],
+  "setupSteps": [
+    "Install mpv-android",
+    "Open video file/link",
+    "Use gestures/controls",
+    "Enjoy playback"
+  ],
+  "details": "mpv-android brings mpv media player to Android \u2014 ad-free, lightweight, handles 4K/HDR/Dolby Vision with precise seeking, advanced subtitles and gestures.",
+  "setup": "App (Android)",
+  "difficulty": "easy",
+  "link": "https://github.com/mpv-android/mpv-android",
+  "repo": "https://github.com/mpv-android/mpv-android",
+  "logo": "assets/logos/mpv-android.png",
+  "screenshot": "assets/screenshots/mpv-android.jpg",
+  "screenshotType": "portrait"
+}

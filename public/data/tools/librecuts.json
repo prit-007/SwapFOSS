@@ -1,0 +1,39 @@
+{
+  "id": "librecuts",
+  "name": "LibreCuts",
+  "category": "utility",
+  "insteadOf": "CapCut / KineMaster / YouCut",
+  "hook": "Open-source Android video editor with timeline editing and no heavy watermarks.",
+  "bullets": [
+    "Real timeline editing with cuts, transitions and basic effects",
+    "No forced watermarks or locked premium exports",
+    "Actively developed and open-source",
+    "Android-focused"
+  ],
+  "features": [
+    "Timeline editor",
+    "Trimming/cutting",
+    "Transitions",
+    "Open source",
+    "No ads"
+  ],
+  "benefits": [
+    "Real CapCut alternative without paywall traps",
+    "Privacy-respecting",
+    "Actively maintained"
+  ],
+  "setupSteps": [
+    "Install LibreCuts",
+    "Import video clips",
+    "Edit in timeline",
+    "Export your video"
+  ],
+  "details": "LibreCuts is an emerging open-source Android video editor providing timeline-based editing without watermarks, locked exports, or invasive tracking found in commercial apps like CapCut/KineMaster.",
+  "setup": "App (Android)",
+  "difficulty": "medium",
+  "link": "https://github.com/tharunbirla/librecuts",
+  "repo": "https://github.com/tharunbirla/librecuts",
+  "logo": "assets/logos/librecuts.png",
+  "screenshot": "assets/screenshots/librecuts.jpg",
+  "screenshotType": "portrait"
+}
