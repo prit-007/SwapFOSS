@@ -1,0 +1,34 @@
+{
+  "id": "session",
+  "name": "Session",
+  "category": "messaging",
+  "insteadOf": "Signal / WhatsApp / Telegram",
+  "hook": "Privacy-first messenger with onion routing and no phone number required.",
+  "bullets": [
+    "No phone number or email required to sign up or message",
+    "End-to-end encrypted by default with Signal Protocol",
+    "Onion routing (Lokinet) protects IP and metadata",
+    "Open-source, decentralized, with cross-platform apps"
+  ],
+  "features": ["E2E encrypted", "Onion routing", "No phone number", "Cross-platform", "Open source"],
+  "benefits": [
+    "Communicate without tying your identity to a phone number",
+    "Stronger metadata protection than traditional E2E messengers",
+    "Free, open-source, and not monetized by ads or data harvesting",
+    "Works across mobile, desktop, and web"
+  ],
+  "setupSteps": [
+    "Install Session from getsession.org, F-Droid, or your app store",
+    "Create a Session ID (no phone number or email required)",
+    "Add contacts by sharing your Session ID or scanning a QR code",
+    "Start messaging with E2E encryption and onion routing"
+  ],
+  "details": "Session is a free, open-source, end-to-end encrypted messenger that minimizes metadata exposure. Unlike most messengers, Session doesn't require a phone number or email to create an account — instead you get a random Session ID. Messages use the Signal Protocol for E2E encryption, and Session routes traffic through an onion-routing network (Lokinet) to hide your IP address and reduce metadata. It's cross-platform (Android, iOS, Windows, macOS, Linux), open-source, and designed with decentralization in mind. Session is a great privacy-focused alternative to Signal, WhatsApp, and Telegram for users who want minimal identity exposure and stronger metadata protection.",
+  "setup": "App (mobile, desktop & web)",
+  "difficulty": "easy",
+  "link": "https://getsession.org/",
+  "repo": "https://github.com/session-foundation",
+  "logo": "assets/logos/session.png",
+  "screenshot": "assets/screenshots/session.jpg",
+  "screenshotType": "portrait"
+}
