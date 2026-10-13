@@ -2,13 +2,13 @@
   "id": "image-toolbox",
   "name": "Image Toolbox",
   "category": "utility",
-  "insteadOf": "Snapseed / Lightroom (mobile)",
-  "hook": "Feature-rich Android image editor with color grading, batch processing and Material You UI.",
+  "insteadOf": "Batch image processing / offline image tools",
+  "hook": "Powerful offline image toolbox for batch resizing, conversion, compression, and image operations.",
   "bullets": [
-    "Color grading, filters and adjustments",
-    "Background removal, EXIF editing, watermarking",
-    "Batch processing",
-    "Material You design"
+    "Batch resize, crop, rotate, and convert images",
+    "Compress, optimize, and adjust image quality",
+    "Background removal, EXIF editing, and drawing tools",
+    "100% offline, privacy-friendly, Material You UI"
   ],
   "features": [
     "Color grading",
@@ -19,17 +19,18 @@
     "Open source"
   ],
   "benefits": [
-    "Powerful alternative to Snapseed/Lightroom",
-    "Lots of pro features without paywalls",
-    "Polished Material You UX"
+    "Process multiple images in one go without uploading",
+    "Fine-grained control over size, format, and compression",
+    "Privacy-first: all work happens on your device",
+    "Polished Material You experience"
   ],
   "setupSteps": [
     "Install Image Toolbox",
-    "Open image",
-    "Apply edits/batch tools",
-    "Save/share"
+    "Select images for batch or single operation",
+    "Choose resize/convert/compress or other tools",
+    "Export processed images"
   ],
-  "details": "Image Toolbox (T8RIN) is a feature-rich, open-source Android image editor offering advanced adjustments, background removal, EXIF editing, watermarking, and batch processing with Material You UI.",
+  "details": "Image Toolbox (by T8RIN) is an offline-first Android app for batch image processing. Resize, crop, rotate, convert between formats, compress, remove backgrounds, edit EXIF, apply filters, and chain operations \u2014 all without sending images to the cloud.",
   "setup": "App (Android)",
   "difficulty": "easy",
   "link": "https://github.com/T8RIN/ImageToolbox",

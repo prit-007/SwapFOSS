@@ -33,14 +33,20 @@ const sort = ref<SortKey>(isSortKey(route.query.sort) ? route.query.sort : "feat
 const view = ref<ViewMode>(route.query.view === "list" ? "list" : "grid");
 const previewTool = ref<Tool | null>(null);
 const captionCopied = ref(false);
+const batchSize = 24;
+const visibleCount = ref(batchSize);
+const sentinel = ref<HTMLElement | null>(null);
+let observer: IntersectionObserver | null = null;
 
 const captionText =
   "I built a visual directory for FOSS tools that normal people can actually use. What tool should I add next?";
 
 const filterIds = computed(() => ["all", ...catalog.categoryIds]);
-const shown = computed(() =>
+const allShown = computed(() =>
   catalog.query({ category: category.value, q: q.value, sort: sort.value }),
 );
+const shown = computed(() => allShown.value.slice(0, visibleCount.value));
+const hasMore = computed(() => visibleCount.value < allShown.value.length);
 const total = computed(() => catalog.tools.length);
 const totalStarsLabel = computed(() => formatStars(catalog.totalStars));
 const resultLabel = computed(() =>
@@ -56,8 +62,12 @@ const emptyTitle = computed(() => {
 onMounted(() => {
   if (!catalog.tools.length) catalog.load();
   window.addEventListener("keydown", onKeydown);
+  setupObserver();
 });
-onBeforeUnmount(() => window.removeEventListener("keydown", onKeydown));
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", onKeydown);
+  observer?.disconnect();
+});
 
 watch(
   () => route.query,
@@ -67,6 +77,14 @@ watch(
     q.value = (query.q as string) || "";
     sort.value = isSortKey(query.sort) ? query.sort : "featured";
     view.value = query.view === "list" ? "list" : "grid";
+    visibleCount.value = batchSize;
+  },
+);
+
+watch(
+  () => [category.value, q.value, sort.value],
+  () => {
+    visibleCount.value = batchSize;
   },
 );
 
@@ -146,6 +164,28 @@ async function copyCaption() {
     toast.show("Couldn't copy — clipboard blocked", { tone: "error" });
   }
 }
+
+function setupObserver() {
+  observer?.disconnect();
+  if (typeof IntersectionObserver !== "function") return;
+  observer = new IntersectionObserver(
+    (entries) => {
+      if (entries.some((entry) => entry.isIntersecting) && hasMore.value) {
+        visibleCount.value = Math.min(allShown.value.length, visibleCount.value + batchSize);
+      }
+    },
+    { rootMargin: "400px", threshold: 0.1 },
+  );
+  if (sentinel.value) observer.observe(sentinel.value);
+}
+
+watch(hasMore, () => {
+  if (!hasMore.value && observer) {
+    observer.disconnect();
+  } else if (hasMore.value && sentinel.value && observer) {
+    observer.observe(sentinel.value);
+  }
+});
 </script>
 
 <template>
@@ -267,6 +307,11 @@ async function copyCaption() {
       >
         <AppIcon name="refresh-01" /> Clear search &amp; filters
       </button>
+    </div>
+
+    <div v-if="!catalog.loading && !catalog.error && hasMore" ref="sentinel" aria-hidden="true" style="height: 1px"></div>
+    <div v-if="!catalog.loading && !catalog.error && hasMore" class="load-more-indicator" aria-live="polite" aria-busy="true">
+      Loading more tools…
     </div>
 
     <div v-reveal class="caption-box">
