@@ -1,0 +1,40 @@
+{
+  "id": "nova-video-player",
+  "name": "Nova Video Player",
+  "category": "media",
+  "insteadOf": "MX Player",
+  "hook": "Local video player that turns your library into a polished, Netflix-like experience.",
+  "bullets": [
+    "Hardware-accelerated playback for most formats",
+    "Auto-fetches posters, backdrops, descriptions",
+    "Supports SMB, UPnP, FTP, WebDAV",
+    "Android TV friendly"
+  ],
+  "features": [
+    "Universal format support",
+    "Smart library",
+    "Subtitles",
+    "Network sources",
+    "Android TV",
+    "Open source"
+  ],
+  "benefits": [
+    "Ad-free, cleaner than MX Player",
+    "Makes local media feel organized",
+    "Great across mobile/TV"
+  ],
+  "setupSteps": [
+    "Install Nova Video Player",
+    "Scan video folders/network sources",
+    "Browse organized library",
+    "Play with HW accel"
+  ],
+  "details": "Nova Video Player is an open-source Android/Android TV video player with HW accel, multi-audio/subtitle support, automatic metadata fetching, and network source support (SMB/UPnP/FTP/WebDAV).",
+  "setup": "App (Android/Android TV)",
+  "difficulty": "easy",
+  "link": "https://github.com/nova-video-player/aos-AVP",
+  "repo": "https://github.com/nova-video-player/aos-AVP",
+  "logo": "assets/logos/nova-video-player.png",
+  "screenshot": "assets/screenshots/nova-video-player.jpg",
+  "screenshotType": "portrait"
+}

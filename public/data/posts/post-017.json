@@ -1,0 +1,16 @@
+{
+  "id": "post-017",
+  "title": "The Offline & Streaming Media Stack",
+  "intro": {
+    "eyebrow": "Local media, done right",
+    "headline": "Play everything, stream when you want.",
+    "subhead": "Nova Video Player, mpv-android, and Namida blend local libraries with streaming for a seamless media experience.",
+    "pills": ["Video player", "Music player", "Offline-first", "Open source"],
+    "hl": { "word": "seamless", "color": "#FF5A5F" }
+  },
+  "tools": ["nova-video-player", "mpv-android", "namida"],
+  "outro": {
+    "headline": "Your media, your way.",
+    "subhead": "Beautiful, ad-free players that respect your privacy and put you in control."
+  }
+}

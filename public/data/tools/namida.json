@@ -1,0 +1,41 @@
+{
+  "id": "namida",
+  "name": "Namida",
+  "category": "music",
+  "insteadOf": "PowerAmp / Spotify (mix)",
+  "hook": "Beautiful music player blending local library with native YouTube streaming.",
+  "bullets": [
+    "Stunning UI for offline FLAC/MP3",
+    "Native YouTube search/streaming",
+    "Lyrics, playlists, queue",
+    "Open-source & privacy-respecting"
+  ],
+  "features": [
+    "Offline library",
+    "YouTube integration",
+    "Lyrics",
+    "Playlists",
+    "Queue",
+    "Material UI",
+    "Open source"
+  ],
+  "benefits": [
+    "Seamless local+online music",
+    "Beautiful FOSS player",
+    "No ads/tracking"
+  ],
+  "setupSteps": [
+    "Install Namida",
+    "Scan local music",
+    "Optionally use YouTube",
+    "Build playlists"
+  ],
+  "details": "Namida is a beautifully designed open-source Android music player managing offline FLAC/MP3 with polished UI. Deep YouTube integration lets you search/stream/queue inside the app.",
+  "setup": "App (Android)",
+  "difficulty": "easy",
+  "link": "https://github.com/namidaco/namida",
+  "repo": "https://github.com/namidaco/namida",
+  "logo": "assets/logos/namida.png",
+  "screenshot": "assets/screenshots/namida.jpg",
+  "screenshotType": "portrait"
+}
