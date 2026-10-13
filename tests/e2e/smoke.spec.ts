@@ -205,7 +205,6 @@ test("sort selector reorders the grid and syncs the URL", async ({ page }) => {
 
   const names = await page.locator(".swap-card .swap-to").allInnerTexts();
   const min = [...names].sort((a, b) => a.localeCompare(b))[0];
-  const max = [...names].sort((a, b) => b.localeCompare(a))[0];
 
   await page.selectOption("#tool-sort", "az");
   await expect(page).toHaveURL(/sort=az/);
