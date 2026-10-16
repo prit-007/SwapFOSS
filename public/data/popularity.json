@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-10-15T20:39:17.452Z",
+  "generatedAt": "2026-10-16T10:17:35.141Z",
   "source": "github",
   "tools": {
     "jellyfin": {
       "repo": "jellyfin/jellyfin",
       "host": "github",
-      "stars": 58117
+      "stars": 58133
     },
     "streamio": {
       "repo": "https://github.com/Stremio",
@@ -15,22 +15,22 @@
     "metrolist": {
       "repo": "mostafaalagamy/Metrolist",
       "host": "github",
-      "stars": 13525
+      "stars": 13541
     },
     "spotiflac": {
       "repo": "spotbye/SpotiFLAC",
       "host": "github",
-      "stars": 11537
+      "stars": 11548
     },
     "spotube": {
       "repo": "KRTirtho/spotube",
       "host": "github",
-      "stars": 49965
+      "stars": 49986
     },
     "echo-music": {
       "repo": "EchoMusicApp/Echo-Music",
       "host": "github",
-      "stars": 1885
+      "stars": 1897
     },
     "jami": {
       "repo": "https://git.jami.net/savoirfairelinux/jami",
@@ -40,12 +40,12 @@
     "frappe-framework": {
       "repo": "frappe/frappe",
       "host": "github",
-      "stars": 10943
+      "stars": 10945
     },
     "erpnext": {
       "repo": "frappe/erpnext",
       "host": "github",
-      "stars": 40204
+      "stars": 40227
     },
     "forgejo": {
       "repo": "https://codeberg.org/forgejo/forgejo",
@@ -55,122 +55,122 @@
     "frappe-books": {
       "repo": "frappe/books",
       "host": "github",
-      "stars": 5001
+      "stars": 5000
     },
     "mihon": {
       "repo": "mihonapp/mihon",
       "host": "github",
-      "stars": 24402
+      "stars": 24424
     },
     "nuclear": {
       "repo": "nukeop/nuclear",
       "host": "github",
-      "stars": 18700
+      "stars": 18708
     },
     "aniyomi": {
       "repo": "aniyomiorg/aniyomi",
       "host": "github",
-      "stars": 7803
+      "stars": 7805
     },
     "arr-suite": {
       "repo": "Sonarr/Sonarr",
       "host": "github",
-      "stars": 17146
+      "stars": 17162
     },
     "smarttube": {
       "repo": "yuliskov/SmartTube",
       "host": "github",
-      "stars": 35004
+      "stars": 35029
     },
     "freetube": {
       "repo": "FreeTubeApp/FreeTube",
       "host": "github",
-      "stars": 22055
+      "stars": 22064
     },
     "newpipe": {
       "repo": "TeamNewPipe/NewPipe",
       "host": "github",
-      "stars": 40146
+      "stars": 40152
     },
     "bitwarden": {
       "repo": "bitwarden/clients",
       "host": "github",
-      "stars": 13989
+      "stars": 13991
     },
     "ente-auth": {
       "repo": "ente/ente",
       "host": "github",
-      "stars": 29411
+      "stars": 29417
     },
     "pihole": {
       "repo": "pi-hole/pi-hole",
       "host": "github",
-      "stars": 61286
+      "stars": 61292
     },
     "tale": {
       "repo": "tale-project/tale",
       "host": "github",
-      "stars": 34
+      "stars": 35
     },
     "umbrel": {
       "repo": "getumbrel/umbrel",
       "host": "github",
-      "stars": 12382
+      "stars": 12387
     },
     "immich": {
       "repo": "immich-app/immich",
       "host": "github",
-      "stars": 116348
+      "stars": 116392
     },
     "nextcloud": {
       "repo": "nextcloud/server",
       "host": "github",
-      "stars": 37119
+      "stars": 37136
     },
     "localsend": {
       "repo": "localsend/localsend",
       "host": "github",
-      "stars": 94476
+      "stars": 94539
     },
     "kde-connect": {
       "repo": "KDE/kdeconnect-kde",
       "host": "github",
-      "stars": 4059
+      "stars": 4060
     },
     "rustdesk": {
       "repo": "rustdesk/rustdesk",
       "host": "github",
-      "stars": 125929
+      "stars": 125983
     },
     "home-assistant": {
       "repo": "home-assistant/core",
       "host": "github",
-      "stars": 91534
+      "stars": 91555
     },
     "wled-hyperion": {
       "repo": "wled/WLED",
       "host": "github",
-      "stars": 18856
+      "stars": 18858
     },
     "simplelogin": {
       "repo": "simple-login/app",
       "host": "github",
-      "stars": 7055
+      "stars": 7059
     },
     "sunshine-moonlight": {
       "repo": "LizardByte/Sunshine",
       "host": "github",
-      "stars": 42250
+      "stars": 42271
     },
     "ente-photos": {
       "repo": "ente/ente",
       "host": "github",
-      "stars": 29411
+      "stars": 29417
     },
     "ente-locker": {
       "repo": "ente/ente",
       "host": "github",
-      "stars": 29411
+      "stars": 29417
     },
     "session": {
       "repo": "https://github.com/session-foundation",
@@ -180,12 +180,12 @@
     "librecuts": {
       "repo": "tharunbirla/librecuts",
       "host": "github",
-      "stars": 986
+      "stars": 988
     },
     "image-toolbox": {
       "repo": "T8RIN/ImageToolbox",
       "host": "github",
-      "stars": 15019
+      "stars": 15026
     },
     "pocket-paint": {
       "repo": "Catrobat/Paintroid",
@@ -205,7 +205,7 @@
     "namida": {
       "repo": "namidaco/namida",
       "host": "github",
-      "stars": 6648
+      "stars": 6652
     }
   }
 }
