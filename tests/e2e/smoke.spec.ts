@@ -19,6 +19,28 @@ test("browse renders the tool grid and result count", async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
+test("infinite scroll loads more tools when scrolling near bottom", async ({ page }) => {
+  await page.goto("");
+  await expect(page.locator(".swap-card").first()).toBeVisible();
+  const initialCount = await page.locator(".swap-card").count();
+  expect(initialCount).toBe(24);
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await expect(page.locator(".swap-card")).toHaveCount(41);
+  await expect(page.locator(".load-more-end")).toBeVisible();
+  await expect(page.locator(".load-more-end")).toContainText("You've explored all 41 tools");
+});
+
+test("clicking search clear button clears the search query", async ({ page }) => {
+  await page.goto("");
+  await expect(page.locator(".swap-card").first()).toBeVisible();
+  await page.fill("#tool-search", "jellyfin");
+  await expect(page.locator(".search-clear-btn")).toBeVisible();
+  await page.locator(".search-clear-btn").click();
+  await expect(page.locator("#tool-search")).toHaveValue("");
+  await expect(page.locator(".search-clear-btn")).toBeHidden();
+  await expect(page.locator(".result-count")).toContainText(/tools$/);
+});
+
 test("search filters the grid and updates the count", async ({ page }) => {
   await page.goto("");
   await expect(page.locator(".swap-card").first()).toBeVisible();

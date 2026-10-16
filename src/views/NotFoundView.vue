@@ -9,7 +9,7 @@ import AppIcon from "@/components/common/AppIcon.vue";
       <p>That link doesn't point anywhere. Head back to the swap directory.</p>
     </div>
   </section>
-  <main class="wrap" id="main" tabindex="-1">
+  <main class="wrap not-found-main" id="main" tabindex="-1">
     <RouterLink class="filter-btn" to="/" style="--pill-color: var(--text-muted)">
       <AppIcon name="arrow-left-01" :size="14" /> Back to Browse
     </RouterLink>
