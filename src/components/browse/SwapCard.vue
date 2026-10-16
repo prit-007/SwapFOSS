@@ -72,6 +72,14 @@ function onPreviewKey(e: KeyboardEvent) {
         v-if="hasScreenshot"
         class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
       ></div>
+      <div
+        v-if="hasScreenshot"
+        class="card-preview-hint"
+        aria-hidden="true"
+      >
+        <AppIcon name="eye" :size="13" />
+        <span>Preview</span>
+      </div>
       <img
         v-if="hasLogo"
         class="logo-badge ring-1 ring-white/20"

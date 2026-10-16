@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { SORT_OPTIONS, isSortKey, useCatalogStore, type SortKey } from "@/stores/catalog";
 import { useShareCard } from "@/composables/useShareCard";
@@ -36,6 +36,7 @@ const captionCopied = ref(false);
 const batchSize = 24;
 const visibleCount = ref(batchSize);
 const sentinel = ref<HTMLElement | null>(null);
+const isLoadingMore = ref(false);
 let observer: IntersectionObserver | null = null;
 
 const captionText =
@@ -62,10 +63,12 @@ const emptyTitle = computed(() => {
 onMounted(() => {
   if (!catalog.tools.length) catalog.load();
   window.addEventListener("keydown", onKeydown);
+  window.addEventListener("scroll", onWindowScroll, { passive: true });
   setupObserver();
 });
 onBeforeUnmount(() => {
   window.removeEventListener("keydown", onKeydown);
+  window.removeEventListener("scroll", onWindowScroll);
   observer?.disconnect();
 });
 
@@ -85,6 +88,9 @@ watch(
   () => [category.value, q.value, sort.value],
   () => {
     visibleCount.value = batchSize;
+    nextTick(() => {
+      checkViewportFill();
+    });
   },
 );
 
@@ -107,6 +113,13 @@ function onSearchInput(e: Event) {
   syncURL("replace");
 }
 
+function clearSearch() {
+  q.value = "";
+  syncURL("replace");
+  const input = document.getElementById("tool-search") as HTMLInputElement | null;
+  input?.focus();
+}
+
 function onSortChange(e: Event) {
   const value = (e.target as HTMLSelectElement).value;
   sort.value = isSortKey(value) ? value : "featured";
@@ -126,6 +139,10 @@ function clearAll(focus = true) {
     const input = document.getElementById("tool-search") as HTMLInputElement | null;
     input?.focus();
   }
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function onKeydown(e: KeyboardEvent) {
@@ -165,27 +182,59 @@ async function copyCaption() {
   }
 }
 
+function loadMore() {
+  if (!hasMore.value || isLoadingMore.value) return;
+  isLoadingMore.value = true;
+  visibleCount.value = Math.min(allShown.value.length, visibleCount.value + batchSize);
+  nextTick(() => {
+    isLoadingMore.value = false;
+    checkViewportFill();
+  });
+}
+
+function checkViewportFill() {
+  if (hasMore.value && sentinel.value) {
+    const rect = sentinel.value.getBoundingClientRect();
+    if (rect.top <= window.innerHeight + 250) {
+      loadMore();
+    }
+  }
+}
+
+function onWindowScroll() {
+  if (hasMore.value && sentinel.value && !isLoadingMore.value) {
+    const rect = sentinel.value.getBoundingClientRect();
+    if (rect.top <= window.innerHeight + 400) {
+      loadMore();
+    }
+  }
+}
+
 function setupObserver() {
   observer?.disconnect();
   if (typeof IntersectionObserver !== "function") return;
   observer = new IntersectionObserver(
     (entries) => {
       if (entries.some((entry) => entry.isIntersecting) && hasMore.value) {
-        visibleCount.value = Math.min(allShown.value.length, visibleCount.value + batchSize);
+        loadMore();
       }
     },
-    { rootMargin: "400px", threshold: 0.1 },
+    { rootMargin: "400px", threshold: 0 },
   );
   if (sentinel.value) observer.observe(sentinel.value);
 }
 
-watch(hasMore, () => {
-  if (!hasMore.value && observer) {
-    observer.disconnect();
-  } else if (hasMore.value && sentinel.value && observer) {
-    observer.observe(sentinel.value);
-  }
-});
+watch(
+  sentinel,
+  (el) => {
+    observer?.disconnect();
+    if (el && observer) {
+      observer.observe(el);
+      checkViewportFill();
+    }
+  },
+  { flush: "post", immediate: true },
+);
 </script>
 
 <template>
@@ -224,7 +273,17 @@ watch(hasMore, () => {
           :value="q"
           @input="onSearchInput"
         />
-        <kbd class="search-hint" aria-hidden="true">/</kbd>
+        <button
+          v-if="q"
+          type="button"
+          class="search-clear-btn"
+          aria-label="Clear search"
+          title="Clear search"
+          @click="clearSearch"
+        >
+          <AppIcon name="cancel-01" :size="13" />
+        </button>
+        <kbd v-else class="search-hint" aria-hidden="true">/</kbd>
       </div>
       <div class="toolbar-controls">
         <div class="sort-control">
@@ -309,9 +368,43 @@ watch(hasMore, () => {
       </button>
     </div>
 
-    <div v-if="!catalog.loading && !catalog.error && hasMore" ref="sentinel" aria-hidden="true" style="height: 1px"></div>
-    <div v-if="!catalog.loading && !catalog.error && hasMore" class="load-more-indicator" aria-live="polite" aria-busy="true">
-      Loading more tools…
+    <div
+      v-if="!catalog.loading && !catalog.error && hasMore"
+      ref="sentinel"
+      class="infinite-sentinel"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      v-if="!catalog.loading && !catalog.error && hasMore"
+      class="load-more-indicator"
+      aria-live="polite"
+      :aria-busy="isLoadingMore"
+    >
+      <div v-if="isLoadingMore" class="load-more-loading">
+        <span class="load-more-spinner" aria-hidden="true"></span>
+        <span>Loading more tools…</span>
+      </div>
+      <button
+        v-else
+        type="button"
+        class="load-more-btn"
+        aria-label="Load more tools"
+        @click="loadMore"
+      >
+        <AppIcon name="arrow-down-01" :size="14" />
+        Load more tools ({{ allShown.length - shown.length }} remaining)
+      </button>
+    </div>
+
+    <div
+      v-else-if="!catalog.loading && !catalog.error && shown.length > 0 && !hasMore"
+      class="load-more-end"
+    >
+      <span class="load-more-end-text">You've explored all {{ shown.length }} tools</span>
+      <button type="button" class="load-more-top-btn" @click="scrollToTop">
+        <AppIcon name="arrow-up-01" :size="13" /> Back to top
+      </button>
     </div>
 
     <div v-reveal class="caption-box">
