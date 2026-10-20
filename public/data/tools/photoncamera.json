@@ -1,0 +1,41 @@
+{
+  "id": "photoncamera",
+  "name": "PhotonCamera",
+  "category": "camera",
+  "insteadOf": "Stock camera app / GCam ports",
+  "hook": "Computational photography engine that stacks bursts of underexposed RAW frames into high-dynamic-range photos.",
+  "bullets": [
+    "HDRX merges a burst of RAW frames for real dynamic range",
+    "Aligns frames to correct hand shake before merging",
+    "Manual focus, shutter, and ISO controls on the viewfinder",
+    "Runs on Camera2 with CPU/GPU processing per shot"
+  ],
+  "features": [
+    "HDRX frame stacking",
+    "RAW capture",
+    "Manual controls",
+    "Camera2 API",
+    "Per-lens settings",
+    "Open source"
+  ],
+  "benefits": [
+    "Google-Camera-grade HDR without the closed-source app",
+    "Huge dynamic range with no plastic over-processed look",
+    "Works across multiple lenses, including macro and IR",
+    "Keeps shadows clean by averaging out sensor noise"
+  ],
+  "setupSteps": [
+    "Install PhotonCamera on a Camera2-capable Android phone",
+    "Pick a mode and tap the shutter",
+    "Wait for the stack to process after each shot",
+    "Tune HDRX strength, sharpness, and shadows in settings"
+  ],
+  "details": "Most stock camera apps lean on heavy sharpening, aggressive noise reduction, and boosted colors to make images pop. PhotonCamera tries to replicate the magic of Google Camera entirely through open-source algorithms. Instead of one exposure, it captures a rapid burst of underexposed RAW frames, aligns them to correct hand shake, and merges them with custom HDRX algorithms — averaging noise out of the shadows while preserving highlights, for a big jump in dynamic range with none of the plastic look. It drives the Camera2 API and leans on the phone's CPU and GPU for the post-capture stack, so there is a noticeable processing delay after the shutter. That makes it excellent for landscapes, architecture, and static portraits, and a poor choice for fast action.",
+  "setup": "App (Android)",
+  "difficulty": "medium",
+  "link": "https://github.com/eszdman/PhotonCamera",
+  "repo": "https://github.com/eszdman/PhotonCamera",
+  "logo": "assets/logos/photoncamera.png",
+  "screenshot": "assets/screenshots/photoncamera.jpg",
+  "screenshotType": "portrait"
+}

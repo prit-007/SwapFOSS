@@ -1,0 +1,41 @@
+{
+  "id": "motioncam",
+  "name": "MotionCam",
+  "category": "camera",
+  "insteadOf": "Stock camera video (compressed h.264/h.265)",
+  "hook": "Cinema RAW video rig for your phone — bypasses the ISP and records raw sensor data instead of compressed video.",
+  "bullets": [
+    "Captures raw Bayer sensor data as 10/12-bit CinemaDNG frames",
+    "RAW video up to 60 FPS on supported devices",
+    "Skips the phone's denoisers and sharpening entirely",
+    "Change white balance and exposure completely in post"
+  ],
+  "features": [
+    "RAW video",
+    "CinemaDNG",
+    "Dual exposure",
+    "GPU live preview",
+    "Burst and timelapse",
+    "Open source"
+  ],
+  "benefits": [
+    "Filmic, organic footage with huge highlight and shadow latitude",
+    "Full color grading freedom on a professional timeline",
+    "No compression damage from the phone's hardware encoders",
+    "Turns a phone into a legitimate B-cam or quick-shot rig"
+  ],
+  "setupSteps": [
+    "Install MotionCam on a supported Android device",
+    "Shoot RAW video, burst, or timelapse to the sensor",
+    "Move the massive files onto a computer — minutes use gigabytes",
+    "Convert the CinemaDNG sequence and grade in DaVinci Resolve"
+  ],
+  "details": "MotionCam is one of the most technically ambitious open-source projects on Android: it turns a smartphone into a cinema camera by bypassing the phone's Image Signal Processor and hardware video encoders, which normally squeeze footage into compressed h.264/h.265. Instead it records the raw Bayer sensor data straight from the sensor and packages it as 10- or 12-bit CinemaDNG frame sequences. Because the phone's denoisers and sharpening never touch the image, the footage looks organic and filmic and keeps massive amounts of highlight and shadow detail, and you can change white balance and exposure entirely in post-production. The catch is the data rates — a few minutes of CinemaDNG can eat gigabytes — and the footage comes out flat, so it has to be transferred to a PC and color-graded in a professional NLE like DaVinci Resolve or Premiere Pro. This repository preserves the original GPL-3.0 codebase after the developer's active work continued in the commercial MotionCam Pro.",
+  "setup": "App (Android) + PC for grading",
+  "difficulty": "hard",
+  "link": "https://github.com/f0enix/motioncam",
+  "repo": "https://github.com/f0enix/motioncam",
+  "logo": "assets/logos/motioncam.png",
+  "screenshot": "assets/screenshots/motioncam.jpg",
+  "screenshotType": "portrait"
+}
