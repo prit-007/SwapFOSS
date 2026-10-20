@@ -1,0 +1,41 @@
+{
+  "id": "opencamera",
+  "name": "Open Camera",
+  "category": "camera",
+  "insteadOf": "Stock camera app",
+  "hook": "The Swiss army knife of camera apps — every hardware parameter exposed, with focus peaking and bulletproof external mics.",
+  "bullets": [
+    "Focus peaking and zebra stripes for manual shooting",
+    "Lock exact ISO and shutter speed",
+    "Custom video bitrates, up to 100 Mbps for 4K",
+    "Legendary USB and 3.5mm external microphone support"
+  ],
+  "features": [
+    "Full manual control",
+    "Focus peaking",
+    "Zebra stripes",
+    "External audio",
+    "Custom bitrates",
+    "Open source"
+  ],
+  "benefits": [
+    "Every parameter the sensor supports, one tap away",
+    "Vlogging audio that just works with plug-in mics",
+    "Rock-solid reliability for a decade of releases",
+    "Honest output with no computational smoothing"
+  ],
+  "setupSteps": [
+    "Install Open Camera from F-Droid, Play, or the official site",
+    "Grant camera and microphone permissions",
+    "Enable focus peaking, zebras, and locks from the on-screen menus",
+    "Plug in a USB or 3.5mm mic and start recording"
+  ],
+  "details": "Open Camera rips away the training wheels of the stock camera UI and exposes every hardware parameter the device supports. It's a direct interface to the Android Camera2 API — if the sensor supports it, Open Camera lets you touch it. That means focus peaking that highlights what is in focus, zebra stripes for overexposed areas, exact ISO and shutter speed locking, and custom video bitrates such as forcing 100 Mbps for 4K to cut down compression artifacts. It is also legendary for external audio: plug in a USB or 3.5mm microphone and the app routes the sound flawlessly, which makes it a favorite for vloggers. It does no computational HDR stacking, so low-light shots are noisier than the stock app, and the strictly utilitarian UI has barely changed in a decade — but for sheer control and reliability it remains unmatched.",
+  "setup": "App (Android)",
+  "difficulty": "easy",
+  "link": "https://opencamera.org.uk/",
+  "repo": "https://sourceforge.net/p/opencamera/code/ci/master/tree",
+  "logo": "assets/logos/opencamera.png",
+  "screenshot": "assets/screenshots/opencamera.jpg",
+  "screenshotType": "portrait"
+}

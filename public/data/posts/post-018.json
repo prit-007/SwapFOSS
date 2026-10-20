@@ -1,0 +1,16 @@
+{
+  "id": "post-018",
+  "title": "The Pro Camera Stack: shoot beyond the stock app",
+  "intro": {
+    "eyebrow": "Stock camera apps, retired",
+    "headline": "HDR stills, cinema RAW video, and total manual control.",
+    "subhead": "PhotonCamera, MotionCam, and Open Camera hand back computational photography, raw sensor footage, and every hardware parameter your phone's camera app hides.",
+    "pills": ["HDR photography", "RAW video", "Manual control", "Open source"],
+    "hl": { "word": "manual control", "color": "#3B82F6" }
+  },
+  "tools": ["photoncamera", "motioncam", "opencamera"],
+  "outro": {
+    "headline": "Your camera, your rules.",
+    "subhead": "Stop letting the manufacturer decide how your photos and video come out. Which one are you installing first?"
+  }
+}

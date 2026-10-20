@@ -206,6 +206,21 @@
       "repo": "namidaco/namida",
       "host": "github",
       "stars": 6676
+    },
+    "photoncamera": {
+      "repo": "eszdman/PhotonCamera",
+      "host": "github",
+      "stars": 1123
+    },
+    "motioncam": {
+      "repo": "f0enix/motioncam",
+      "host": "github",
+      "stars": 81
+    },
+    "opencamera": {
+      "repo": "https://sourceforge.net/p/opencamera/code/ci/master/tree",
+      "host": "other",
+      "stars": null
     }
   }
 }
