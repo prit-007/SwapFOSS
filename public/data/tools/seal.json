@@ -1,0 +1,34 @@
+{
+  "id": "seal",
+  "name": "Seal",
+  "category": "media",
+  "insteadOf": "Snaptube / shady ad-filled downloaders / paying for YouTube Premium downloads",
+  "hook": "Share any video or audio link and yt-dlp downloads it straight to your device — from YouTube, Instagram, X, and 1,000+ other sites — in the format and quality you choose.",
+  "bullets": [
+    "Works on YouTube, Instagram, X, and 1,000+ sites — everything yt-dlp supports",
+    "Choose video or audio, resolution, and codec for every single download",
+    "Embeds metadata, cover art, and subtitles into the files it saves",
+    "One tap grabs a full playlist; custom yt-dlp templates for power users"
+  ],
+  "features": ["yt-dlp powered", "1,000+ sites", "Material You", "aria2c support", "Playlist downloads", "Subtitles & metadata"],
+  "benefits": [
+    "No ads, no upsell banners, no clickbait gates — just the file you asked for",
+    "Keeps videos and music playable offline without a Premium subscription",
+    "Audio comes out as clean MP3 or M4A with tags and cover art already embedded",
+    "Every yt-dlp option is reachable through templates without touching a terminal"
+  ],
+  "setupSteps": [
+    "Install Seal from F-Droid or the project's GitHub releases",
+    "Share a video or audio link to Seal from any app",
+    "Pick video or audio, format, and quality in the download sheet",
+    "Tap download — files land directly in your device storage"
+  ],
+  "details": "Seal is a free, open-source front-end for yt-dlp on Android. Share or paste a link from YouTube, Instagram, X, or over a thousand other sites, choose whether you want video or audio, pick the resolution and codec, and Seal downloads the file straight to your device storage — no account, no ads, no cloud in between. It embeds metadata, cover art, and subtitles into what it saves, can queue an entire playlist with a single tap, and supports aria2c as a faster parallel downloader. Power users can define custom yt-dlp command templates for full control over extraction, formats, and post-processing, and manage those templates from inside the app. The interface is pure Material You with dynamic color picked up from your wallpaper. One honest caveat: downloading is for content you have the right to save — Seal does not get around paywalls or DRM.",
+  "setup": "App (Android) — install and share links to it",
+  "difficulty": "easy",
+  "link": "https://github.com/JunkFood02/Seal",
+  "repo": "https://github.com/JunkFood02/Seal",
+  "logo": "assets/logos/seal.png",
+  "screenshot": "assets/screenshots/seal.jpg",
+  "screenshotType": "portrait"
+}
