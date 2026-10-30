@@ -221,6 +221,16 @@
       "repo": "https://sourceforge.net/p/opencamera/code/ci/master/tree",
       "host": "other",
       "stars": null
+    },
+    "seal": {
+      "repo": "JunkFood02/Seal",
+      "host": "github",
+      "stars": 30188
+    },
+    "readyou": {
+      "repo": "ReadYouApp/ReadYou",
+      "host": "github",
+      "stars": 7627
     }
   }
 }
