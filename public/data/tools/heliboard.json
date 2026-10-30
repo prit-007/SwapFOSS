@@ -1,0 +1,34 @@
+{
+  "id": "heliboard",
+  "name": "HeliBoard",
+  "category": "utility",
+  "insteadOf": "Gboard / Microsoft SwiftKey",
+  "hook": "The keyboard logs every word you type — HeliBoard is 100% offline with zero internet permission, so it physically cannot phone home.",
+  "bullets": [
+    "Declares no internet permission — Android itself blocks it from ever phoning home",
+    "On-device suggestions, spell check, and multilingual dictionaries",
+    "Material You theming from your wallpaper, plus custom colors and backgrounds",
+    "Clipboard history, one-handed and split layouts, number pad, backup/restore"
+  ],
+  "features": ["Zero internet permission", "100% offline", "AOSP-based", "Material You", "Multilingual", "GPL-3.0"],
+  "benefits": [
+    "Nothing you type ever leaves the phone — there is no code path to a server",
+    "Predictions without a company quietly building a profile of your vocabulary",
+    "Looks native on Android 12+ by pulling colors straight from your wallpaper",
+    "Small, auditable code base built on the stock Android keyboard"
+  ],
+  "setupSteps": [
+    "Install HeliBoard from F-Droid or the project's GitHub releases",
+    "Enable it in Android Settings → System → On-screen keyboard",
+    "Pick your languages and import dictionaries for suggestions",
+    "Optionally supply a swipe library for glide typing, then match the theme to your wallpaper"
+  ],
+  "details": "HeliBoard is a free, open-source Android keyboard based on the AOSP keyboard (via OpenBoard), and its headline feature sits right in its manifest: the app declares no internet permission, so Android itself guarantees it can never transmit your typing — suggestions, spell check, and dictionaries all run on-device. You get the familiar stock-keyboard experience plus multilingual typing, fully customizable layouts and symbol/numpad arrangements, clipboard history, one-handed and split modes, and backup/restore of settings and learned words. Theming follows Material You dynamic colors from your wallpaper on Android 12+, respects day/night, or can be set to custom colors and background images. One honest caveat the project itself flags: glide (swipe) typing depends on a closed-source gesture library — the same kind Gboard ships — that cannot be bundled with the app, so you optionally supply it from a GApps package if you want swipe. Everything else works with zero network access.",
+  "setup": "App (Android) + one-time keyboard enable",
+  "difficulty": "easy",
+  "link": "https://github.com/HeliBorg/HeliBoard",
+  "repo": "https://github.com/HeliBorg/HeliBoard",
+  "logo": "assets/logos/heliboard.png",
+  "screenshot": "assets/screenshots/heliboard.jpg",
+  "screenshotType": "portrait"
+}

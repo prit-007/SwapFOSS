@@ -24,10 +24,18 @@ test("infinite scroll loads more tools when scrolling near bottom", async ({ pag
   await expect(page.locator(".swap-card").first()).toBeVisible();
   const initialCount = await page.locator(".swap-card").count();
   expect(initialCount).toBe(24);
-  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  await expect(page.locator(".swap-card")).toHaveCount(46);
+  // each scroll loads one batch; keep scrolling to the bottom until every tool is rendered
+  await expect
+    .poll(
+      async () => {
+        await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+        return page.locator(".swap-card").count();
+      },
+      { timeout: 15_000 },
+    )
+    .toBe(49);
   await expect(page.locator(".load-more-end")).toBeVisible();
-  await expect(page.locator(".load-more-end")).toContainText("You've explored all 46 tools");
+  await expect(page.locator(".load-more-end")).toContainText("You've explored all 49 tools");
 });
 
 test("clicking search clear button clears the search query", async ({ page }) => {
