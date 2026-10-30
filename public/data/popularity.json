@@ -231,6 +231,21 @@
       "repo": "ReadYouApp/ReadYou",
       "host": "github",
       "stars": 7627
+    },
+    "heliboard": {
+      "repo": "HeliBorg/HeliBoard",
+      "host": "github",
+      "stars": 6453
+    },
+    "kvaesitso": {
+      "repo": "MM2-0/Kvaesitso",
+      "host": "github",
+      "stars": 5332
+    },
+    "obtainium": {
+      "repo": "ImranR98/Obtainium",
+      "host": "github",
+      "stars": 21052
     }
   }
 }

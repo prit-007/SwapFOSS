@@ -1,0 +1,34 @@
+{
+  "id": "obtainium",
+  "name": "Obtainium",
+  "category": "utility",
+  "insteadOf": "The Google Play Store / F-Droid as your only update channel",
+  "hook": "Install and update Android apps straight from the source — GitHub releases, GitLab, F-Droid repos — with notifications the second a new version drops.",
+  "bullets": [
+    "Paste a repo link and Obtainium finds and installs the latest release",
+    "Background checks notify you the moment a new release is published",
+    "Sources: GitHub, GitLab, Codeberg/Forgejo, SourceHut, F-Droid, IzzyOnDroid",
+    "Skip the store entirely — no Play account, no repo mirror lag"
+  ],
+  "features": ["Direct from source", "GitHub/GitLab/Forgejo", "F-Droid & IzzyOnDroid", "Release notifications", "Background updates", "GPL-3.0"],
+  "benefits": [
+    "Apps update the day the developer ships — no store review, no mirror delay",
+    "Cuts out the middleman: the APK comes from the project that actually made it",
+    "Perfect for distributing your own app: share one link, users get every update",
+    "Track prereleases, tags, and asset names per app, down to regex level"
+  ],
+  "setupSteps": [
+    "Install Obtainium's APK from its GitHub releases page",
+    "Tap Add and paste the app's GitHub, GitLab, or F-Droid link",
+    "Obtainium detects the newest release and hands the APK to Android's installer",
+    "Leave background updates on to be notified the second a release ships"
+  ],
+  "details": "Obtainium installs and updates Android apps directly from where developers actually publish them — GitHub and GitLab releases, Forgejo/Codeberg, SourceHut, F-Droid repositories, IzzyOnDroid, and more. Paste an app's link and Obtainium works out the latest version, downloads the APK, and hands it to Android's installer; from then on it checks for new releases in the background and notifies you the moment one appears, so you are running the developer's newest build within minutes of it going live instead of waiting for a store listing or repository mirror to catch up. Per-app controls go deep: follow prereleases or not, choose which asset to grab, restrict to certain tags, even regex-match version strings. It also works as a distribution channel for your own project — publish a release on GitHub and everyone using your link gets the update prompt automatically, which makes it the natural companion for an app you are shipping outside the Play Store. The only downside is honest: you install Obtainium itself once as a sideloaded APK, because the Play Store and F-Droid do not list an app whose whole purpose is replacing them.",
+  "setup": "App (Android) — sideload the APK once, then it handles the rest",
+  "difficulty": "easy",
+  "link": "https://github.com/ImranR98/Obtainium",
+  "repo": "https://github.com/ImranR98/Obtainium",
+  "logo": "assets/logos/obtainium.png",
+  "screenshot": "assets/screenshots/obtainium.jpg",
+  "screenshotType": "portrait"
+}
