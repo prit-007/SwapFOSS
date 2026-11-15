@@ -1,0 +1,16 @@
+{
+  "id": "post-020",
+  "title": "The Freedom Commute & Web Stack: navigate, listen, and browse",
+  "intro": {
+    "eyebrow": "Big Tech swaps, part 20",
+    "headline": "Offline maps, ad-free podcasts, and a browser built for you.",
+    "subhead": "Organic Maps, AntennaPod, and Zen Browser replace Google Maps, Spotify, and Chrome with community-built speed.",
+    "pills": ["Offline navigation", "Podcast player", "Vertical tabs", "Open source"],
+    "hl": { "word": "browser", "color": "#FF5A5F" }
+  },
+  "tools": ["organic-maps", "antennapod", "zen-browser"],
+  "outro": {
+    "headline": "Reclaim your daily routine.",
+    "subhead": "No subscriptions, no tracking cookies, no location pings. Download once, own forever."
+  }
+}

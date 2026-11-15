@@ -28,12 +28,16 @@
     "Edit with layers/brushes",
     "Export"
   ],
-  "details": "Pocket Paint (Catrobat) is an open-source painting/photo editing app with layers, transparency, brushes, shapes \u2014 a solid Picsart alternative without constant paywalls.",
+  "details": "Pocket Paint (Catrobat) is an open-source painting/photo editing app with layers, transparency, brushes, shapes — a solid Picsart alternative without constant paywalls.",
   "setup": "App (Android)",
   "difficulty": "easy",
   "link": "https://github.com/Catrobat/Paintroid",
   "repo": "https://github.com/Catrobat/Paintroid",
   "logo": "assets/logos/pocket-paint.png",
   "screenshot": "assets/screenshots/pocket-paint.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "offline-first"
+  ]
 }

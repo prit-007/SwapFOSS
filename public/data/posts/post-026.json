@@ -1,0 +1,16 @@
+{
+  "id": "post-026",
+  "title": "The Sovereign Power & Security Stack: budget, mirror, and protect",
+  "intro": {
+    "eyebrow": "Big Tech swaps, part 26",
+    "headline": "Zero-fee budgeting, seamless phone control, and offline 2FA security.",
+    "subhead": "Actual Budget, Scrcpy, and Aegis replace YNAB, Vysor, and Google Authenticator with lightweight, zero-tracking tools.",
+    "pills": ["Local-first finance", "Ultra-low latency", "Offline 2FA", "Encrypted backups"],
+    "hl": { "word": "Zero-fee budgeting", "color": "#2DD4BF" }
+  },
+  "tools": ["actual-budget", "scrcpy", "aegis-authenticator"],
+  "outro": {
+    "headline": "Take back control of your devices and money.",
+    "subhead": "No $100/yr budgeting subscriptions, no cloud lock-in for your 2FA keys, and instant phone mirroring over standard USB."
+  }
+}

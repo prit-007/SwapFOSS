@@ -18,6 +18,7 @@ export const toolSchema = z.object({
   logo: z.string().optional(),
   screenshot: z.string().optional(),
   screenshotType: z.enum(["landscape", "portrait"]).optional(),
+  tags: z.array(z.string()).optional(),
 });
 
 export const categorySchema = z.object({

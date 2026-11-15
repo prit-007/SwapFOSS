@@ -36,5 +36,9 @@
   "repo": "https://github.com/nova-video-player/aos-AVP",
   "logo": "assets/logos/nova-video-player.png",
   "screenshot": "assets/screenshots/nova-video-player.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "plug-and-play"
+  ]
 }

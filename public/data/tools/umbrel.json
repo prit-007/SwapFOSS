@@ -10,7 +10,13 @@
     "Runs on a Raspberry Pi, an old PC, or an Umbrel Home",
     "No account, no cloud, no telemetry — everything stays on your hardware"
   ],
-  "features": ["App store", "One-click install", "100+ apps", "No terminal", "Zero telemetry"],
+  "features": [
+    "App store",
+    "One-click install",
+    "100+ apps",
+    "No terminal",
+    "Zero telemetry"
+  ],
   "benefits": [
     "Self-hosting without the PhD — Umbrel handles Docker, updates, and networking for you",
     "An app store for your own hardware — install in seconds, like a phone",
@@ -30,5 +36,9 @@
   "repo": "https://github.com/getumbrel/umbrel",
   "logo": "assets/logos/umbrel.svg",
   "screenshot": "assets/screenshots/umbrel.jpg",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "plug-and-play"
+  ]
 }

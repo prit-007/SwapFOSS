@@ -10,7 +10,13 @@
     "Use your phone as a wireless trackpad, media remote, or presentation clicker",
     "Pause media, check battery, and find your phone — all encrypted and on your LAN"
   ],
-  "features": ["Clipboard sync", "SMS from desktop", "Notifications", "Remote input", "Cross-platform"],
+  "features": [
+    "Clipboard sync",
+    "SMS from desktop",
+    "Notifications",
+    "Remote input",
+    "Cross-platform"
+  ],
   "benefits": [
     "Continuity and Phone Link without locking you into Apple, Google, or Microsoft",
     "Your data stays on your own Wi-Fi — no cloud relay account required",
@@ -30,5 +36,10 @@
   "repo": "https://github.com/KDE/kdeconnect-kde",
   "logo": "assets/logos/kde-connect.svg",
   "screenshot": "assets/screenshots/kde-connect.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "plug-and-play",
+    "p2p"
+  ]
 }

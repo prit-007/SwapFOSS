@@ -10,7 +10,14 @@
     "Feed groups, unread filters, starred articles, and search across everything",
     "Syncs articles in the background and notifies you when new ones land"
   ],
-  "features": ["Material You", "RSS & Atom", "OPML import/export", "Full-text extraction", "Notifications", "Offline reading"],
+  "features": [
+    "Material You",
+    "RSS & Atom",
+    "OPML import/export",
+    "Full-text extraction",
+    "Notifications",
+    "Offline reading"
+  ],
   "benefits": [
     "Your morning briefing, minus the algorithm deciding what enrages you",
     "Articles load as distraction-free pages that read like a premium magazine",
@@ -30,5 +37,10 @@
   "repo": "https://github.com/ReadYouApp/ReadYou",
   "logo": "assets/logos/readyou.png",
   "screenshot": "assets/screenshots/readyou.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "plug-and-play",
+    "offline-first"
+  ]
 }

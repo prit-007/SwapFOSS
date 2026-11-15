@@ -1,0 +1,46 @@
+{
+  "id": "scrcpy",
+  "name": "Scrcpy",
+  "category": "utility",
+  "insteadOf": "Vysor / Microsoft Phone Link / Samsung DeX / TeamViewer",
+  "hook": "Display and control your Android device from your desktop over USB or Wi-Fi with ultra-low latency and zero bloat.",
+  "bullets": [
+    "Sub-70ms ultra-low latency screen mirroring at up to 120 FPS in 4K resolution",
+    "Full keyboard and mouse control, seamless clipboard sharing, and drag-and-drop file transfers",
+    "Works without root, without installing any app on your phone, and without Internet access",
+    "Audio forwarding, screen recording, and camera-as-webcam streaming with V4L2/virtual camera"
+  ],
+  "features": [
+    "Low latency",
+    "No app required",
+    "USB & Wi-Fi",
+    "Clipboard sync",
+    "Screen recording",
+    "Camera forwarding",
+    "Apache-2.0"
+  ],
+  "benefits": [
+    "Control your Android phone directly from your computer while keeping your eyes on one screen",
+    "No subscriptions, ads, or watermarks like commercial phone mirroring apps",
+    "Completely offline: communication stays strictly between your PC and phone",
+    "Turn your high-end smartphone camera into an ultra-sharp desktop webcam"
+  ],
+  "setupSteps": [
+    "Enable USB debugging in Developer Options on your Android phone",
+    "Install scrcpy on your PC via package manager (apt, brew, choco, scoop) or zip",
+    "Connect your phone via USB cable and run 'scrcpy' in terminal",
+    "Optionally connect wirelessly with 'scrcpy --tcpip' to control without cables"
+  ],
+  "details": "Scrcpy (Screen Copy) is an acclaimed open-source application created by Genymobile that provides high-performance display and control of Android devices connected via USB or over TCP/IP. Operating without requiring root access or any companion app installed on the device, scrcpy communicates directly through the Android Debug Bridge (ADB). It achieves astonishing performance with 30 to 70 ms latency, 60+ FPS mirroring, audio forwarding via Opus, bidirectional clipboard synchronization, physical keyboard and mouse simulation (HID), screen recording, and virtual display creation. It also allows developers and streamers to turn their phone's camera into a high-fidelity webcam. Licensed under Apache-2.0.",
+  "setup": "CLI / GUI executable (Linux, macOS, Windows) — requires ADB",
+  "difficulty": "easy",
+  "link": "https://github.com/Genymobile/scrcpy",
+  "repo": "https://github.com/Genymobile/scrcpy",
+  "logo": "assets/logos/scrcpy.svg",
+  "screenshot": "assets/screenshots/scrcpy.jpg",
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "offline-first"
+  ]
+}

@@ -10,7 +10,14 @@
     "Material You theming from your wallpaper, plus custom colors and backgrounds",
     "Clipboard history, one-handed and split layouts, number pad, backup/restore"
   ],
-  "features": ["Zero internet permission", "100% offline", "AOSP-based", "Material You", "Multilingual", "GPL-3.0"],
+  "features": [
+    "Zero internet permission",
+    "100% offline",
+    "AOSP-based",
+    "Material You",
+    "Multilingual",
+    "GPL-3.0"
+  ],
   "benefits": [
     "Nothing you type ever leaves the phone — there is no code path to a server",
     "Predictions without a company quietly building a profile of your vocabulary",
@@ -30,5 +37,10 @@
   "repo": "https://github.com/HeliBorg/HeliBoard",
   "logo": "assets/logos/heliboard.png",
   "screenshot": "assets/screenshots/heliboard.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "plug-and-play",
+    "offline-first"
+  ]
 }

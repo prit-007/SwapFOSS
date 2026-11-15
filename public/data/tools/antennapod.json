@@ -1,0 +1,47 @@
+{
+  "id": "antennapod",
+  "name": "AntennaPod",
+  "category": "media",
+  "insteadOf": "Spotify Podcasts / Apple Podcasts / Pocket Casts",
+  "hook": "An easy-to-use, flexible, and completely ad-free podcast player that connects directly to open RSS feeds without platform lock-in or tracking algorithms.",
+  "bullets": [
+    "Subscribe to any podcast via open RSS feeds, iTunes directory, or Fyyd",
+    "Auto-download new episodes and stream directly when online",
+    "Smart playback: silence skipping, volume boosting, and custom speeds per podcast",
+    "Full OPML import/export to easily migrate your library anytime"
+  ],
+  "features": [
+    "Open RSS",
+    "Ad-free",
+    "Auto-downloads",
+    "Variable speed",
+    "Chapter support",
+    "OPML import/export",
+    "GPL-3.0"
+  ],
+  "benefits": [
+    "No ads injected into podcasts by middleman streaming networks",
+    "No account, email, or login required to listen or sync subscriptions",
+    "Keep full control over local storage with automated episode cleanup rules",
+    "Supports chapters, show notes, playback queue, and sleep timer"
+  ],
+  "setupSteps": [
+    "Install AntennaPod from F-Droid or Google Play",
+    "Search for your favorite podcasts or import an OPML backup file",
+    "Configure auto-download preferences and mobile data limits",
+    "Enjoy your favorite shows ad-free with silence skipping and custom speeds"
+  ],
+  "details": "AntennaPod is the leading open-source podcast player for Android. While commercial apps like Spotify and Apple Podcasts increasingly gate shows behind proprietary walled gardens, insert targeted advertising, and track your listening habits, AntennaPod connects straight to creators' public RSS feeds. It provides power-user audio features — including variable playback speed with pitch preservation, silence trimming, volume boost, and chapter mark navigation — alongside automated download queues and queue management. You never need an account, and your listening history stays private on your device.",
+  "setup": "App (Android) — install from F-Droid or Google Play",
+  "difficulty": "easy",
+  "link": "https://antennapod.org",
+  "repo": "https://github.com/AntennaPod/AntennaPod",
+  "logo": "assets/logos/antennapod.png",
+  "screenshot": "assets/screenshots/antennapod.png",
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "plug-and-play",
+    "offline-first"
+  ]
+}

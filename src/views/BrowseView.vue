@@ -11,6 +11,7 @@ import ShareMenu from "@/components/browse/ShareMenu.vue";
 import LoadError from "@/components/common/LoadError.vue";
 import AppIcon from "@/components/common/AppIcon.vue";
 import { formatStars } from "@/utils/formatStars";
+import { PRIMARY_TAGS, PRIMARY_TAG_MAP } from "@/data/tags";
 import type { Tool } from "@/types";
 
 type ViewMode = "grid" | "list";
@@ -28,6 +29,7 @@ const {
 } = useShareCard();
 
 const category = ref((route.query.category as string) || "all");
+const currentTag = ref((route.query.tag as string) || "all");
 const q = ref((route.query.q as string) || "");
 const sort = ref<SortKey>(isSortKey(route.query.sort) ? route.query.sort : "featured");
 const view = ref<ViewMode>(route.query.view === "list" ? "list" : "grid");
@@ -44,7 +46,12 @@ const captionText =
 
 const filterIds = computed(() => ["all", ...catalog.categoryIds]);
 const allShown = computed(() =>
-  catalog.query({ category: category.value, q: q.value, sort: sort.value }),
+  catalog.query({
+    category: category.value,
+    tag: currentTag.value,
+    q: q.value,
+    sort: sort.value,
+  }),
 );
 const shown = computed(() => allShown.value.slice(0, visibleCount.value));
 const hasMore = computed(() => visibleCount.value < allShown.value.length);
@@ -57,7 +64,17 @@ const resultLabel = computed(() =>
 );
 const emptyTitle = computed(() => {
   const query = q.value.trim();
-  return query ? `No tools match “${query}”` : "No tools in this category yet";
+  if (query) return `No tools match “${query}”`;
+  if (currentTag.value !== "all" && category.value !== "all") {
+    const tagMeta = PRIMARY_TAG_MAP[currentTag.value];
+    const catMeta = catalog.categories[category.value];
+    return `No ${tagMeta?.label || currentTag.value} tools in ${catMeta?.label || category.value}`;
+  }
+  if (currentTag.value !== "all") {
+    const tagMeta = PRIMARY_TAG_MAP[currentTag.value];
+    return `No ${tagMeta?.label || currentTag.value} tools found`;
+  }
+  return "No tools in this category yet";
 });
 
 onMounted(() => {
@@ -77,6 +94,8 @@ watch(
   (query) => {
     const cat = query.category as string | undefined;
     category.value = cat && catalog.categories[cat] ? cat : "all";
+    const tagParam = query.tag as string | undefined;
+    currentTag.value = tagParam && PRIMARY_TAG_MAP[tagParam] ? tagParam : "all";
     q.value = (query.q as string) || "";
     sort.value = isSortKey(query.sort) ? query.sort : "featured";
     view.value = query.view === "list" ? "list" : "grid";
@@ -85,7 +104,7 @@ watch(
 );
 
 watch(
-  () => [category.value, q.value, sort.value],
+  () => [category.value, currentTag.value, q.value, sort.value],
   () => {
     visibleCount.value = batchSize;
     nextTick(() => {
@@ -97,6 +116,7 @@ watch(
 function syncURL(mode: "push" | "replace") {
   const query: Record<string, string> = {};
   if (category.value !== "all") query.category = category.value;
+  if (currentTag.value !== "all") query.tag = currentTag.value;
   if (q.value.trim()) query.q = q.value.trim();
   if (sort.value !== "featured") query.sort = sort.value;
   if (view.value !== "grid") query.view = view.value;
@@ -105,6 +125,15 @@ function syncURL(mode: "push" | "replace") {
 
 function selectCategory(id: string) {
   category.value = id;
+  syncURL("push");
+}
+
+function selectTag(id: string) {
+  if (currentTag.value === id) {
+    currentTag.value = "all";
+  } else {
+    currentTag.value = id;
+  }
   syncURL("push");
 }
 
@@ -133,6 +162,7 @@ function setView(next: ViewMode) {
 
 function clearAll(focus = true) {
   category.value = "all";
+  currentTag.value = "all";
   q.value = "";
   syncURL("replace");
   if (focus) {
@@ -321,6 +351,33 @@ watch(
       </div>
     </div>
 
+    <div class="tag-filters" role="tablist" aria-label="Filter by app type">
+      <button
+        class="tag-filter-btn"
+        :class="{ active: currentTag === 'all' }"
+        type="button"
+        :aria-pressed="currentTag === 'all'"
+        @click="selectTag('all')"
+      >
+        All Types
+        <span class="filter-count">{{ total }}</span>
+      </button>
+      <button
+        v-for="t in PRIMARY_TAGS"
+        :key="t.id"
+        class="tag-filter-btn"
+        :class="{ active: currentTag === t.id }"
+        type="button"
+        :aria-pressed="currentTag === t.id"
+        :style="{ '--tag-color': t.color }"
+        @click="selectTag(t.id)"
+      >
+        <AppIcon :name="t.icon" :size="13" />
+        <span>{{ t.label }}</span>
+        <span class="filter-count">{{ catalog.countForTag(t.id) }}</span>
+      </button>
+    </div>
+
     <div class="filters">
       <button
         v-for="id in filterIds"
@@ -352,6 +409,7 @@ watch(
         :variant="view"
         @share="onShare"
         @preview="previewTool = $event"
+        @select-tag="selectTag($event)"
       />
     </div>
 

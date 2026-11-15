@@ -35,5 +35,9 @@
   "repo": "https://github.com/tharunbirla/librecuts",
   "logo": "assets/logos/librecuts.png",
   "screenshot": "assets/screenshots/librecuts.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "offline-first"
+  ]
 }

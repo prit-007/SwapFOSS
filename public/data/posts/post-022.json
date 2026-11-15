@@ -1,0 +1,16 @@
+{
+  "id": "post-022",
+  "title": "The Local-First Productivity & Git Stack: own your work",
+  "intro": {
+    "eyebrow": "Ditch Notion and Jira",
+    "headline": "Build docs, manage projects, and host your code.",
+    "subhead": "AppFlowy, Forgejo, and Tale replace Notion, GitHub/GitLab, and Asana with local-first and self-hosted freedom.",
+    "pills": ["Local-first workspace", "Git forge", "Task management", "Open source"],
+    "hl": { "word": "code", "color": "#4EA8DE" }
+  },
+  "tools": ["appflowy", "forgejo", "tale"],
+  "outro": {
+    "headline": "Your intellectual property stays yours.",
+    "subhead": "Stop renting access to your notes, code, and project boards. Host and control your own workspace."
+  }
+}

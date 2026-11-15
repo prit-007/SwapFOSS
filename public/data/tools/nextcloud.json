@@ -10,7 +10,13 @@
     "End-to-end encryption, 2FA, and transactional file locking",
     "90+ apps turn it into a full Google Workspace replacement"
   ],
-  "features": ["File sync", "Calendar & contacts", "E2E encryption", "Office integration", "90+ apps"],
+  "features": [
+    "File sync",
+    "Calendar & contacts",
+    "E2E encryption",
+    "Office integration",
+    "90+ apps"
+  ],
   "benefits": [
     "Dropbox without the bill — unlimited storage on the drive you already own",
     "One login for files, calendar, and contacts — no Google account required",
@@ -30,5 +36,10 @@
   "repo": "https://github.com/nextcloud/server",
   "logo": "assets/logos/nextcloud.svg",
   "screenshot": "assets/screenshots/nextcloud.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "plug-and-play",
+    "install-and-use"
+  ]
 }

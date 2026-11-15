@@ -9,7 +9,13 @@
     "Offline-first desktop app — your data stays on your machine",
     "Financial reports: General Ledger, P&L, Balance Sheet, Trial Balance"
   ],
-  "features": ["Double-entry accounting", "Invoicing", "Offline-first", "Financial reports", "Custom templates"],
+  "features": [
+    "Double-entry accounting",
+    "Invoicing",
+    "Offline-first",
+    "Financial reports",
+    "Custom templates"
+  ],
   "setupSteps": [
     "Download Frappe Books from the releases page or frappe.io/books",
     "Install on Windows, macOS, or Linux (also available via Homebrew and Flatpak)",
@@ -23,5 +29,10 @@
   "repo": "https://github.com/frappe/books",
   "logo": "assets/logos/frappe-books.png",
   "screenshot": "assets/screenshots/frappe-books.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "offline-first",
+    "local-first"
+  ]
 }

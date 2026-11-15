@@ -10,7 +10,13 @@
     "Cross-platform apps plus a self-hostable server for full ownership",
     "Import your existing Google or Apple Photos library in a few taps"
   ],
-  "features": ["E2E encrypted", "Cross-platform", "Self-hostable", "Face recognition", "Free tier"],
+  "features": [
+    "E2E encrypted",
+    "Cross-platform",
+    "Self-hostable",
+    "Face recognition",
+    "Free tier"
+  ],
   "benefits": [
     "Google Photos without handing over your memories to be scanned",
     "End-to-end encryption means no one — including Ente — can view your library",
@@ -30,5 +36,10 @@
   "repo": "https://github.com/ente/ente",
   "logo": "assets/logos/ente-photos.png",
   "screenshot": "assets/screenshots/ente-photos.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "self-hosted",
+    "e2e-encrypted"
+  ]
 }

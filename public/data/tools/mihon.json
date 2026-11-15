@@ -9,7 +9,13 @@
     "Tracker support: MyAnimeList, AniList, Kitsu, MangaUpdates, and more",
     "Configurable reader with multiple viewing modes and reading directions"
   ],
-  "features": ["Extension-based", "Tracker support", "Offline reading", "Multiple viewers", "Backup & restore"],
+  "features": [
+    "Extension-based",
+    "Tracker support",
+    "Offline reading",
+    "Multiple viewers",
+    "Backup & restore"
+  ],
   "setupSteps": [
     "Download Mihon from GitHub or mihon.app",
     "Install the APK on your Android device (requires Android 8.0+)",
@@ -23,5 +29,10 @@
   "repo": "https://github.com/mihonapp/mihon",
   "logo": "assets/logos/mihon.png",
   "screenshot": "assets/screenshots/mihon.png",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "plug-and-play",
+    "offline-first"
+  ]
 }

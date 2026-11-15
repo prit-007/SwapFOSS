@@ -10,7 +10,14 @@
     "Embeds metadata, cover art, and subtitles into the files it saves",
     "One tap grabs a full playlist; custom yt-dlp templates for power users"
   ],
-  "features": ["yt-dlp powered", "1,000+ sites", "Material You", "aria2c support", "Playlist downloads", "Subtitles & metadata"],
+  "features": [
+    "yt-dlp powered",
+    "1,000+ sites",
+    "Material You",
+    "aria2c support",
+    "Playlist downloads",
+    "Subtitles & metadata"
+  ],
   "benefits": [
     "No ads, no upsell banners, no clickbait gates — just the file you asked for",
     "Keeps videos and music playable offline without a Premium subscription",
@@ -30,5 +37,9 @@
   "repo": "https://github.com/JunkFood02/Seal",
   "logo": "assets/logos/seal.png",
   "screenshot": "assets/screenshots/seal.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "plug-and-play"
+  ]
 }

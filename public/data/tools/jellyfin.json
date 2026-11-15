@@ -9,7 +9,13 @@
     "Free forever, no premium tier hiding behind a paywall",
     "Works on TV, phone, browser — even offline downloads"
   ],
-  "features": ["Self-hosted", "Multi-user", "Offline downloads", "Transcoding", "100+ apps"],
+  "features": [
+    "Self-hosted",
+    "Multi-user",
+    "Offline downloads",
+    "Transcoding",
+    "100+ apps"
+  ],
   "setupSteps": [
     "Install Jellyfin on a server, NAS, or old PC",
     "Point it at your movie/show library folders",
@@ -23,5 +29,10 @@
   "repo": "https://github.com/jellyfin/jellyfin",
   "logo": "assets/logos/jellyfin.svg",
   "screenshot": "assets/screenshots/jellyfin.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "plug-and-play",
+    "install-and-use"
+  ]
 }

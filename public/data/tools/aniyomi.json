@@ -9,7 +9,13 @@
     "Built on mpv-android for powerful video playback with customizable settings",
     "Tracker support: MyAnimeList, AniList, Kitsu, Simkl, and more"
   ],
-  "features": ["Anime + manga", "mpv player", "Extension-based", "Trackers", "Offline support"],
+  "features": [
+    "Anime + manga",
+    "mpv player",
+    "Extension-based",
+    "Trackers",
+    "Offline support"
+  ],
   "setupSteps": [
     "Download Aniyomi from GitHub or aniyomi.org",
     "Install the APK on your Android device (requires Android 8.0+)",
@@ -23,5 +29,10 @@
   "repo": "https://github.com/aniyomiorg/aniyomi",
   "logo": "assets/logos/aniyomi.png",
   "screenshot": "assets/screenshots/aniyomi.png",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "plug-and-play",
+    "offline-first"
+  ]
 }

@@ -30,12 +30,17 @@
     "Choose resize/convert/compress or other tools",
     "Export processed images"
   ],
-  "details": "Image Toolbox (by T8RIN) is an offline-first Android app for batch image processing. Resize, crop, rotate, convert between formats, compress, remove backgrounds, edit EXIF, apply filters, and chain operations \u2014 all without sending images to the cloud.",
+  "details": "Image Toolbox (by T8RIN) is an offline-first Android app for batch image processing. Resize, crop, rotate, convert between formats, compress, remove backgrounds, edit EXIF, apply filters, and chain operations — all without sending images to the cloud.",
   "setup": "App (Android)",
   "difficulty": "easy",
   "link": "https://github.com/T8RIN/ImageToolbox",
   "repo": "https://github.com/T8RIN/ImageToolbox",
   "logo": "assets/logos/image-toolbox.png",
   "screenshot": "assets/screenshots/image-toolbox.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "offline-first",
+    "plug-and-play"
+  ]
 }

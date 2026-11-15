@@ -33,9 +33,9 @@ test("infinite scroll loads more tools when scrolling near bottom", async ({ pag
       },
       { timeout: 15_000 },
     )
-    .toBe(49);
+    .toBe(59);
   await expect(page.locator(".load-more-end")).toBeVisible();
-  await expect(page.locator(".load-more-end")).toContainText("You've explored all 49 tools");
+  await expect(page.locator(".load-more-end")).toContainText("You've explored all 59 tools");
 });
 
 test("clicking search clear button clears the search query", async ({ page }) => {
@@ -69,6 +69,32 @@ test("category filter narrows results and clears", async ({ page }) => {
   await mediaBtn.click();
   const shown = await page.locator(".swap-card:visible").count();
   expect(shown).toBeGreaterThan(0);
+});
+
+test("tag filter narrows results by app type and reflects in URL", async ({ page }) => {
+  await page.goto("");
+  await expect(page.locator(".swap-card").first()).toBeVisible();
+  const totalCount = await page.locator(".swap-card").count();
+
+  // Click "Self-Hosted" tag filter button
+  const selfHostedBtn = page.locator(".tag-filter-btn", { hasText: "Self-Hosted" });
+  await expect(selfHostedBtn).toBeVisible();
+  await selfHostedBtn.click();
+  await expect(page).toHaveURL(/\btag=self-hosted\b/);
+
+  const selfHostedCount = await page.locator(".swap-card:visible").count();
+  expect(selfHostedCount).toBeGreaterThan(0);
+  expect(selfHostedCount).toBeLessThan(totalCount);
+
+  // Click "Plug & Play" tag filter button
+  const plugAndPlayBtn = page.locator(".tag-filter-btn", { hasText: "Plug & Play" });
+  await plugAndPlayBtn.click();
+  await expect(page).toHaveURL(/\btag=plug-and-play\b/);
+
+  // Click "All Types" to clear tag filter
+  const allTypesBtn = page.locator(".tag-filter-btn", { hasText: "All Types" });
+  await allTypesBtn.click();
+  await expect(page).not.toHaveURL(/\btag=/);
 });
 
 test("card page renders an export card for ?tool=", async ({ page }) => {

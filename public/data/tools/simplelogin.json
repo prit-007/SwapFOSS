@@ -10,7 +10,13 @@
     "Custom domains, catch-all addresses, and PGP encryption",
     "Built by Proton and AGPL-licensed — self-host it if you prefer"
   ],
-  "features": ["Email aliases", "Custom domains", "PGP", "Browser extensions", "Self-hostable"],
+  "features": [
+    "Email aliases",
+    "Custom domains",
+    "PGP",
+    "Browser extensions",
+    "Self-hostable"
+  ],
   "benefits": [
     "Stop handing your real address to every sketchy signup form",
     "Instantly see which site leaked or sold your data — each alias is unique",
@@ -30,5 +36,10 @@
   "repo": "https://github.com/simple-login/app",
   "logo": "assets/logos/simplelogin.png",
   "screenshot": "assets/screenshots/simplelogin.png",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "self-hosted",
+    "plug-and-play"
+  ]
 }

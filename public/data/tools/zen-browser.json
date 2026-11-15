@@ -1,0 +1,46 @@
+{
+  "id": "zen-browser",
+  "name": "Zen Browser",
+  "category": "utility",
+  "insteadOf": "Google Chrome / Arc Browser / Brave",
+  "hook": "The beautiful Firefox-based desktop browser featuring vertical tabs, customizable workspaces, and split-view browsing — with zero Google telemetry and no forced account.",
+  "bullets": [
+    "Native vertical tabs, customizable workspaces, and split-view windows",
+    "Built on Firefox (Gecko) with full support for uBlock Origin & Firefox add-ons",
+    "Zero telemetry, no mandatory cloud accounts, and built-in privacy protection",
+    "Compact mode and custom CSS themes for a clutter-free web experience"
+  ],
+  "features": [
+    "Vertical tabs",
+    "Workspaces",
+    "Split view",
+    "Gecko engine",
+    "Firefox extensions",
+    "Theme store",
+    "MPL-2.0"
+  ],
+  "benefits": [
+    "Get Arc Browser's modern workspace workflow without signing up for an account",
+    "Bypasses Chrome's Manifest V3 ad-blocker restrictions using full Firefox extension support",
+    "Organize tabs by project or context with instant workspace switching",
+    "Completely community-driven and open-source with transparent development"
+  ],
+  "setupSteps": [
+    "Download Zen Browser for Windows, macOS, or Linux from zen-browser.app or GitHub",
+    "Import bookmarks and history from Chrome or your existing browser",
+    "Organize your tabs into Workspaces (e.g. Work, Personal, Research)",
+    "Install your favorite extensions from the Firefox Add-ons store"
+  ],
+  "details": "Zen Browser is a modern desktop web browser built on Mozilla's Gecko engine that combines the sleek, ergonomic user experience of modern concept browsers like Arc with the uncompromising privacy and freedom of Firefox. It replaces traditional horizontal tab clutter with smooth vertical tabs, categorized workspaces, and side-by-side split screen browsing, making multitasking effortless on widescreen monitors. Because it is based on Firefox, it is unaffected by Google Chrome's Manifest V3 ad-blocking restrictions, allowing extensions like uBlock Origin to operate at full power.",
+  "setup": "App (Windows, macOS, Linux) — installer, Flatpak, or AppImage",
+  "difficulty": "easy",
+  "link": "https://zen-browser.app",
+  "repo": "https://github.com/zen-browser/desktop",
+  "logo": "assets/logos/zen-browser.png",
+  "screenshot": "assets/screenshots/zen-browser.png",
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "plug-and-play"
+  ]
+}

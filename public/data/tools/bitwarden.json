@@ -9,7 +9,13 @@
     "End-to-end encrypted sync on every platform",
     "Self-host the whole vault with Vaultwarden"
   ],
-  "features": ["Free forever", "E2E encrypted", "Passkeys", "Self-hostable", "All platforms"],
+  "features": [
+    "Free forever",
+    "E2E encrypted",
+    "Passkeys",
+    "Self-hostable",
+    "All platforms"
+  ],
   "setupSteps": [
     "Create a free account at bitwarden.com — or deploy Vaultwarden",
     "Install the app and browser extension on your devices",
@@ -23,5 +29,11 @@
   "repo": "https://github.com/bitwarden/clients",
   "logo": "assets/logos/bitwarden.svg",
   "screenshot": "assets/screenshots/bitwarden.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "self-hosted",
+    "plug-and-play",
+    "e2e-encrypted"
+  ]
 }

@@ -1,0 +1,16 @@
+{
+  "id": "post-023",
+  "title": "The Sovereign Enterprise Stack: run your business for free",
+  "intro": {
+    "eyebrow": "ERP & accounting without the enterprise tax",
+    "headline": "Run your whole business without SAP, Salesforce, or QuickBooks.",
+    "subhead": "ERPNext, Frappe Framework, and Frappe Books provide end-to-end ERP, custom business apps, and local ledger accounting.",
+    "pills": ["Full ERP", "Low-code framework", "Double-entry accounting", "Open source"],
+    "hl": { "word": "business", "color": "#6BCB77" }
+  },
+  "tools": ["erpnext", "frappe-framework", "frappe-books"],
+  "outro": {
+    "headline": "Enterprise grade, open source price.",
+    "subhead": "Scale your company without seat licenses, recurring cloud fees, or proprietary software lock-in."
+  }
+}

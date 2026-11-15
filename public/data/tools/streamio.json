@@ -9,7 +9,13 @@
     "One interface for movies, shows, and live TV",
     "No pop-ups, no redirect chains, no malware roulette"
   ],
-  "features": ["Add-on system", "Cross-platform", "Streaming sync", "No ads", "Open source"],
+  "features": [
+    "Add-on system",
+    "Cross-platform",
+    "Streaming sync",
+    "No ads",
+    "Open source"
+  ],
   "setupSteps": [
     "Download Stremio for your platform",
     "Install and open the app",
@@ -23,5 +29,9 @@
   "repo": "https://github.com/Stremio",
   "logo": "assets/logos/stremio.svg",
   "screenshot": "assets/screenshots/stremio.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "plug-and-play"
+  ]
 }

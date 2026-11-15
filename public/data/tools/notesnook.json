@@ -1,0 +1,49 @@
+{
+  "id": "notesnook",
+  "name": "Notesnook",
+  "category": "security",
+  "insteadOf": "Evernote / Notion / Microsoft OneNote / Google Keep",
+  "hook": "A fully open-source, zero-knowledge end-to-end encrypted note-taking app with markdown support and cross-platform sync.",
+  "bullets": [
+    "True zero-knowledge architecture: notes, tags, and attachments are client-side encrypted with XChaCha20-Poly1305",
+    "Rich-text and markdown editor with math equations, checklists, tables, and code blocks",
+    "Cross-platform sync across Android, iOS, Windows, macOS, Linux, and modern web browsers",
+    "Private password-protected vaults, biometric app locking, and clean offline-first storage"
+  ],
+  "features": [
+    "Zero-knowledge",
+    "End-to-end encrypted",
+    "Markdown editor",
+    "Cross-platform",
+    "Offline-first",
+    "Vault locks",
+    "GPL-3.0"
+  ],
+  "benefits": [
+    "Never worry about note providers, hackers, or server administrators snooping on your personal thoughts",
+    "Seamlessly write on desktop and look up your notes on mobile with instant sync",
+    "No vendor lock-in: export your entire notebook anytime to standard Markdown, HTML, or PDF",
+    "100% open-source client and server code independently audited for cryptographic security"
+  ],
+  "setupSteps": [
+    "Download Notesnook for your platform (desktop, mobile, or use the web app)",
+    "Create a free account and safely back up your cryptographic recovery key",
+    "Create notebooks, organize with tags, and start writing in rich text or Markdown",
+    "Lock sensitive notebooks in individual vaults for biometric or PIN protection"
+  ],
+  "details": "Notesnook is a private, encrypted note-taking application designed as a zero-knowledge alternative to Evernote and Notion. Every note, notebook title, tag, attachment, and revision is encrypted on your device using XChaCha20-Poly1305 and Argon2id before syncing, ensuring that not even the Notesnook servers can view your content. The app provides a powerful editing experience supporting Markdown, LaTeX math equations, code blocks with syntax highlighting, nested notebooks, reminders, and dark/light themes. Notesnook works entirely offline and syncs smoothly across mobile and desktop. It is 100% open source under the GPL-3.0 license and has undergone public independent security audits.",
+  "setup": "App (Android, iOS, Windows, macOS, Linux, Web) — installer or app stores",
+  "difficulty": "easy",
+  "link": "https://notesnook.com",
+  "repo": "https://github.com/streetwriters/notesnook",
+  "logo": "assets/logos/notesnook.png",
+  "screenshot": "assets/screenshots/notesnook.png",
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "self-hosted",
+    "plug-and-play",
+    "e2e-encrypted",
+    "offline-first"
+  ]
+}

@@ -9,7 +9,14 @@
     "No per-user pricing — free and open source under GPL-3.0",
     "38k+ GitHub stars, 30,000+ companies using it worldwide"
   ],
-  "features": ["Accounting", "Inventory", "HR & Payroll", "Manufacturing", "CRM", "Open source"],
+  "features": [
+    "Accounting",
+    "Inventory",
+    "HR & Payroll",
+    "Manufacturing",
+    "CRM",
+    "Open source"
+  ],
   "setupSteps": [
     "Install bench CLI: pip install frappe-bench",
     "Initialize bench and create a site",
@@ -23,5 +30,9 @@
   "repo": "https://github.com/frappe/erpnext",
   "logo": "assets/logos/erpnext.svg",
   "screenshot": "assets/screenshots/erpnext.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "plug-and-play"
+  ]
 }
