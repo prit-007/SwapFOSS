@@ -1,0 +1,16 @@
+{
+  "id": "post-021",
+  "title": "The Content Grab & Reader Stack: media on your terms",
+  "intro": {
+    "eyebrow": "Ad-free media, local feeds",
+    "headline": "Download videos, read clean RSS, and play your music.",
+    "subhead": "Seal, ReadYou, and Echo Music replace shady video downloaders, algorithmic news feeds, and bloated streaming apps.",
+    "pills": ["Video downloader", "RSS reader", "Music player", "Open source"],
+    "hl": { "word": "clean RSS", "color": "#F97316" }
+  },
+  "tools": ["seal", "readyou", "echo-music"],
+  "outro": {
+    "headline": "No ads, no algorithms.",
+    "subhead": "Save what you want to watch, curate what you want to read, and play what you want to hear without tracking."
+  }
+}

@@ -9,7 +9,13 @@
     "Codes on mobile, desktop, and web kept in sync",
     "No ads, no telemetry, fully open source"
   ],
-  "features": ["E2E encrypted", "Cross-platform", "Works offline", "Open source", "Free"],
+  "features": [
+    "E2E encrypted",
+    "Cross-platform",
+    "Works offline",
+    "Open source",
+    "Free"
+  ],
   "setupSteps": [
     "Install Ente Auth from F-Droid, the Play Store, or desktop builds",
     "Scan QR codes or import from Authy / Google Authenticator",
@@ -22,5 +28,11 @@
   "repo": "https://github.com/ente/ente",
   "logo": "assets/logos/ente-auth.png",
   "screenshot": "assets/screenshots/ente-auth.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "self-hosted",
+    "offline-first",
+    "e2e-encrypted"
+  ]
 }

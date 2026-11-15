@@ -1,0 +1,46 @@
+{
+  "id": "organic-maps",
+  "name": "Organic Maps",
+  "category": "utility",
+  "insteadOf": "Google Maps / Apple Maps / Waze",
+  "hook": "Fast, detailed, privacy-respecting offline navigation for driving, cycling, and hiking powered by OpenStreetMap — zero battery drain, zero ads, no tracking.",
+  "bullets": [
+    "100% offline turn-by-turn navigation with voice guidance",
+    "Cycling routes, hiking trails, walking contours, and elevation profiles",
+    "Privacy-first: no location tracking, no analytics, no background telemetry",
+    "Crowd-sourced OpenStreetMap data updated continuously by the community"
+  ],
+  "features": [
+    "Offline maps",
+    "Turn-by-turn GPS",
+    "Hiking & cycling trails",
+    "No tracking",
+    "No ads",
+    "CarPlay & Android Auto",
+    "Apache-2.0"
+  ],
+  "benefits": [
+    "Navigate abroad or deep in the backcountry without cellular reception or data roaming",
+    "Saves battery life compared to proprietary maps loaded with tracking daemons",
+    "Find hidden hiking trails, water points, and bicycle lanes missing from Google Maps",
+    "OpenStreetMap search works instantly offline with bookmarks and KML/KMZ/GPX import"
+  ],
+  "setupSteps": [
+    "Install Organic Maps from F-Droid, Google Play, or the App Store",
+    "Download your home country, state, or region's map pack while on Wi-Fi",
+    "Search for destinations, addresses, or points of interest offline",
+    "Mount your phone and start turn-by-turn driving, cycling, or walking navigation"
+  ],
+  "details": "Organic Maps is an open-source, privacy-focused offline maps and GPS navigation app for Android and iOS, built on top of crowd-sourced OpenStreetMap data. Unlike Google Maps or Apple Maps, Organic Maps does not track your movements, log your search history, or profile your daily commute for advertising. You download maps for entire states or nations in advance, giving you lightning-fast offline search, turn-by-turn voice navigation, contour lines, hiking trails, and elevation profiles whether you are in an underground subway, abroad without a roaming SIM, or deep in a national park without cell service. It supports Apple CarPlay and Android Auto for in-dash driving, loads in milliseconds, and sips battery because it has no background trackers.",
+  "setup": "App (Android, iOS) — install from F-Droid, Google Play, or App Store",
+  "difficulty": "easy",
+  "link": "https://organicmaps.app",
+  "repo": "https://github.com/organicmaps/organicmaps",
+  "logo": "assets/logos/organic-maps.png",
+  "screenshot": "assets/screenshots/organic-maps.png",
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "offline-first"
+  ]
+}

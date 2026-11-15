@@ -1,0 +1,47 @@
+{
+  "id": "audiobookshelf",
+  "name": "Audiobookshelf",
+  "category": "media",
+  "insteadOf": "Audible / Storytel / Apple Books / Google Play Audiobooks",
+  "hook": "A self-hosted audiobook and podcast server with multi-user streaming, automatic metadata scraping, and offline mobile apps.",
+  "bullets": [
+    "Stream audiobooks and podcasts with real-time playback position sync across all devices",
+    "Official Android and iOS mobile apps with offline downloading and sleep timers",
+    "Automated metadata, chapter markers, and cover art retrieval from Audible and Google Books",
+    "Multi-user support with custom permissions, listening stats, and progress tracking"
+  ],
+  "features": [
+    "Audiobook streaming",
+    "Podcast client",
+    "Progress sync",
+    "Offline download",
+    "Multi-user",
+    "Chapter support",
+    "GPL-3.0"
+  ],
+  "benefits": [
+    "Own your entire audiobook and podcast library forever with zero recurring fees",
+    "No DRM, proprietary audio container lock-in, or deleted purchases",
+    "Seamlessly resume where you left off between your phone, web browser, and tablet",
+    "Share libraries with family and friends while maintaining separate playback histories"
+  ],
+  "setupSteps": [
+    "Deploy the Audiobookshelf server using Docker, unRAID, or bare-metal Linux/Windows",
+    "Point your media folders (audiobooks and podcasts) to the library scanner",
+    "Create user accounts and set up permissions for family members",
+    "Install the Audiobookshelf mobile app on Android or iOS and connect to your server"
+  ],
+  "details": "Audiobookshelf is a self-hosted media server specifically designed for audiobooks and podcasts. It gives listeners a modern, polished alternative to proprietary platforms like Audible without vendor lock-in or subscription fees. Audiobookshelf automatically scans your audio folders (supporting MP3, M4B, M4A, FLAC, and multi-file books), extracts embedded chapters, and scrapes metadata and cover artwork from sources like Audible, Open Library, and Google Books. The server includes a responsive web player with custom playback speeds, bookmarking, and sleep timers, plus native mobile apps on iOS and Android that support offline downloads and seamless background playback. Fully open source under GPL-3.0.",
+  "setup": "Docker container or package install (Linux, Windows, macOS, Android, iOS)",
+  "difficulty": "medium",
+  "link": "https://www.audiobookshelf.org",
+  "repo": "https://github.com/advplyr/audiobookshelf",
+  "logo": "assets/logos/audiobookshelf.png",
+  "screenshot": "assets/screenshots/audiobookshelf.png",
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "install-and-use",
+    "plug-and-play"
+  ]
+}

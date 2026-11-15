@@ -236,6 +236,89 @@ a { color: inherit; }
   font-weight: 600;
 }
 
+/* ---------- App Type (Tags) Filter Bar ---------- */
+.tag-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 18px 0 0;
+  animation: fadeUp 0.5s ease-out;
+}
+
+.tag-filter-btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tag-filter-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.tag-filter-btn.active {
+  background: var(--tag-color, #fff);
+  color: #0b0f19;
+  border-color: var(--tag-color, #fff);
+  font-weight: 600;
+  box-shadow: 0 0 16px -2px var(--tag-color, rgba(255, 255, 255, 0.3));
+}
+
+.tag-filter-btn.active .filter-count {
+  background: rgba(0, 0, 0, 0.2);
+  color: #0b0f19;
+}
+
+/* ---------- Card Tag Chips ---------- */
+.card-tags-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.card-tag-chips {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.card-tag-chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--tag-color, var(--text-muted));
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.card-tag-chip:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--tag-color, var(--text));
+  color: #fff;
+  transform: translateY(-1px);
+}
+
 /* ---------- Swap card grid ---------- */
 .grid {
   display: grid;

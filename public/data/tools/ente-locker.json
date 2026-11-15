@@ -10,7 +10,13 @@
     "Family sharing so the people who need access can get it",
     "Built on the same open-source stack as Ente Photos and Ente Auth"
   ],
-  "features": ["E2E encrypted", "Secure vault", "Family sharing", "Cross-platform", "Open source"],
+  "features": [
+    "E2E encrypted",
+    "Secure vault",
+    "Family sharing",
+    "Cross-platform",
+    "Open source"
+  ],
   "benefits": [
     "A digital safe for the documents you'd never put in a random cloud drive",
     "End-to-end encryption means only you can open your locker",
@@ -30,5 +36,10 @@
   "repo": "https://github.com/ente/ente",
   "logo": "assets/logos/ente-locker.png",
   "screenshot": "assets/screenshots/ente-locker.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "self-hosted",
+    "e2e-encrypted"
+  ]
 }

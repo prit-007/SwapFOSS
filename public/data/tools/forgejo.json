@@ -9,7 +9,13 @@
     "GitHub Actions-compatible CI via Forgejo Actions",
     "Community-governed by non-profit Codeberg e.V., GPL-3.0 licensed"
   ],
-  "features": ["Self-hosted", "Forgejo Actions CI", "Package registry", "Lightweight", "Community-governed"],
+  "features": [
+    "Self-hosted",
+    "Forgejo Actions CI",
+    "Package registry",
+    "Lightweight",
+    "Community-governed"
+  ],
   "setupSteps": [
     "Download the Forgejo binary for your platform",
     "Run the binary or use Docker: docker run -p 3000:3000 codeberg/forgejo",
@@ -23,5 +29,9 @@
   "repo": "https://codeberg.org/forgejo/forgejo",
   "logo": "assets/logos/forgejo.svg",
   "screenshot": "assets/screenshots/forgejo.webp",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "plug-and-play"
+  ]
 }

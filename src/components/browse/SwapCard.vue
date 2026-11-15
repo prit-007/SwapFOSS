@@ -2,6 +2,7 @@
 import { computed, ref } from "vue";
 import AppIcon from "@/components/common/AppIcon.vue";
 import { formatStars } from "@/utils/formatStars";
+import { PRIMARY_TAG_MAP } from "@/data/tags";
 import type { Category, Difficulty, Tool } from "@/types";
 
 const props = defineProps<{
@@ -10,7 +11,11 @@ const props = defineProps<{
   index: number;
   variant?: "grid" | "list";
 }>();
-const emit = defineEmits<{ share: [id: string]; preview: [tool: Tool] }>();
+const emit = defineEmits<{
+  share: [id: string];
+  preview: [tool: Tool];
+  selectTag: [tag: string];
+}>();
 
 const setupOpen = ref(false);
 const detailsOpen = ref(false);
@@ -21,6 +26,13 @@ const hasLogo = computed(() => !!props.tool.logo);
 const hasFeatures = computed(() => !!props.tool.features?.length);
 const hasSetupSteps = computed(() => !!props.tool.setupSteps?.length);
 const hasStars = computed(() => typeof props.tool.stars === "number" && props.tool.stars > 0);
+
+const primaryTags = computed(() => {
+  if (!props.tool.tags?.length) return [];
+  return props.tool.tags
+    .map((tagId) => PRIMARY_TAG_MAP[tagId])
+    .filter((meta): meta is NonNullable<typeof meta> => Boolean(meta));
+});
 
 const DIFFICULTY_LABELS: Record<Difficulty, string> = {
   easy: "Easy",
@@ -104,7 +116,23 @@ function onPreviewKey(e: KeyboardEvent) {
           :alt="`${tool.name} logo`"
         />
         <div class="card-title-text">
-          <span class="tag">{{ cat.label || tool.category }}</span>
+          <div class="card-tags-row">
+            <span class="tag">{{ cat.label || tool.category }}</span>
+            <div v-if="primaryTags.length" class="card-tag-chips">
+              <button
+                v-for="t in primaryTags"
+                :key="t.id"
+                type="button"
+                class="card-tag-chip"
+                :style="{ '--tag-color': t.color }"
+                :title="t.description"
+                @click.stop="emit('selectTag', t.id)"
+              >
+                <AppIcon :name="t.icon" :size="11" />
+                <span>{{ t.label }}</span>
+              </button>
+            </div>
+          </div>
           <div class="swap-row">
             <span class="swap-from">{{ tool.insteadOf }}</span>
             <span class="swap-arrow"><AppIcon name="arrow-right-01" /></span>

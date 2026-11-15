@@ -35,6 +35,8 @@ export const ICONS = {
   "star": `<path fill="currentColor" d="M12.002 2.5a.75.75 0 0 1 .673.417l2.53 5.126l5.657.822a.75.75 0 0 1 .416 1.279l-4.093 3.99l.966 5.633a.75.75 0 0 1-1.088.791L12.002 17.9l-5.06 2.658a.75.75 0 0 1-1.088-.79l.966-5.634l-4.093-3.99a.75.75 0 0 1 .417-1.279l5.656-.822l2.53-5.126a.75.75 0 0 1 .672-.417"/>`,
   "grid-view": `<g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5"><rect x="3" y="3" width="7.5" height="7.5" rx="1.8"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.8"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.8"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.8"/></g>`,
   "list-view": `<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M8.5 6h12M8.5 12h12M8.5 18h12"/><circle cx="3.75" cy="6" r="1.25" fill="currentColor" stroke="none"/><circle cx="3.75" cy="12" r="1.25" fill="currentColor" stroke="none"/><circle cx="3.75" cy="18" r="1.25" fill="currentColor" stroke="none"/></g>`,
+  "server-01": `<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M6 7h.01M6 17h.01M10 7h4M10 17h4"/></g>`,
+  "plug-01": `<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M9 2v4m6-4v4M5 8h14a2 2 0 0 1 2 2v2a7 7 0 0 1-7 7v3h-4v-3a7 7 0 0 1-7-7v-2a2 2 0 0 1 2-2Z"/></g>`,
 } as const;
 
 export type IconName = keyof typeof ICONS;

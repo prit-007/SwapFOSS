@@ -10,7 +10,13 @@
     "Automatic device discovery plus QR codes and shareable links",
     "Encrypted device-to-device transfers over HTTPS"
   ],
-  "features": ["Cross-platform", "LAN only", "No account", "Encrypted", "MIT licensed"],
+  "features": [
+    "Cross-platform",
+    "LAN only",
+    "No account",
+    "Encrypted",
+    "MIT licensed"
+  ],
   "benefits": [
     "AirDrop for everyone — but it talks to Android, Windows, and Linux too",
     "No cloud in the middle: your files never leave your own network",
@@ -30,5 +36,10 @@
   "repo": "https://github.com/localsend/localsend",
   "logo": "assets/logos/localsend.png",
   "screenshot": "assets/screenshots/localsend.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "offline-first",
+    "p2p"
+  ]
 }

@@ -9,7 +9,13 @@
     "Synced lyrics, offline downloads, and built-in song recognition (Echo Find)",
     "Import playlists from Spotify and listen together with friends"
   ],
-  "features": ["Ad-free", "Synced lyrics", "Offline downloads", "Spotify import", "Music recognition"],
+  "features": [
+    "Ad-free",
+    "Synced lyrics",
+    "Offline downloads",
+    "Spotify import",
+    "Music recognition"
+  ],
   "setupSteps": [
     "Download the APK from GitHub Releases (Android) or the desktop build for Windows/macOS/Linux",
     "Install and open Echo Music",
@@ -23,5 +29,9 @@
   "repo": "https://github.com/EchoMusicApp/Echo-Music",
   "logo": "assets/logos/echo-music.png",
   "screenshot": "assets/screenshots/echo-music.png",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "offline-first"
+  ]
 }

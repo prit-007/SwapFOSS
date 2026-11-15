@@ -21,6 +21,8 @@ export interface Tool {
   screenshotType?: ScreenshotType;
   /** GitHub star count, merged in from public/data/popularity.json. */
   stars?: number | null;
+  /** Deployment and architecture tags (e.g. install-and-use, self-hosted, plug-and-play). */
+  tags?: string[];
 }
 
 export interface PopularityEntry {

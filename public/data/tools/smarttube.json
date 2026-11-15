@@ -9,7 +9,13 @@
     "SponsorBlock skips sponsor reads automatically",
     "4K/HDR and ambient mode, tuned for TV remotes"
   ],
-  "features": ["Ad-free", "SponsorBlock", "4K HDR", "No login", "TV remote UI"],
+  "features": [
+    "Ad-free",
+    "SponsorBlock",
+    "4K HDR",
+    "No login",
+    "TV remote UI"
+  ],
   "setupSteps": [
     "Download smarttube_stable.apk from the official GitHub releases",
     "Sideload it with Downloader, USB, or adb on your Android TV / Fire TV",
@@ -23,5 +29,9 @@
   "repo": "https://github.com/yuliskov/SmartTube",
   "logo": "assets/logos/smarttube.png",
   "screenshot": "assets/screenshots/smarttube.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "plug-and-play"
+  ]
 }

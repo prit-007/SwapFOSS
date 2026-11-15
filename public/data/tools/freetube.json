@@ -9,7 +9,13 @@
     "Ads and tracking blocked out of the box",
     "Import your YouTube data in one click"
   ],
-  "features": ["Local data", "Ad-free", "Sub import", "SponsorBlock", "Win/Mac/Linux"],
+  "features": [
+    "Local data",
+    "Ad-free",
+    "Sub import",
+    "SponsorBlock",
+    "Win/Mac/Linux"
+  ],
   "setupSteps": [
     "Download FreeTube for Windows, macOS, or Linux",
     "Import your YouTube subscriptions or start fresh",
@@ -22,5 +28,10 @@
   "repo": "https://github.com/FreeTubeApp/FreeTube",
   "logo": "assets/logos/freetube.svg",
   "screenshot": "assets/screenshots/freetube.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "plug-and-play",
+    "offline-first"
+  ]
 }

@@ -64,6 +64,15 @@ describe("validation schemas", () => {
     expect(toolSchema.parse(validTool).id).toBe("jellyfin");
   });
 
+  it("accepts a tool with tags", () => {
+    const withTags = { ...validTool, tags: ["install-and-use", "self-hosted", "plug-and-play"] };
+    expect(toolSchema.parse(withTags).tags).toEqual([
+      "install-and-use",
+      "self-hosted",
+      "plug-and-play",
+    ]);
+  });
+
   it("rejects a tool with an unknown difficulty", () => {
     expect(() => toolSchema.parse({ ...validTool, difficulty: "impossible" })).toThrow();
   });

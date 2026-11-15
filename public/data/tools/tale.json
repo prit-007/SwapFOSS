@@ -29,5 +29,9 @@
   "repo": "https://github.com/tale-project/tale",
   "logo": "assets/logos/tale.svg",
   "screenshot": "assets/screenshots/tale.webp",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "plug-and-play"
+  ]
 }

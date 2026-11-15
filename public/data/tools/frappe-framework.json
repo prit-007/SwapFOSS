@@ -9,7 +9,13 @@
     "Full-stack: Python backend, JS frontend, MariaDB, REST API, roles, permissions",
     "Powers ERPNext (38k+ stars) and hundreds of community apps"
   ],
-  "features": ["Low-code", "Full-stack", "REST API", "Role-based permissions", "Admin UI"],
+  "features": [
+    "Low-code",
+    "Full-stack",
+    "REST API",
+    "Role-based permissions",
+    "Admin UI"
+  ],
   "setupSteps": [
     "Install bench CLI: pip install frappe-bench",
     "Initialize a new bench: bench init frappe-bench",
@@ -23,5 +29,9 @@
   "repo": "https://github.com/frappe/frappe",
   "logo": "assets/logos/frappe-framework.svg",
   "screenshot": "assets/screenshots/frappe-framework.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "plug-and-play"
+  ]
 }

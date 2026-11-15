@@ -28,12 +28,17 @@
     "Use gestures/controls",
     "Enjoy playback"
   ],
-  "details": "mpv-android brings mpv media player to Android \u2014 ad-free, lightweight, handles 4K/HDR/Dolby Vision with precise seeking, advanced subtitles and gestures.",
+  "details": "mpv-android brings mpv media player to Android — ad-free, lightweight, handles 4K/HDR/Dolby Vision with precise seeking, advanced subtitles and gestures.",
   "setup": "App (Android)",
   "difficulty": "easy",
   "link": "https://github.com/mpv-android/mpv-android",
   "repo": "https://github.com/mpv-android/mpv-android",
   "logo": "assets/logos/mpv-android.png",
   "screenshot": "assets/screenshots/mpv-android.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "plug-and-play",
+    "offline-first"
+  ]
 }

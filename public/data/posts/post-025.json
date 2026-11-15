@@ -1,0 +1,16 @@
+{
+  "id": "post-025",
+  "title": "The Private Reading & Audio Sanctuary: listen, read, and write",
+  "intro": {
+    "eyebrow": "Big Tech swaps, part 25",
+    "headline": "Private audiobooks, distraction-free reading, and encrypted notes.",
+    "subhead": "Audiobookshelf, KOReader, and Notesnook replace Audible, Kindle, and Evernote with community-owned sovereignty.",
+    "pills": ["Audiobook server", "Universal e-reader", "E2E encrypted notes", "Zero DRM"],
+    "hl": { "word": "encrypted notes", "color": "#6366F1" }
+  },
+  "tools": ["audiobookshelf", "koreader", "notesnook"],
+  "outro": {
+    "headline": "Your media and thoughts belong to you.",
+    "subhead": "No revoked Kindle licenses, no subscription paywalls on your books, and no server snooping on your personal journals."
+  }
+}

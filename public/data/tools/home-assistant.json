@@ -10,7 +10,13 @@
     "Works with Zigbee, Z-Wave, Matter, MQTT, ESPHome, and big-name brands",
     "Free and open source, with companion apps for Android and iOS"
   ],
-  "features": ["Local control", "2000+ integrations", "Automations", "No cloud required", "Open source"],
+  "features": [
+    "Local control",
+    "2000+ integrations",
+    "Automations",
+    "No cloud required",
+    "Open source"
+  ],
   "benefits": [
     "Google Home and Alexa without shipping your data to Big Tech",
     "Your devices keep working offline — no outage can brick your home",
@@ -30,5 +36,10 @@
   "repo": "https://github.com/home-assistant/core",
   "logo": "assets/logos/home-assistant.png",
   "screenshot": "assets/screenshots/home-assistant.jpg",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "plug-and-play",
+    "install-and-use"
+  ]
 }

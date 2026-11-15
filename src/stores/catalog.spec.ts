@@ -27,6 +27,7 @@ const tools: Tool[] = [
     difficulty: "medium",
     link: "https://jellyfin.org",
     repo: "https://github.com/jellyfin/jellyfin",
+    tags: ["self-hosted", "plug-and-play"],
   },
   {
     id: "bitwarden",
@@ -39,6 +40,7 @@ const tools: Tool[] = [
     difficulty: "easy",
     link: "https://bitwarden.com",
     repo: "https://github.com/bitwarden",
+    tags: ["install-and-use", "self-hosted"],
   },
 ];
 
@@ -116,6 +118,18 @@ describe("catalog store", () => {
     expect(catalog.query({ category: "security", q: "password" }).map((t) => t.id)).toEqual([
       "bitwarden",
     ]);
+  });
+
+  it("filters by tag and calculates tag counts", async () => {
+    mockLoadCategories.mockResolvedValue(categories);
+    mockLoadTools.mockResolvedValue(tools);
+    const catalog = useCatalogStore();
+    await catalog.load();
+    expect(catalog.byTag("plug-and-play").map((t) => t.id)).toEqual(["jellyfin"]);
+    expect(catalog.byTag("install-and-use").map((t) => t.id)).toEqual(["bitwarden"]);
+    expect(catalog.countForTag("self-hosted")).toBe(2);
+    expect(catalog.countForTag("plug-and-play")).toBe(1);
+    expect(catalog.query({ tag: "plug-and-play" }).map((t) => t.id)).toEqual(["jellyfin"]);
   });
 
   it("merges star counts from popularity data", async () => {

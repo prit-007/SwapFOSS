@@ -9,7 +9,13 @@
     "Native Flutter app, not Electron — fast and lightweight",
     "Cross-platform: Windows, macOS, Linux, Android, and iOS"
   ],
-  "features": ["No Premium needed", "Cross-platform", "No telemetry", "Lyrics", "Offline downloads"],
+  "features": [
+    "No Premium needed",
+    "Cross-platform",
+    "No telemetry",
+    "Lyrics",
+    "Offline downloads"
+  ],
   "setupSteps": [
     "Download Spotube for your platform from GitHub or F-Droid",
     "Install and open the app",
@@ -23,5 +29,9 @@
   "repo": "https://github.com/KRTirtho/spotube",
   "logo": "assets/logos/spotube.png",
   "screenshot": "assets/screenshots/spotube.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "plug-and-play"
+  ]
 }

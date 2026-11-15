@@ -9,7 +9,13 @@
     "Prowlarr manages all your indexers in one place — 500+ torrent trackers and Usenet sites",
     "Bazarr auto-downloads subtitles — integrates with Sonarr and Radarr"
   ],
-  "features": ["Auto-download", "Quality profiles", "Indexer management", "Subtitle sync", "Calendar view"],
+  "features": [
+    "Auto-download",
+    "Quality profiles",
+    "Indexer management",
+    "Subtitle sync",
+    "Calendar view"
+  ],
   "setupSteps": [
     "Install Docker and Docker Compose",
     "Deploy the *arr stack using docker-compose (Sonarr, Radarr, Lidarr, Prowlarr, Bazarr)",
@@ -23,5 +29,9 @@
   "repo": "https://github.com/Sonarr/Sonarr",
   "logo": "assets/logos/arr-suite.png",
   "screenshot": "assets/screenshots/arr-suite.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "plug-and-play"
+  ]
 }

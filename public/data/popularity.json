@@ -246,6 +246,56 @@
       "repo": "ImranR98/Obtainium",
       "host": "github",
       "stars": 21052
+    },
+    "organic-maps": {
+      "repo": "organicmaps/organicmaps",
+      "host": "github",
+      "stars": 15200
+    },
+    "antennapod": {
+      "repo": "AntennaPod/AntennaPod",
+      "host": "github",
+      "stars": 8500
+    },
+    "zen-browser": {
+      "repo": "zen-browser/desktop",
+      "host": "github",
+      "stars": 46000
+    },
+    "appflowy": {
+      "repo": "AppFlowy-IO/AppFlowy",
+      "host": "github",
+      "stars": 75500
+    },
+    "actual-budget": {
+      "repo": "actualbudget/actual",
+      "host": "github",
+      "stars": 30273
+    },
+    "audiobookshelf": {
+      "repo": "advplyr/audiobookshelf",
+      "host": "github",
+      "stars": 15014
+    },
+    "scrcpy": {
+      "repo": "Genymobile/scrcpy",
+      "host": "github",
+      "stars": 154901
+    },
+    "notesnook": {
+      "repo": "streetwriters/notesnook",
+      "host": "github",
+      "stars": 14947
+    },
+    "koreader": {
+      "repo": "koreader/koreader",
+      "host": "github",
+      "stars": 31112
+    },
+    "aegis-authenticator": {
+      "repo": "beemdevelopment/Aegis",
+      "host": "github",
+      "stars": 13554
     }
   }
 }

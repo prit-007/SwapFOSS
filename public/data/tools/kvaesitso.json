@@ -10,7 +10,14 @@
     "Widget-heavy home with clock, weather, music, notes, and calendar at a glance",
     "Bonus tools in the search bar: calculator, unit conversion, and timers"
   ],
-  "features": ["Search-first", "Global search", "Widgets", "Material You", "Nextcloud plugins", "GPL-3.0"],
+  "features": [
+    "Search-first",
+    "Global search",
+    "Widgets",
+    "Material You",
+    "Nextcloud plugins",
+    "GPL-3.0"
+  ],
   "benefits": [
     "Open your phone and type two letters — the app you want is already there",
     "Replaces grid-hunting with one gesture and the keyboard you already know",
@@ -30,5 +37,10 @@
   "repo": "https://github.com/MM2-0/Kvaesitso",
   "logo": "assets/logos/kvaesitso.png",
   "screenshot": "assets/screenshots/kvaesitso.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "plug-and-play",
+    "offline-first"
+  ]
 }

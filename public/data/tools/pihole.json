@@ -9,7 +9,13 @@
     "Runs on a Raspberry Pi or Docker in minutes",
     "Dashboard shows what every device requests"
   ],
-  "features": ["Network-wide", "DNS-level", "Live dashboard", "Raspberry Pi", "Docker"],
+  "features": [
+    "Network-wide",
+    "DNS-level",
+    "Live dashboard",
+    "Raspberry Pi",
+    "Docker"
+  ],
   "setupSteps": [
     "Install Pi-hole on a Raspberry Pi, NAS, or Docker container",
     "Point your router's DNS at the Pi-hole",
@@ -22,5 +28,9 @@
   "repo": "https://github.com/pi-hole/pi-hole",
   "logo": "assets/logos/pihole.svg",
   "screenshot": "assets/screenshots/pihole.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "plug-and-play"
+  ]
 }

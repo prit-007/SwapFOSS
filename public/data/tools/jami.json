@@ -9,7 +9,13 @@
     "Works on LAN without internet, no phone number or email needed",
     "Audio/video calls, group chats, screen sharing, and file transfers"
   ],
-  "features": ["P2P encrypted", "No phone number", "Group calls", "Screen sharing", "Cross-platform"],
+  "features": [
+    "P2P encrypted",
+    "No phone number",
+    "Group calls",
+    "Screen sharing",
+    "Cross-platform"
+  ],
   "setupSteps": [
     "Download Jami for your platform from jami.net or F-Droid",
     "Install and create an account — no personal info required",
@@ -23,5 +29,10 @@
   "repo": "https://git.jami.net/savoirfairelinux/jami",
   "logo": "assets/logos/jami.svg",
   "screenshot": "assets/screenshots/jami.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "p2p",
+    "e2e-encrypted"
+  ]
 }

@@ -10,7 +10,13 @@
     "No commercial-use limits, session caps, or paywalls like TeamViewer and AnyDesk",
     "Built-in file transfer, TCP tunnelling, clipboard sync, and audio"
   ],
-  "features": ["Self-hostable", "Cross-platform", "End-to-end encryption", "File transfer", "No paywall"],
+  "features": [
+    "Self-hostable",
+    "Cross-platform",
+    "End-to-end encryption",
+    "File transfer",
+    "No paywall"
+  ],
   "benefits": [
     "TeamViewer-style remote access with zero subscription and no 'commercial use detected' lockouts",
     "Run your own relay server so your screen traffic never passes through a third party",
@@ -30,5 +36,10 @@
   "repo": "https://github.com/rustdesk/rustdesk",
   "logo": "assets/logos/rustdesk.svg",
   "screenshot": "assets/screenshots/rustdesk.webp",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "self-hosted",
+    "e2e-encrypted"
+  ]
 }

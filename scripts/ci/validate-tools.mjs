@@ -136,6 +136,17 @@ if (manifest?.tools) {
       }
     }
 
+    // Validate tags (array of non-empty strings)
+    if (tool.tags !== undefined) {
+      if (!Array.isArray(tool.tags)) {
+        fail('"tags" must be an array');
+      } else if (tool.tags.length === 0) {
+        fail('"tags" must not be empty');
+      } else if (tool.tags.some(t => typeof t !== "string" || !t.trim())) {
+        fail('"tags" items must be non-empty strings');
+      }
+    }
+
     // Validate URLs
     for (const urlField of ["link", "repo"]) {
       if (tool[urlField] && !/^https?:\/\//.test(tool[urlField])) {

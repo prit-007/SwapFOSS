@@ -1,0 +1,47 @@
+{
+  "id": "koreader",
+  "name": "KOReader",
+  "category": "reading",
+  "insteadOf": "Amazon Kindle / Kobo / Google Play Books / Apple Books",
+  "hook": "An open-source, distraction-free document and ebook reader engine for E-Ink devices, Android, Linux, and macOS.",
+  "bullets": [
+    "Universal document support: EPUB, PDF, MOBI, CBZ, CBR, FB2, TXT, and DjVu",
+    "Advanced typography controls, font kerning, custom margins, and continuous or paginated reading modes",
+    "Multi-device progress sync via open-source sync servers, plus Calibre and OPDS library integration",
+    "Built-in dictionary lookups, Wikipedia integration, text-to-speech, and full-text search"
+  ],
+  "features": [
+    "Universal formats",
+    "E-Ink optimized",
+    "Progress sync",
+    "Calibre integration",
+    "Offline dictionaries",
+    "Night mode",
+    "AGPL-3.0"
+  ],
+  "benefits": [
+    "Break free from proprietary DRM bookstores and Kindle/Kobo ecosystem walls",
+    "Supercharge e-ink devices like Kindle and Kobo with jailbreak-friendly, lightning-fast rendering",
+    "Read complex technical PDFs comfortably with advanced margin cropping and text reflow",
+    "Zero telemetry, zero ads, and zero account requirements to read your own books"
+  ],
+  "setupSteps": [
+    "Install KOReader on your Android phone, tablet, desktop, or jailbroken Kindle/Kobo e-reader",
+    "Transfer your ebooks via USB, Calibre Content Server, or built-in OPDS catalog",
+    "Customize reading gestures, typography, contrast, and font settings",
+    "Optionally configure KOReader sync server to keep reading progress synchronized across devices"
+  ],
+  "details": "KOReader is a versatile, distraction-free document and ebook reader built specifically for e-ink readers and mobile devices. Developed in Lua and C, KOReader delivers unmatched speed, battery efficiency, and typography control across platforms including Android, Linux, macOS, and jailbroken Kindle, Kobo, PocketBook, and Tolino devices. It natively renders almost every major digital reading format—including EPUB, PDF, CBZ/CBR comic archives, MOBI, FB2, and DjVu. For PDFs, KOReader includes intelligent K2pdfopt-powered text reflow and automatic margin cropping, making multi-column academic papers legible even on small screens. With OPDS catalog browsing, Calibre sync, offline StarDict dictionary lookup, and custom reading stats, KOReader is the ultimate open-source reading companion. Licensed under AGPL-3.0.",
+  "setup": "App (Android APK, Kindle, Kobo, Linux AppImage, macOS)",
+  "difficulty": "easy",
+  "link": "https://koreader.rocks",
+  "repo": "https://github.com/koreader/koreader",
+  "logo": "assets/logos/koreader.png",
+  "screenshot": "assets/screenshots/koreader.png",
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "plug-and-play",
+    "offline-first"
+  ]
+}

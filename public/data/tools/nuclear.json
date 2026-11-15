@@ -9,7 +9,13 @@
     "Search and stream from YouTube, SoundCloud, Bandcamp, and more",
     "18k+ stars, cross-platform (Windows, macOS, Linux), built with Tauri"
   ],
-  "features": ["Plugin system", "Cross-platform", "No ads", "Multiple themes", "MCP server"],
+  "features": [
+    "Plugin system",
+    "Cross-platform",
+    "No ads",
+    "Multiple themes",
+    "MCP server"
+  ],
   "setupSteps": [
     "Download Nuclear for your platform from nuclearplayer.com or GitHub",
     "Install and open — no account required",
@@ -24,5 +30,9 @@
   "repo": "https://github.com/nukeop/nuclear",
   "logo": "assets/logos/nuclear.png",
   "screenshot": "assets/screenshots/nuclear.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "plug-and-play"
+  ]
 }

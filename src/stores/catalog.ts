@@ -49,6 +49,7 @@ function haystack(tool: Tool): string {
     tool.setup,
     tool.details || "",
     ...(tool.features || []),
+    ...(tool.tags || []),
   ]
     .join(" ")
     .toLowerCase();
@@ -68,6 +69,10 @@ export const useCatalogStore = defineStore("catalog", {
       category === "all" ? s.tools : s.tools.filter((t) => t.category === category),
     countFor: (s) => (category: string): number =>
       category === "all" ? s.tools.length : s.tools.filter((t) => t.category === category).length,
+    byTag: (s) => (tag: string): Tool[] =>
+      tag === "all" ? s.tools : s.tools.filter((t) => t.tags?.includes(tag)),
+    countForTag: (s) => (tag: string): number =>
+      tag === "all" ? s.tools.length : s.tools.filter((t) => t.tags?.includes(tag)).length,
     /** Total stars across all tools that have a GitHub repo. */
     totalStars: (s): number =>
       s.tools.reduce((sum, t) => sum + (t.stars ?? 0), 0),
@@ -78,12 +83,23 @@ export const useCatalogStore = defineStore("catalog", {
     },
     query:
       (s) =>
-      ({ category, q, sort = "featured" }: { category: string; q: string; sort?: SortKey }): Tool[] => {
-        const query = q.trim().toLowerCase();
+      ({
+        category = "all",
+        tag = "all",
+        q = "",
+        sort = "featured",
+      }: {
+        category?: string;
+        tag?: string;
+        q?: string;
+        sort?: SortKey;
+      }): Tool[] => {
+        const query = (q || "").trim().toLowerCase();
         const filtered = s.tools.filter((t) => {
-          const matchCat = category === "all" || t.category === category;
+          const matchCat = !category || category === "all" || t.category === category;
+          const matchTag = !tag || tag === "all" || Boolean(t.tags?.includes(tag));
           const matchQ = !query || haystack(t).includes(query);
-          return matchCat && matchQ;
+          return matchCat && matchTag && matchQ;
         });
         return sortTools(filtered, sort);
       },

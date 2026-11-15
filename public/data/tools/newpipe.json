@@ -9,7 +9,13 @@
     "Background audio and picture-in-picture",
     "Download video or audio for offline"
   ],
-  "features": ["No login", "Background play", "Downloads", "PiP mode", "Featherweight"],
+  "features": [
+    "No login",
+    "Background play",
+    "Downloads",
+    "PiP mode",
+    "Featherweight"
+  ],
   "setupSteps": [
     "Install from F-Droid, IzzyOnDroid, or the official APK",
     "Search and watch — no sign-in needed",
@@ -23,5 +29,10 @@
   "repo": "https://github.com/TeamNewPipe/NewPipe",
   "logo": "assets/logos/newpipe.png",
   "screenshot": "assets/screenshots/newpipe.png",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "plug-and-play",
+    "offline-first"
+  ]
 }

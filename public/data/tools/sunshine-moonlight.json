@@ -10,7 +10,13 @@
     "Hardware-accelerated 4K/120 streaming with low latency over your network",
     "Works with NVIDIA, AMD, and Intel GPUs on Windows, Linux, and macOS hosts"
   ],
-  "features": ["Hardware encoding", "4K / 120 FPS", "Any GPU", "Cross-platform", "Open source"],
+  "features": [
+    "Hardware encoding",
+    "4K / 120 FPS",
+    "Any GPU",
+    "Cross-platform",
+    "Open source"
+  ],
   "benefits": [
     "GameStream and Steam Link without being locked to NVIDIA or a Steam Deck",
     "Play your whole PC library on the couch, in bed, or on the road",
@@ -30,5 +36,10 @@
   "repo": "https://github.com/LizardByte/Sunshine",
   "logo": "assets/logos/sunshine-moonlight.png",
   "screenshot": "assets/screenshots/sunshine-moonlight.webp",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "install-and-use",
+    "plug-and-play"
+  ]
 }

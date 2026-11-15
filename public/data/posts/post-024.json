@@ -1,0 +1,16 @@
+{
+  "id": "post-024",
+  "title": "Jami: decentralized video calls and messaging without servers",
+  "intro": {
+    "eyebrow": "True peer-to-peer communication",
+    "headline": "HD video calls and messages with zero centralized servers.",
+    "subhead": "Jami connects your devices directly using distributed hash tables (DHT) and end-to-end encryption — no phone number or central server needed.",
+    "pills": ["Peer-to-peer", "HD video calls", "Zero servers", "GNU GPLv3"],
+    "hl": { "word": "zero centralized servers", "color": "#B983FF" }
+  },
+  "tools": ["jami"],
+  "outro": {
+    "headline": "Communicate with complete autonomy.",
+    "subhead": "No central point of failure, no corporate server to intercept your stream. Clean P2P calls for everyone."
+  }
+}

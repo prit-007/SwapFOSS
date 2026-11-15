@@ -1,0 +1,47 @@
+{
+  "id": "aegis-authenticator",
+  "name": "Aegis Authenticator",
+  "category": "security",
+  "insteadOf": "Google Authenticator / Authy / Microsoft Authenticator / Duo",
+  "hook": "A secure, offline 2FA authenticator for Android with encrypted automatic backups and biometric unlocking.",
+  "bullets": [
+    "Secure vault encryption using AES-256-GCM and Argon2id key derivation",
+    "Automatic encrypted backups to local storage, Nextcloud, or any Android document provider",
+    "Zero internet permission: completely air-gapped from network attacks or leaks",
+    "Supports TOTP and HOTP algorithms with custom icons, search, and group organization"
+  ],
+  "features": [
+    "AES-256 encrypted",
+    "Automatic backups",
+    "Zero network permission",
+    "Biometric unlock",
+    "Import & Export",
+    "GPL-3.0"
+  ],
+  "benefits": [
+    "Never get locked out of your accounts when upgrading phones or switching devices",
+    "Unlike Authy or Google Authenticator, your secret tokens are never stored unencrypted in corporate clouds",
+    "Clean, private authentication with zero tracking, telemetry, or network permissions required",
+    "Import effortlessly from existing authenticators (Google, Authy, Bitwarden, Steam, and more)"
+  ],
+  "setupSteps": [
+    "Install Aegis Authenticator from F-Droid or Google Play",
+    "Set a master password or enable biometric unlock (fingerprint/face)",
+    "Configure automated encrypted backups to your local storage or Nextcloud folder",
+    "Scan 2FA QR codes or import tokens from your previous authenticator app"
+  ],
+  "details": "Aegis Authenticator is an open-source, highly secure two-factor authentication (2FA) app for Android. Unlike commercial alternatives like Authy and Google Authenticator that tie tokens to proprietary cloud accounts or lack straightforward encrypted export mechanisms, Aegis operates with complete transparency and user ownership. Your token database is encrypted with industry-standard AES-256-GCM, protected by a passphrase derived using Argon2id, and can be unlocked quickly with biometrics. Aegis requires absolutely zero internet permissions in Android, guaranteeing that your secret keys cannot be leaked over the network. It features automated scheduled backups to Nextcloud or local storage, token search, custom icon packs, and comprehensive import tools from dozens of existing 2FA apps. Licensed under GPL-3.0.",
+  "setup": "App (Android) — F-Droid or Google Play",
+  "difficulty": "easy",
+  "link": "https://getaegis.app",
+  "repo": "https://github.com/beemdevelopment/Aegis",
+  "logo": "assets/logos/aegis-authenticator.png",
+  "screenshot": "assets/screenshots/aegis-authenticator.png",
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "plug-and-play",
+    "offline-first",
+    "e2e-encrypted"
+  ]
+}

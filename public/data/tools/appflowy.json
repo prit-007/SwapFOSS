@@ -1,0 +1,49 @@
+{
+  "id": "appflowy",
+  "name": "AppFlowy",
+  "category": "dev",
+  "insteadOf": "Notion / Coda",
+  "hook": "A local-first, AI-ready workspace with boards, tables, calendars, and documents where your data stays on your machine with zero cloud lock-in.",
+  "bullets": [
+    "Rich-text document editor with block-based formatting and nested pages",
+    "Customizable databases: Grid, Kanban Board, and Calendar views",
+    "100% offline-first: stores data locally with optional self-hosted cloud sync",
+    "Cross-platform desktop and mobile support built on Flutter and Rust"
+  ],
+  "features": [
+    "Local-first",
+    "Kanban boards",
+    "Grid & table database",
+    "Document editor",
+    "Rust core",
+    "Self-hostable",
+    "AGPL-3.0"
+  ],
+  "benefits": [
+    "No monthly subscriptions or paywalls on document blocks or file uploads",
+    "Lightning-fast performance and offline access powered by Rust and Flutter",
+    "Your private documents and notes never get scraped for proprietary AI training",
+    "Export your data anytime to standard formats like Markdown and JSON"
+  ],
+  "setupSteps": [
+    "Download AppFlowy for Windows, macOS, Linux, Android, or iOS",
+    "Create your first workspace with local storage",
+    "Add notes, Kanban boards, or task trackers from built-in templates",
+    "Optionally connect to AppFlowy Cloud or self-host your own server for sync"
+  ],
+  "details": "AppFlowy is an open-source, local-first workspace designed as a private alternative to Notion. Built with Flutter on the frontend and Rust on the backend, AppFlowy offers native speed, responsive offline access, and complete data ownership. You can build comprehensive knowledge bases, manage project sprints with Kanban boards, organize relational databases, and write rich-text documents without worrying about cloud outages, subscription tiers, or corporate telemetry.",
+  "setup": "App (Windows, macOS, Linux, Android, iOS) — installer, AppImage, or APK",
+  "difficulty": "easy",
+  "link": "https://appflowy.io",
+  "repo": "https://github.com/AppFlowy-IO/AppFlowy",
+  "logo": "assets/logos/appflowy.png",
+  "screenshot": "assets/screenshots/appflowy.png",
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "self-hosted",
+    "plug-and-play",
+    "local-first",
+    "offline-first"
+  ]
+}

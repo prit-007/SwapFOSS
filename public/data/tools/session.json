@@ -10,7 +10,13 @@
     "Onion routing (Lokinet) protects IP and metadata",
     "Open-source, decentralized, with cross-platform apps"
   ],
-  "features": ["E2E encrypted", "Onion routing", "No phone number", "Cross-platform", "Open source"],
+  "features": [
+    "E2E encrypted",
+    "Onion routing",
+    "No phone number",
+    "Cross-platform",
+    "Open source"
+  ],
   "benefits": [
     "Communicate without tying your identity to a phone number",
     "Stronger metadata protection than traditional E2E messengers",
@@ -30,5 +36,10 @@
   "repo": "https://github.com/session-foundation",
   "logo": "assets/logos/session.png",
   "screenshot": "assets/screenshots/session.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "p2p",
+    "e2e-encrypted"
+  ]
 }

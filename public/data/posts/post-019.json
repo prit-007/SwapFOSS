@@ -1,0 +1,16 @@
+{
+  "id": "post-019",
+  "title": "The De-Googled Android Stack: keyboard, launcher, and updates",
+  "intro": {
+    "eyebrow": "Retire Google Play services",
+    "headline": "Type privately, search instantly, and update straight from the source.",
+    "subhead": "HeliBoard, Kvaesitso, and Obtainium replace Gboard, commercial launchers, and the Play Store with zero telemetry.",
+    "pills": ["Privacy keyboard", "Search launcher", "Direct updates", "Open source"],
+    "hl": { "word": "zero telemetry", "color": "#2DD4BF" }
+  },
+  "tools": ["heliboard", "kvaesitso", "obtainium"],
+  "outro": {
+    "headline": "Your phone, your control.",
+    "subhead": "No keystroke logging, no sponsored search results, no store review delays. What's your first swap?"
+  }
+}

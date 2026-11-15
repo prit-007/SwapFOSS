@@ -10,7 +10,13 @@
     "Map view, shared albums, and one-tap family sharing",
     "Handles 100,000+ photos and 4K video without breaking a sweat"
   ],
-  "features": ["Face recognition", "Map view", "Live backup", "Shared albums", "Video playback"],
+  "features": [
+    "Face recognition",
+    "Map view",
+    "Live backup",
+    "Shared albums",
+    "Video playback"
+  ],
   "benefits": [
     "Your memories are yours — no ads, no scanning, no cloud company reading your album",
     "It works like Google Photos — you'll forget it's self-hosted",
@@ -30,5 +36,10 @@
   "repo": "https://github.com/immich-app/immich",
   "logo": "assets/logos/immich.svg",
   "screenshot": "assets/screenshots/immich.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "install-and-use",
+    "plug-and-play"
+  ]
 }

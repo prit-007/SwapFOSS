@@ -10,7 +10,13 @@
     "Runs entirely on your own hardware — no account, no cloud, no sync box",
     "Endlessly customizable effects, zones, and integrations"
   ],
-  "features": ["DIY hardware", "Real-time sync", "No subscription", "Local only", "MIT licensed"],
+  "features": [
+    "DIY hardware",
+    "Real-time sync",
+    "No subscription",
+    "Local only",
+    "MIT licensed"
+  ],
   "benefits": [
     "The Hue Play Sync Box experience for a fraction of the price",
     "Zero-latency ambilight that matches whatever you're watching",
@@ -30,5 +36,9 @@
   "repo": "https://github.com/wled/WLED",
   "logo": "assets/logos/wled-hyperion.png",
   "screenshot": "assets/screenshots/wled-hyperion.webp",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "self-hosted",
+    "plug-and-play"
+  ]
 }

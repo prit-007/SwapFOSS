@@ -9,7 +9,13 @@
     "Background play and downloads, no premium required",
     "Clean, fast Android app — nothing bloated"
   ],
-  "features": ["Ad-free", "Background play", "Offline downloads", "YouTube Music", "Material Design"],
+  "features": [
+    "Ad-free",
+    "Background play",
+    "Offline downloads",
+    "YouTube Music",
+    "Material Design"
+  ],
   "setupSteps": [
     "Download the APK from GitHub or F-Droid",
     "Install on your Android device",
@@ -23,5 +29,9 @@
   "repo": "https://github.com/mostafaalagamy/Metrolist",
   "logo": "assets/logos/metrolist.png",
   "screenshot": "assets/screenshots/metrolist.png",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "offline-first"
+  ]
 }

@@ -37,5 +37,10 @@
   "repo": "https://github.com/namidaco/namida",
   "logo": "assets/logos/namida.png",
   "screenshot": "assets/screenshots/namida.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "offline-first",
+    "plug-and-play"
+  ]
 }

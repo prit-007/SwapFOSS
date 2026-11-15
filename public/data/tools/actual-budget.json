@@ -1,0 +1,50 @@
+{
+  "id": "actual-budget",
+  "name": "Actual Budget",
+  "category": "home",
+  "insteadOf": "YNAB (You Need a Budget) / Mint / Monarch Money",
+  "hook": "A 100% free, local-first personal finance system with zero-based budgeting, end-to-end encryption, and multi-device sync.",
+  "bullets": [
+    "Local-first architecture: all budget data lives on your device and works offline",
+    "Zero-based envelope budgeting method gives every single dollar a job",
+    "End-to-end encrypted synchronization across desktop, web, and mobile devices",
+    "Bank syncing via GoCardless and SimpleFIN, plus manual QIF, OFX, and CSV imports"
+  ],
+  "features": [
+    "Local-first",
+    "Zero-based budgeting",
+    "End-to-end encryption",
+    "Bank sync",
+    "Multi-device",
+    "SQLite core",
+    "MIT License"
+  ],
+  "benefits": [
+    "Stop paying $100+/year subscription fees just to track your own money",
+    "Your financial records never get sold to advertisers or monetized by data brokers",
+    "Full speed and instant calculations with zero latency, even without an internet connection",
+    "Self-host the lightweight sync server anywhere with a single Docker container"
+  ],
+  "setupSteps": [
+    "Download the desktop app for Windows, macOS, or Linux, or run the web client",
+    "Create your first budget file stored securely in local SQLite storage",
+    "Set up your expense categories and income targets using envelope budgeting",
+    "Optionally launch actual-server in Docker to sync end-to-end encrypted budgets across devices"
+  ],
+  "details": "Actual Budget is a privacy-first, local-first personal budgeting application designed as a free, open-source successor to commercial tools like YNAB. Built with SQLite and web technologies, Actual stores your complete financial ledger directly on your device for instant, zero-latency performance offline. You can balance accounts, schedule recurring transactions, reconcile bank statements, and allocate funds using zero-based envelope budgeting. For multi-device synchronization, Actual features end-to-end client-side encryption (E2EE), meaning even if you self-host the sync server or deploy it to Fly.io or Docker, only your encryption key can read your financial data. Licensed under the permissive MIT license.",
+  "setup": "App (Windows, macOS, Linux, Web) + optional Docker sync server",
+  "difficulty": "easy",
+  "link": "https://actualbudget.org",
+  "repo": "https://github.com/actualbudget/actual",
+  "logo": "assets/logos/actual-budget.svg",
+  "screenshot": "assets/screenshots/actual-budget.png",
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use",
+    "self-hosted",
+    "plug-and-play",
+    "local-first",
+    "e2e-encrypted",
+    "offline-first"
+  ]
+}

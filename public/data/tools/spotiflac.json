@@ -9,7 +9,13 @@
     "No Spotify account or subscription needed — works completely standalone",
     "Cross-platform: Windows, macOS, Linux, Android, and iOS"
   ],
-  "features": ["Lossless FLAC", "Multi-provider", "Cross-platform", "No account required", "Open source"],
+  "features": [
+    "Lossless FLAC",
+    "Multi-provider",
+    "Cross-platform",
+    "No account required",
+    "Open source"
+  ],
   "setupSteps": [
     "Download the latest release from GitHub or spotiflac.com",
     "Install on your platform (Windows, macOS, Linux, Android, or iOS)",
@@ -23,5 +29,8 @@
   "repo": "https://github.com/spotbye/SpotiFLAC",
   "logo": "assets/logos/spotiflac.svg",
   "screenshot": "assets/screenshots/spotiflac.png",
-  "screenshotType": "landscape"
+  "screenshotType": "landscape",
+  "tags": [
+    "install-and-use"
+  ]
 }

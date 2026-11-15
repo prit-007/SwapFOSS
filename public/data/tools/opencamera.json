@@ -37,5 +37,9 @@
   "repo": "https://sourceforge.net/p/opencamera/code/ci/master/tree",
   "logo": "assets/logos/opencamera.png",
   "screenshot": "assets/screenshots/opencamera.jpg",
-  "screenshotType": "portrait"
+  "screenshotType": "portrait",
+  "tags": [
+    "install-and-use",
+    "offline-first"
+  ]
 }
