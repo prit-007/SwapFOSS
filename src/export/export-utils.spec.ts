@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { PRESETS, typeScale } from "./presets";
 import { highlightHtml } from "./highlight";
-import { generateCaption } from "./caption";
+import { generateCaption, generateNarrative } from "./caption";
 import type { Post, Tool } from "@/types";
 
 describe("PRESETS", () => {
@@ -64,10 +64,32 @@ describe("highlightHtml", () => {
   });
 });
 
-describe("generateCaption", () => {
+describe("generateCaption and narrative generators", () => {
   const tools = [
-    { id: "jellyfin", name: "Jellyfin", insteadOf: "Plex / Netflix", hook: "Your own media server" },
-    { id: "streamio", name: "Stremio", insteadOf: "Netflix", hook: "Stream everything" },
+    {
+      id: "jellyfin",
+      name: "Jellyfin",
+      category: "media",
+      insteadOf: "Plex / Netflix",
+      hook: "Your own media server",
+      bullets: ["Turn your movie library into a personal streaming hub"],
+      setup: "Docker or package install",
+      difficulty: "medium",
+      repo: "https://github.com/jellyfin/jellyfin",
+      tags: ["self-hosted", "plug-and-play"],
+    },
+    {
+      id: "streamio",
+      name: "Stremio",
+      category: "media",
+      insteadOf: "Netflix",
+      hook: "Stream everything from add-ons",
+      bullets: ["Add-on catalog for movies and TV"],
+      setup: "App install",
+      difficulty: "easy",
+      repo: "https://github.com/stremio/stremio",
+      tags: ["install-and-use", "plug-and-play"],
+    },
   ] as Tool[];
 
   const post = {
@@ -75,21 +97,44 @@ describe("generateCaption", () => {
     title: "Media",
     intro: { eyebrow: "Free", headline: "Own your media", subhead: "x" },
     tools: ["jellyfin", "streamio"],
-    outro: { headline: "y", subhead: "z" },
+    outro: { headline: "Take control", subhead: "No subscriptions required." },
   } as Post;
 
-  it("builds the caption with headline, replacements, and per-tool hooks", () => {
+  it("builds an authentic human narrative with storytelling context and replacements", () => {
     const caption = generateCaption(post, tools);
     expect(caption).toContain("Own your media");
-    expect(caption).toContain("2 tools that replace Plex and Netflix.");
-    expect(caption).toContain("• Jellyfin — Your own media server");
-    expect(caption).toContain("• Stremio — Stream everything");
-    expect(caption).toContain("All free. All open-source. No subscriptions. No tracking.");
+    expect(caption).toContain("Plex and Netflix");
+    expect(caption).toContain("Jellyfin (Replaces Plex / Netflix)");
+    expect(caption).toContain("Stremio (Replaces Netflix)");
+    expect(caption).toContain("Swipe through the carousel");
+    expect(caption).toContain("#OpenSource");
   });
 
-  it("joins two unique replacements with 'and'", () => {
-    const one = [{ id: "a", name: "A", insteadOf: "Netflix", hook: "h" }] as Tool[];
-    const p = { ...post, tools: ["a"] };
-    expect(generateCaption(p, one)).toContain("1 tools that replace Netflix.");
+  it("supports tech architecture and quick switcher angles", () => {
+    const tech = generateNarrative(post, tools, { platform: "linkedin", angle: "tech" });
+    expect(tech).toContain("Software architecture matters");
+    expect(tech).toContain("Self-Hosted");
+    expect(tech).toContain("https://github.com/jellyfin/jellyfin");
+
+    const quick = generateNarrative(post, tools, { platform: "linkedin", angle: "quick" });
+    expect(quick).toContain("Big Tech Swaps Cheat Sheet");
+    expect(quick).toContain("1. Jellyfin");
+    expect(quick).toContain("Replaces: Plex / Netflix");
+  });
+
+  it("generates platform-specific Twitter thread, Reddit markdown, and Instagram captions", () => {
+    const twitter = generateNarrative(post, tools, { platform: "twitter" });
+    expect(twitter).toContain("1/4");
+    expect(twitter).toContain("2/4");
+    expect(twitter).toContain("---");
+
+    const reddit = generateNarrative(post, tools, { platform: "reddit" });
+    expect(reddit).toContain("# Media");
+    expect(reddit).toContain("### 1. [Jellyfin]");
+    expect(reddit).toContain("- **Deployment**:");
+
+    const instagram = generateNarrative(post, tools, { platform: "instagram" });
+    expect(instagram).toContain("Swipe left for the visual breakdown");
+    expect(instagram).toContain("• Jellyfin (swaps Plex / Netflix)");
   });
 });

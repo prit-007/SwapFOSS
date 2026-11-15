@@ -429,6 +429,58 @@ test("back-to-top appears after scrolling and returns to the top", async ({ page
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(50);
 });
 
+test("batch page interactive Post Studio toggles, switches platforms and angles, and edits narrative", async ({ page }) => {
+  await page.goto("batch");
+  const firstCard = page.locator(".batch-post-card").first();
+  await expect(firstCard).toBeVisible();
+
+  // Initially studio box is not rendered
+  await expect(firstCard.locator(".studio-box")).toBeHidden();
+
+  // Open studio
+  await firstCard.locator(".batch-caption-btn").click();
+  await expect(firstCard.locator(".studio-box")).toBeVisible();
+  await expect(firstCard.locator(".studio-title")).toContainText("Multi-Platform Post Studio");
+
+  // Default platform is LinkedIn (story angle)
+  const textarea = firstCard.locator(".studio-textarea");
+  await expect(textarea).toBeVisible();
+  const initialText = await textarea.inputValue();
+  expect(initialText.length).toBeGreaterThan(50);
+  await expect(firstCard.locator(".studio-stats")).toContainText("chars");
+
+  // Switch to Reddit platform
+  await firstCard.locator(".studio-tab", { hasText: "Reddit" }).click();
+  await expect(firstCard.locator(".studio-tab.active")).toContainText("Reddit");
+  const redditText = await textarea.inputValue();
+  expect(redditText).toContain("## ");
+  expect(redditText).not.toBe(initialText);
+
+  // Switch to X / Thread platform
+  await firstCard.locator(".studio-tab", { hasText: "X / Thread" }).click();
+  await expect(firstCard.locator(".studio-tab.active")).toContainText("X / Thread");
+  const twitterText = await textarea.inputValue();
+  expect(twitterText).toMatch(/🧵|1\//);
+
+  // Switch back to LinkedIn and select Tech angle
+  await firstCard.locator(".studio-tab", { hasText: "LinkedIn" }).click();
+  await firstCard.locator(".studio-angle-btn", { hasText: "Tech" }).click();
+  await expect(firstCard.locator(".studio-angle-btn.active")).toContainText("Tech");
+  const techText = await textarea.inputValue();
+  expect(techText).toContain("Software architecture matters");
+
+  // Custom edit and reset
+  await textarea.fill("Custom user edit test string");
+  await expect(firstCard.locator(".studio-stats")).toContainText("5 words");
+  await firstCard.locator(".studio-reset-btn").click();
+  const resetText = await textarea.inputValue();
+  expect(resetText).toContain("Software architecture matters");
+
+  // Toggle close
+  await firstCard.locator(".batch-caption-btn").click();
+  await expect(firstCard.locator(".studio-box")).toBeHidden();
+});
+
 test.describe("mobile viewport", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 

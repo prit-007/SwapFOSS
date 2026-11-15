@@ -47,6 +47,7 @@ export async function buildZip(
   folder: string,
   render: RenderSlide,
   onProgress?: ProgressFn,
+  extraFiles?: Record<string, string | Blob>,
 ): Promise<{ blob: Blob; fileCount: number }> {
   const zip = new JSZip();
   const dir = zip.folder(folder);
@@ -60,7 +61,13 @@ export async function buildZip(
     dir.file(job.filename, blob);
   }
 
+  if (extraFiles) {
+    for (const [filename, content] of Object.entries(extraFiles)) {
+      dir.file(filename, content);
+    }
+  }
+
   onProgress?.(total, total, "Packaging ZIP");
   const blob = await zip.generateAsync({ type: "blob" });
-  return { blob, fileCount: total };
+  return { blob, fileCount: total + Object.keys(extraFiles || {}).length };
 }

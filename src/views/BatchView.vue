@@ -7,7 +7,11 @@ import { useBatchStore, PIN } from "@/stores/batch";
 import { loadPosts } from "@/data/catalog";
 import { PRESETS, type PresetKey } from "@/export/presets";
 import { buildPostZip } from "@/export/post-zip";
-import { generateCaption } from "@/export/caption";
+import {
+  generateNarrative,
+  type NarrativePlatform,
+  type NarrativeAngle,
+} from "@/export/narrative";
 import { isDeepDive, buildSlides } from "@/export/deep-cards";
 import { downloadBlob } from "@/export/render";
 import LoadError from "@/components/common/LoadError.vue";
@@ -15,6 +19,7 @@ import AppIcon from "@/components/common/AppIcon.vue";
 import SkeletonPosts from "@/components/batch/SkeletonPosts.vue";
 import { useToast } from "@/composables/useToast";
 import type { Post, Tool } from "@/types";
+import type { IconName } from "@/icons";
 
 const catalog = useCatalogStore();
 const drafts = useDraftsStore();
@@ -28,10 +33,32 @@ const loaded = ref(false);
 
 const pins = reactive<Record<string, string>>({});
 const pinError = reactive<Record<string, boolean>>({});
-const captions = reactive<Record<string, { text: string; visible: boolean; copied: boolean }>>({});
 const progress = reactive<Record<string, { active: boolean; pct: number; label: string; done: boolean }>>(
   {},
 );
+
+interface StudioItem {
+  visible: boolean;
+  platform: NarrativePlatform;
+  angle: NarrativeAngle;
+  customText: Record<string, string>;
+  copied: boolean;
+}
+
+const studios = reactive<Record<string, StudioItem>>({});
+
+const PLATFORM_TABS: { key: NarrativePlatform; label: string; icon: IconName }[] = [
+  { key: "linkedin", label: "LinkedIn", icon: "linkedin-01" },
+  { key: "twitter", label: "X / Thread", icon: "twitter" },
+  { key: "reddit", label: "Reddit", icon: "share-01" },
+  { key: "instagram", label: "Instagram", icon: "share-01" },
+];
+
+const LINKEDIN_ANGLES: { key: NarrativeAngle; label: string }[] = [
+  { key: "story", label: "Story / Friction" },
+  { key: "tech", label: "Tech / Architecture" },
+  { key: "quick", label: "Quick Switcher" },
+];
 
 const presetOptions = Object.entries(PRESETS).map(([key, p]) => ({
   key: key as PresetKey,
@@ -119,22 +146,90 @@ async function download(postId: string) {
   }
 }
 
-function showCaption(postId: string) {
-  const post = posts.value.find((p) => p.id === postId);
-  if (!post) return;
-  captions[postId] = { text: generateCaption(post, toolsFor(post)), visible: true, copied: false };
+function ensureStudio(postId: string): StudioItem {
+  if (!studios[postId]) {
+    studios[postId] = {
+      visible: false,
+      platform: "linkedin",
+      angle: "story",
+      customText: {},
+      copied: false,
+    };
+  }
+  return studios[postId];
 }
-async function copyCaption(postId: string) {
-  const c = captions[postId];
-  if (!c) return;
+
+function currentPlatform(postId: string): NarrativePlatform {
+  return ensureStudio(postId).platform;
+}
+
+function currentAngle(postId: string): NarrativeAngle {
+  return ensureStudio(postId).angle;
+}
+
+function getStudioKey(platform: NarrativePlatform, angle: NarrativeAngle): string {
+  return platform === "linkedin" ? `linkedin:${angle}` : platform;
+}
+
+function toggleStudio(postId: string) {
+  const s = ensureStudio(postId);
+  s.visible = !s.visible;
+}
+
+function getStudioText(postId: string): string {
+  const s = ensureStudio(postId);
+  const key = getStudioKey(s.platform, s.angle);
+  if (s.customText[key] !== undefined) {
+    return s.customText[key];
+  }
+  const post = posts.value.find((p) => p.id === postId);
+  if (!post) return "";
+  return generateNarrative(post, toolsFor(post), {
+    platform: s.platform,
+    angle: s.angle,
+  });
+}
+
+function onStudioInput(postId: string, text: string) {
+  const s = ensureStudio(postId);
+  const key = getStudioKey(s.platform, s.angle);
+  s.customText[key] = text;
+}
+
+function setPlatform(postId: string, platform: NarrativePlatform) {
+  const s = ensureStudio(postId);
+  s.platform = platform;
+}
+
+function setAngle(postId: string, angle: NarrativeAngle) {
+  const s = ensureStudio(postId);
+  s.angle = angle;
+}
+
+function resetStudio(postId: string) {
+  const s = ensureStudio(postId);
+  const key = getStudioKey(s.platform, s.angle);
+  delete s.customText[key];
+  toast.show("Reset to generated narrative", { icon: "refresh-01" });
+}
+
+async function copyStudio(postId: string) {
+  const s = ensureStudio(postId);
+  const text = getStudioText(postId);
   try {
-    await navigator.clipboard.writeText(c.text);
-    c.copied = true;
-    toast.show("Caption copied to clipboard", { icon: "copy-01" });
-    setTimeout(() => (c.copied = false), 1500);
+    await navigator.clipboard.writeText(text);
+    s.copied = true;
+    toast.show("Post copied to clipboard", { icon: "copy-01" });
+    setTimeout(() => (s.copied = false), 1500);
   } catch {
     toast.show("Couldn't copy — clipboard blocked", { tone: "error" });
   }
+}
+
+function getStats(text: string) {
+  const chars = text.length;
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  return { chars, words };
 }
 function removeDraft(postId: string) {
   drafts.remove(postId);
@@ -307,15 +402,80 @@ onMounted(load);
               </span>
             </span>
           </button>
-          <button class="batch-caption-btn" @click="showCaption(post.id)">
-            <AppIcon name="magic-wand-01" /> Generate caption
+          <button class="batch-caption-btn" @click="toggleStudio(post.id)">
+            <AppIcon name="magic-wand-01" /> {{ studios[post.id]?.visible ? "Hide Post Studio" : "Post Studio & Captions" }}
           </button>
-          <div v-if="captions[post.id]?.visible" class="batch-caption-box">
-            <p class="batch-caption-text">{{ captions[post.id].text }}</p>
-            <button class="batch-caption-copy" @click="copyCaption(post.id)">
-              <AppIcon :name="captions[post.id].copied ? 'tick-04' : 'copy-01'" />
-              {{ captions[post.id].copied ? "Copied!" : "Copy" }}
-            </button>
+          <div v-if="studios[post.id]?.visible" class="batch-caption-box studio-box">
+            <div class="studio-header">
+              <div class="studio-title-group">
+                <span class="studio-title">Multi-Platform Post Studio</span>
+                <span class="studio-badge">
+                  <AppIcon name="star" :size="12" /> Human copy · Zero AI fluff
+                </span>
+              </div>
+              <div class="studio-platforms" role="tablist" aria-label="Platform select">
+                <button
+                  v-for="p in PLATFORM_TABS"
+                  :key="p.key"
+                  type="button"
+                  role="tab"
+                  :aria-selected="currentPlatform(post.id) === p.key"
+                  class="studio-tab"
+                  :class="{ active: currentPlatform(post.id) === p.key }"
+                  @click="setPlatform(post.id, p.key)"
+                >
+                  <AppIcon :name="p.icon" :size="13" />
+                  {{ p.label }}
+                </button>
+              </div>
+              <div v-if="currentPlatform(post.id) === 'linkedin'" class="studio-angles">
+                <span class="studio-angle-label">Angle:</span>
+                <button
+                  v-for="a in LINKEDIN_ANGLES"
+                  :key="a.key"
+                  type="button"
+                  class="studio-angle-btn"
+                  :class="{ active: currentAngle(post.id) === a.key }"
+                  @click="setAngle(post.id, a.key)"
+                >
+                  {{ a.label }}
+                </button>
+              </div>
+            </div>
+            <div class="studio-editor-wrap">
+              <textarea
+                class="studio-textarea"
+                :value="getStudioText(post.id)"
+                rows="8"
+                aria-label="Post narrative content"
+                @input="onStudioInput(post.id, ($event.target as HTMLTextAreaElement).value)"
+              ></textarea>
+            </div>
+            <div class="studio-footer">
+              <div class="studio-stats">
+                <span>{{ getStats(getStudioText(post.id)).chars }} chars</span>
+                <span>·</span>
+                <span>{{ getStats(getStudioText(post.id)).words }} words</span>
+              </div>
+              <div class="studio-actions">
+                <button
+                  type="button"
+                  class="studio-reset-btn"
+                  title="Reset to generated narrative"
+                  @click="resetStudio(post.id)"
+                >
+                  <AppIcon name="refresh-01" :size="12" /> Reset
+                </button>
+                <button
+                  type="button"
+                  class="batch-caption-copy"
+                  @click="copyStudio(post.id)"
+                >
+                  <AppIcon :name="studios[post.id]?.copied ? 'tick-04' : 'copy-01'" />
+                  {{ studios[post.id]?.copied ? "Copied!" : "Copy Post" }}
+                </button>
+              </div>
+            </div>
           </div>
           <button
             v-if="draftIds.has(post.id)"

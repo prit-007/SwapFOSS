@@ -41,6 +41,27 @@ describe("buildZip", () => {
     expect(render).toHaveBeenCalledTimes(4);
   });
 
+  it("bundles extra narrative files alongside slides", async () => {
+    const jobs = postSlideJobs(post, (id) => id);
+    const render = vi.fn(async () => new Blob(["x"], { type: "image/png" }));
+    const { blob, fileCount } = await buildZip(jobs, "post-001", render, undefined, {
+      "caption.txt": "Post narrative text",
+      "README.txt": "Readme content",
+    });
+    expect(fileCount).toBe(6);
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    expect(Object.keys(zip.files).filter((n) => !zip.files[n].dir).sort()).toEqual([
+      "post-001/01-intro.png",
+      "post-001/02-jellyfin.png",
+      "post-001/03-streamio.png",
+      "post-001/04-outro.png",
+      "post-001/README.txt",
+      "post-001/caption.txt",
+    ]);
+    const captionText = await zip.file("post-001/caption.txt")?.async("string");
+    expect(captionText).toBe("Post narrative text");
+  });
+
   it("reports progress for each slide plus packaging", async () => {
     const jobs = postSlideJobs(post, (id) => id);
     const messages: string[] = [];
