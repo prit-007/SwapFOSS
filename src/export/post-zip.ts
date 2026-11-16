@@ -39,7 +39,7 @@ export async function buildPostZip(
         deepCardHTML(slide.part, tool, cat, { index, total, preset, light: opts.lightTheme }),
       );
     }
-    return renderCard(toolCardHTML(tool, cat, preset, opts.lightTheme));
+    return renderCard(toolCardHTML(tool, cat, preset, opts.lightTheme, { index, total }));
   };
 
   const narratives = generateAllNarratives(opts.post, opts.tools);

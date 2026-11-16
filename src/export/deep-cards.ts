@@ -132,6 +132,9 @@ export interface DeepCardOptions {
   light?: boolean;
 }
 
+const NOISE_URI =
+  "data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27300%27%20height=%27300%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%270.85%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3CfeColorMatrix%20type=%27saturate%27%20values=%270%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url(%23n)%27/%3E%3C/svg%3E";
+
 /**
  * Renders one deep-dive slide as an .export-card. Every slide is derived from
  * the tool's own data, so any catalog app can get a deep-dive post.
@@ -143,19 +146,28 @@ export function deepCardHTML(
   { index, total, preset = PRESETS.linkedin, light = false }: DeepCardOptions,
 ): string {
   const counter = `${String(index).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
-  const bg = light ? "#ffffff" : "#171A20";
+  const bg = light ? "#ffffff" : "#0f172a";
   const text = light ? "#0F1115" : "#F5F3ED";
   const catColor = cat?.color ?? "#FF5A5F";
+  const mesh = light
+    ? `radial-gradient(circle at 85% 15%, ${catColor}15, transparent 50%), radial-gradient(circle at 15% 85%, rgba(99,102,241,0.06), transparent 50%)`
+    : `radial-gradient(circle at 85% 15%, ${catColor}25, transparent 55%), radial-gradient(circle at 15% 85%, rgba(99,102,241,0.14), transparent 50%)`;
+  const gridLine = light ? "rgba(0,0,0,0.025)" : "rgba(255,255,255,0.02)";
+  const grid = `linear-gradient(to right, ${gridLine} 1px, transparent 1px), linear-gradient(to bottom, ${gridLine} 1px, transparent 1px)`;
   return `
-    <div class="export-card deep deep-${part}" data-theme="${light ? "light" : "dark"}" style="--cat-color:${catColor}; background:${bg}; color:${text}; width:${preset.width}px; height:${preset.height}px;">
-      <div class="deep-topbar">
-        <span class="deep-kicker">${kickerFor(part)}</span>
+    <div class="export-card deep deep-${part}" data-theme="${light ? "light" : "dark"}" style="--cat-color:${catColor}; background-color:${bg}; background-image:${mesh}; color:${text}; width:${preset.width}px; height:${preset.height}px; position:relative; overflow:hidden;">
+      <div style="position:absolute;inset:0;background-image:${grid};background-size:40px 40px;pointer-events:none;z-index:0;"></div>
+      <div style="position:absolute;inset:0;background:url('${NOISE_URI}');opacity:${light ? 0.06 : 0.12};mix-blend-mode:overlay;pointer-events:none;z-index:1;"></div>
+      <div class="deep-topbar" style="position:relative;z-index:2;">
+        <span class="deep-kicker" style="background:${catColor}20;border:1px solid ${catColor}40;color:${light ? catColor : '#fff'};font-weight:600;">${kickerFor(part)}</span>
         <span class="deep-counter">${counter}</span>
       </div>
-      ${deepBodyHTML(part, tool)}
-      <div class="export-footer">
+      <div style="position:relative;z-index:2;display:flex;flex-direction:column;flex:1;min-height:0;">
+        ${deepBodyHTML(part, tool)}
+      </div>
+      <div class="export-footer" style="position:relative;z-index:2;">
         <span class="meta">${host(tool.link)}</span>
-        <span class="meta">SwapFOSS</span>
+        <span class="meta" style="display:inline-flex;align-items:center;gap:6px;"><span style="width:7px;height:7px;border-radius:50%;background:${catColor};"></span>SwapFOSS</span>
       </div>
     </div>
   `;

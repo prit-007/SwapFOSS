@@ -2,8 +2,9 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { useCatalogStore } from "@/stores/catalog";
+import { useBatchStore } from "@/stores/batch";
 import { loadPost } from "@/data/catalog";
-import { PRESETS } from "@/export/presets";
+import { PRESETS, type PresetKey } from "@/export/presets";
 import { introCardHTML, outroCardHTML, toolCardHTML } from "@/export/cards";
 import {
   DEEP_PARTS,
@@ -33,13 +34,7 @@ const STATUS: Record<StatusKey, { icon: IconName; label: string }> = {
 const route = useRoute();
 const router = useRouter();
 const catalog = useCatalogStore();
-
-const { stage, frameStyle, stageStyle } = usePreviewScale();
-const post = ref<Post | null>(null);
-const error = ref(false);
-const busy = ref(false);
-const statusKey = ref<StatusKey>("idle");
-const status = computed(() => STATUS[statusKey.value]);
+const batch = useBatchStore();
 
 const postId = computed(() => (route.query.post as string) || "");
 const type = computed(() => (route.query.type as string) || "intro");
@@ -48,6 +43,33 @@ const part = computed<DeepPart>(() => {
   const p = route.query.part as string;
   return (DEEP_PARTS as readonly string[]).includes(p) ? (p as DeepPart) : "hero";
 });
+
+const presetKey = computed<PresetKey>(() => {
+  const q = route.query.preset as string;
+  if (q && q in PRESETS) return q as PresetKey;
+  if (postId.value) return batch.presetFor(postId.value);
+  return "linkedin";
+});
+
+const isLight = computed<boolean>(() => {
+  if (route.query.theme === "light") return true;
+  if (route.query.theme === "dark") return false;
+  if (postId.value) return batch.themeFor(postId.value);
+  return false;
+});
+
+const currentPreset = computed(() => PRESETS[presetKey.value] ?? PRESETS.linkedin);
+
+const { stage, frameStyle, stageStyle } = usePreviewScale(
+  computed(() => currentPreset.value.width),
+  computed(() => currentPreset.value.height),
+);
+
+const post = ref<Post | null>(null);
+const error = ref(false);
+const busy = ref(false);
+const statusKey = ref<StatusKey>("idle");
+const status = computed(() => STATUS[statusKey.value]);
 
 const tool = computed(() => catalog.tools.find((t) => t.id === toolId.value) || null);
 const cat = computed(() =>
@@ -76,17 +98,30 @@ const slides = computed<PostSlide[]>(() => (post.value ? buildSlides(post.value)
 
 const html = computed(() => {
   if (!post.value) return "";
-  const preset = PRESETS.linkedin;
+  const preset = currentPreset.value;
   const total = slides.value.length;
-  if (type.value === "intro") return introCardHTML(post.value, preset, false, total, postTools.value);
-  if (type.value === "outro") return outroCardHTML(post.value, preset, false, total);
+  const light = isLight.value;
+
+  if (type.value === "intro") {
+    return introCardHTML(post.value, preset, light, total, postTools.value);
+  }
+  if (type.value === "outro") {
+    return outroCardHTML(post.value, preset, light, total);
+  }
   if (type.value === "deep") {
     const index = slides.value.findIndex((s) => s.type === "deep" && s.part === part.value) + 1;
     return deepTool.value && deepCat.value
-      ? deepCardHTML(part.value, deepTool.value, deepCat.value, { index, total, preset })
+      ? deepCardHTML(part.value, deepTool.value, deepCat.value, {
+          index,
+          total,
+          preset,
+          light,
+        })
       : "";
   }
-  return tool.value && cat.value ? toolCardHTML(tool.value, cat.value, preset, false) : "";
+  return tool.value && cat.value
+    ? toolCardHTML(tool.value, cat.value, preset, light, { index: idx.value + 1, total })
+    : "";
 });
 
 function isCurrent(s: PostSlide) {
@@ -103,6 +138,9 @@ const next = computed(() =>
 
 function slideQuery(s: PostSlide) {
   const query: Record<string, string> = { post: postId.value, type: s.type };
+  if (presetKey.value !== "linkedin") query.preset = presetKey.value;
+  if (isLight.value) query.theme = "light";
+  if (route.query.from) query.from = route.query.from as string;
   if (s.type === "tool") query.tool = s.tool;
   if (s.type === "deep") query.part = s.part;
   return query;
@@ -110,6 +148,31 @@ function slideQuery(s: PostSlide) {
 function go(s: PostSlide) {
   router.push({ name: "slide", query: slideQuery(s) });
 }
+
+function onPresetChange(newKey: PresetKey) {
+  if (postId.value) batch.setPreset(postId.value, newKey);
+  const query = { ...route.query, preset: newKey };
+  router.replace({ query });
+}
+
+function toggleTheme() {
+  const nextLight = !isLight.value;
+  if (postId.value) {
+    batch.themes[postId.value] = nextLight;
+  }
+  const query = { ...route.query, theme: nextLight ? "light" : "dark" };
+  router.replace({ query });
+}
+
+const backTarget = computed(() => {
+  if (postId.value) {
+    return { path: "/batch", hash: `#batch-card-${postId.value}` };
+  }
+  return { path: "/batch" };
+});
+
+const fromBatch = computed(() => route.query.from === "batch" || !!postId.value);
+const backLabel = computed(() => (fromBatch.value ? "Batch" : "Home"));
 
 function onKey(e: KeyboardEvent) {
   const el = e.target as HTMLElement;
@@ -156,7 +219,7 @@ async function download() {
   statusKey.value = "rendering";
   try {
     const blob = await capturePng(node, 2);
-    const suffix = type.value === "deep" ? `deep-${part.value}` : type.value;
+    const suffix = type.value === "deep" ? `deep-${part.value}` : type.value === "tool" ? toolId.value : type.value;
     downloadBlob(blob, `swapfoss-${postId.value}-${suffix}.png`);
     statusKey.value = "saved";
   } catch {
@@ -171,8 +234,8 @@ async function download() {
 <template>
   <a class="skip-link" href="#stage">Skip to content</a>
   <div id="slide-toolbar">
-    <RouterLink id="slide-back" to="/">
-      <AppIcon name="arrow-left-01" /> <span class="slide-tb-label">Home</span>
+    <RouterLink id="slide-back" :to="backTarget">
+      <AppIcon name="arrow-left-01" /> <span class="slide-tb-label">{{ backLabel }}</span>
     </RouterLink>
     <div class="slide-tb-nav">
       <button
@@ -204,6 +267,28 @@ async function download() {
       </button>
     </div>
     <div class="slide-tb-right">
+      <div class="slide-tb-controls">
+        <select
+          class="slide-tb-select"
+          :value="presetKey"
+          aria-label="Export preset"
+          @change="onPresetChange(($event.target as HTMLSelectElement).value as PresetKey)"
+        >
+          <option v-for="(p, key) in PRESETS" :key="key" :value="key">
+            {{ p.label }} ({{ p.width }}×{{ p.height }})
+          </option>
+        </select>
+        <button
+          class="slide-tb-theme"
+          type="button"
+          :class="{ active: isLight }"
+          :aria-label="isLight ? 'Switch to Dark theme' : 'Switch to Light theme'"
+          :title="isLight ? 'Switch to Dark theme' : 'Switch to Light theme'"
+          @click="toggleTheme"
+        >
+          <AppIcon :name="isLight ? 'moon-01' : 'sun-01'" />
+        </button>
+      </div>
       <span class="slide-counter">{{ idx >= 0 ? idx + 1 : 1 }} / {{ slides.length }}</span>
       <button id="slide-download" :disabled="busy || !html" @click="download">
         <AppIcon :name="status.icon" /> {{ status.label }}
@@ -284,19 +369,17 @@ body:has(#slide-toolbar) {
   gap: 6px;
   padding: 8px 14px;
   border-radius: 10px;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  transition: background 0.2s var(--ease-glide), color 0.2s var(--ease-glide),
-    border-color 0.2s var(--ease-glide);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #f5f3ed;
+  transition: all 0.2s var(--ease-glide);
 }
 .slide-nav-btn:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 .slide-nav-btn:disabled {
-  opacity: 0.32;
+  opacity: 0.3;
   cursor: default;
 }
 .slide-dots {
@@ -326,6 +409,52 @@ body:has(#slide-toolbar) {
   align-items: center;
   gap: 10px;
 }
+.slide-tb-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.slide-tb-select {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.slide-tb-select:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.slide-tb-select option {
+  background: #171a20;
+  color: #fff;
+}
+.slide-tb-theme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.slide-tb-theme:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+.slide-tb-theme.active {
+  background: #fff;
+  color: #0b0f19;
+  border-color: #fff;
+}
 .slide-counter {
   font-family: var(--font-mono);
   font-size: 12px;
@@ -351,6 +480,11 @@ body:has(#slide-toolbar) {
 #slide-download:disabled {
   opacity: 0.5;
   cursor: default;
+}
+@media (max-width: 860px) {
+  .slide-tb-select {
+    display: none;
+  }
 }
 @media (max-width: 720px) {
   .slide-tb-label,
