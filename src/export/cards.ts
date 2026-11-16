@@ -1,6 +1,7 @@
 import type { Category, Post, Tool } from "@/types";
 import { typeScale, type Preset } from "./presets";
 import { iconSvg } from "./icon";
+import { formatStars } from "@/utils/formatStars";
 
 const NOISE_URI =
   "data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27300%27%20height=%27300%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%270.85%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3CfeColorMatrix%20type=%27saturate%27%20values=%270%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url(%23n)%27/%3E%3C/svg%3E";
@@ -140,11 +141,33 @@ export function outroCardHTML(
   `;
 }
 
+function formatTagShort(tag: string): string {
+  switch (tag) {
+    case "self-hosted":
+      return "Self-Hosted";
+    case "install-and-use":
+      return "Install & Use";
+    case "plug-and-play":
+      return "Plug & Play";
+    case "offline-first":
+      return "Offline-First";
+    case "e2e-encrypted":
+      return "E2E Encrypted";
+    case "local-first":
+      return "Local-First";
+    case "p2p":
+      return "P2P";
+    default:
+      return tag;
+  }
+}
+
 export function toolCardHTML(
   tool: Tool,
   cat: Category,
   preset: Preset,
   lightTheme: boolean,
+  slideInfo?: { index: number; total: number },
 ): string {
   const hasLogo = !!tool.logo;
   const hasScreenshot = !!tool.screenshot;
@@ -152,28 +175,58 @@ export function toolCardHTML(
   const hasSetupSteps = !!tool.setupSteps && tool.setupSteps.length > 0;
   const isPortrait = tool.screenshotType === "portrait";
   const frameClass = isPortrait ? "device-frame portrait" : "device-frame landscape";
-  const bg = lightTheme ? "#ffffff" : "#171A20";
+  const bg = lightTheme ? "#ffffff" : "#0f172a";
   const text = lightTheme ? "#0F1115" : "#F5F3ED";
   const muted = lightTheme ? "#5B616D" : "#9AA0AC";
-  const faint = lightTheme ? "#9AA0AC" : "#5B616D";
+  const faint = lightTheme ? "rgba(15,17,21,0.45)" : "rgba(255,255,255,0.42)";
   const border = lightTheme ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.08)";
-  const borderStrong = lightTheme ? "rgba(0,0,0,0.12)" : "rgba(255,255,255,0.12)";
-  const pillBg = lightTheme ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.08)";
-  const chromeBg = lightTheme ? "#E8E8E8" : "#2A2F38";
-  const chromeDot = lightTheme ? "rgba(0,0,0,0.15)" : "rgba(255,255,255,0.2)";
-  const screenshotBg = lightTheme ? "#F0F0F0" : "#1E222A";
-  const setupColor = lightTheme ? "#374151" : "#d1d5db";
+  const borderStrong = lightTheme ? "rgba(0,0,0,0.12)" : "rgba(255,255,255,0.14)";
+  const pillBg = lightTheme ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.07)";
+  const chromeBg = lightTheme ? "#E2E8F0" : "#242933";
+  const chromeDot = lightTheme ? "rgba(0,0,0,0.18)" : "rgba(255,255,255,0.22)";
+  const screenshotBg = lightTheme ? "#F1F5F9" : "#181D26";
+  const setupColor = lightTheme ? "#334155" : "#d1d5db";
+
+  const mesh = lightTheme
+    ? `radial-gradient(circle at 85% 15%, ${cat.color}15, transparent 50%), radial-gradient(circle at 15% 85%, rgba(99,102,241,0.06), transparent 50%)`
+    : `radial-gradient(circle at 85% 15%, ${cat.color}25, transparent 55%), radial-gradient(circle at 15% 85%, rgba(99,102,241,0.14), transparent 50%)`;
+  const gridLine = lightTheme ? "rgba(0,0,0,0.025)" : "rgba(255,255,255,0.02)";
+  const grid = `linear-gradient(to right, ${gridLine} 1px, transparent 1px), linear-gradient(to bottom, ${gridLine} 1px, transparent 1px)`;
+
+  const slideCounterHTML = slideInfo
+    ? `<span style="font-family:var(--font-mono);font-size:15px;font-weight:600;letter-spacing:0.12em;color:${faint};white-space:nowrap;padding:4px 10px;border-radius:999px;background:${pillBg};border:1px solid ${border};">${String(slideInfo.index).padStart(2, "0")} / ${String(slideInfo.total).padStart(2, "0")}</span>`
+    : "";
+
+  const tagLabel = tool.tags && tool.tags[0] ? formatTagShort(tool.tags[0]) : null;
+  const tagIconName = tool.tags && tool.tags[0] === "self-hosted" ? "server-01" : tool.tags && tool.tags[0] === "plug-and-play" ? "plug-01" : "download-01";
+  const tagBadgeHTML = tagLabel
+    ? `<span style="display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:${pillBg};border:1px solid ${border};color:${muted};white-space:nowrap;">${iconSvg(tagIconName, { size: 12, color: muted })}${tagLabel}</span>`
+    : "";
+
+  const starsBadgeHTML = tool.stars && tool.stars > 0
+    ? `<span style="display:inline-flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px;background:rgba(234,179,8,0.10);border:1px solid rgba(234,179,8,0.25);color:#EAB308;white-space:nowrap;">★ ${formatStars(tool.stars)}</span>`
+    : "";
+
   return `
-    <div class="export-card" style="--cat-color:${cat.color}; background:${bg}; color:${text}; width:${preset.width}px; height:${preset.height}px;">
-      <div class="export-top" style="position:relative;">
-        <span class="tag" style="position:absolute;top:0;right:0;white-space:nowrap;background:${lightTheme ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.06)"};border-color:${border};color:${muted};font-size:13px;padding:5px 14px;">${cat.label}</span>
-        ${hasLogo ? `<img class="export-logo" src="${tool.logo}" alt="${tool.name} logo" />` : ""}
-        <div class="export-top-text">
-          <span class="tool-name" style="color:${cat.color}">${tool.name}</span>
-          <span class="swap-line" style="color:${muted}"><span class="strike" style="color:${faint}">${tool.insteadOf}</span> ${iconSvg("arrow-right-01", { size: 17, color: muted })} ${tool.name}</span>
+    <div class="export-card" style="--cat-color:${cat.color}; background-color:${bg}; background-image:${mesh}; color:${text}; width:${preset.width}px; height:${preset.height}px; position:relative; overflow:hidden;">
+      <div style="position:absolute;inset:0;background-image:${grid};background-size:40px 40px;pointer-events:none;z-index:0;"></div>
+      <div style="position:absolute;inset:0;background:url('${NOISE_URI}');opacity:${lightTheme ? 0.06 : 0.12};mix-blend-mode:overlay;pointer-events:none;z-index:1;"></div>
+      <div class="export-top" style="position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+        <div style="display:flex;align-items:center;gap:18px;">
+          ${hasLogo ? `<img class="export-logo" src="${tool.logo}" alt="${tool.name} logo" style="box-shadow:0 8px 24px rgba(0,0,0,0.25);border:1px solid ${border};" />` : ""}
+          <div class="export-top-text">
+            <span class="tool-name" style="color:${cat.color}">${tool.name}</span>
+            <span class="swap-line" style="color:${muted}"><span class="strike" style="color:${faint}">${tool.insteadOf}</span> ${iconSvg("arrow-right-01", { size: 17, color: muted })} ${tool.name}</span>
+          </div>
+        </div>
+        <div class="export-top-badges" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+          ${starsBadgeHTML}
+          ${tagBadgeHTML}
+          <span class="tag" style="white-space:nowrap;background:${cat.color}18;border:1px solid ${cat.color}45;color:${lightTheme ? cat.color : '#fff'};font-weight:600;font-size:13px;padding:5px 14px;border-radius:999px;">${cat.label}</span>
+          ${slideCounterHTML}
         </div>
       </div>
-      <div class="${frameClass}">
+      <div class="${frameClass}" style="position:relative;z-index:2;box-shadow:0 24px 60px rgba(0,0,0,0.45), 0 0 40px ${cat.color}18;border:1px solid ${borderStrong};">
         <div class="chrome-bar" style="background:${chromeBg}">
           <span style="background:${chromeDot}"></span><span style="background:${chromeDot}"></span><span style="background:${chromeDot}"></span>
         </div>
@@ -181,16 +234,16 @@ export function toolCardHTML(
           ${hasScreenshot ? `<img src="${tool.screenshot}" alt="${tool.name} screenshot" style="width:100%;height:100%;object-fit:cover;object-position:top left;display:block;" />` : tool.name}
         </div>
       </div>
-      <div class="export-bottom">
+      <div class="export-bottom" style="position:relative;z-index:2;margin-top:28px;">
         <p class="export-hook" style="color:${text}">${tool.hook}</p>
         ${
           hasFeatures
             ? `
-        <div class="export-features">
+        <div class="export-features" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
           ${tool
             .features!.map(
               (f) =>
-                `<span class="export-feature-pill" style="white-space:nowrap;flex-shrink:0;background:${pillBg};border-color:${borderStrong};color:${lightTheme ? text : "#F5F3ED"};font-weight:500;">${f}</span>`,
+                `<span class="export-feature-pill" style="white-space:nowrap;flex-shrink:0;background:${pillBg};border:1px solid ${borderStrong};color:${lightTheme ? text : "#F5F3ED"};font-weight:500;padding:6px 14px;border-radius:9999px;font-size:13px;">${f}</span>`,
             )
             .join("")}
         </div>
@@ -209,9 +262,9 @@ export function toolCardHTML(
         `
             : ""
         }
-        <div class="export-footer" style="border-color:${border}">
-          <span class="meta" style="color:${lightTheme ? "rgba(0,0,0,0.6)" : "rgba(255,255,255,0.7)"}">${tool.link.replace(/^https?:\/\//, "")}</span>
-          <span class="meta" style="color:${lightTheme ? "rgba(0,0,0,0.6)" : "rgba(255,255,255,0.7)"}">SwapFOSS</span>
+        <div class="export-footer" style="border-color:${border};margin-top:14px;padding-top:14px;">
+          <span class="meta" style="color:${lightTheme ? "rgba(0,0,0,0.6)" : "rgba(255,255,255,0.7)"};">${tool.link.replace(/^https?:\/\//, "")}</span>
+          <span class="meta" style="color:${lightTheme ? "rgba(0,0,0,0.6)" : "rgba(255,255,255,0.7)"};display:inline-flex;align-items:center;gap:6px;"><span style="width:7px;height:7px;border-radius:50%;background:${cat.color};"></span>SwapFOSS</span>
         </div>
       </div>
     </div>

@@ -246,6 +246,39 @@ test("batch card Preview link opens the slide carousel", async ({ page }) => {
   await expect(page.locator("#slide-toolbar #slide-download")).toBeVisible();
 });
 
+test("preview back button redirects to batch card last position and syncs preset/theme", async ({ page }) => {
+  await page.goto("batch");
+  const targetCard = page.locator("#batch-card-post-005");
+  await expect(targetCard).toBeVisible();
+
+  // Switch preset to square (instagram) and theme to light
+  await targetCard.locator(".batch-select").selectOption("instagram");
+  await targetCard.locator(".batch-theme-toggle").click();
+
+  // Click Preview
+  await targetCard.locator(".batch-post-preview").click();
+
+  // Verify URL has post-005, preset=instagram, theme=light
+  await expect(page).toHaveURL(/post=post-005/);
+  await expect(page).toHaveURL(/preset=instagram/);
+  await expect(page).toHaveURL(/theme=light/);
+
+  // Verify preview stage rendered light theme (white bg)
+  const exportCard = page.locator("#stage .export-card");
+  await expect(exportCard).toBeVisible();
+  await expect(exportCard).toHaveCSS("background-color", "rgb(255, 255, 255)");
+
+  // Click Back button in slide toolbar
+  const backBtn = page.locator("#slide-back");
+  await expect(backBtn).toBeVisible();
+  await expect(backBtn).toContainText("Batch");
+  await backBtn.click();
+
+  // Verify redirected back to batch with hash targeting post-005
+  await expect(page).toHaveURL(/batch#batch-card-post-005/);
+  await expect(page.locator("#batch-card-post-005")).toBeVisible();
+});
+
 test("slide dots jump to a specific slide and reflect the current one", async ({ page }) => {
   await page.goto("slide?post=post-006&type=intro");
   await expect(page.locator(".slide-dot")).toHaveCount(6);

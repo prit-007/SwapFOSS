@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
-import { RouterLink } from "vue-router";
+import { computed, onMounted, reactive, ref, watch } from "vue";
+import { RouterLink, useRoute } from "vue-router";
 import { useCatalogStore } from "@/stores/catalog";
 import { useDraftsStore } from "@/stores/drafts";
 import { useBatchStore, PIN } from "@/stores/batch";
@@ -25,6 +25,7 @@ const catalog = useCatalogStore();
 const drafts = useDraftsStore();
 const batch = useBatchStore();
 const toast = useToast();
+const route = useRoute();
 
 const posts = ref<Post[]>([]);
 const draftIds = ref<Set<string>>(new Set());
@@ -73,6 +74,34 @@ function toolsFor(post: Post): Tool[] {
 }
 function catsFor(post: Post): string[] {
   return [...new Set(toolsFor(post).map((t) => t.category))];
+}
+function tagsFor(post: Post): string[] {
+  const all = toolsFor(post).flatMap((t) => t.tags || []);
+  return [...new Set(all)];
+}
+function formatTagLabel(tag: string): string {
+  switch (tag) {
+    case "install-and-use":
+      return "Install & Use";
+    case "self-hosted":
+      return "Self-Hosted";
+    case "plug-and-play":
+      return "Plug & Play";
+    case "offline-first":
+      return "Offline-First";
+    case "e2e-encrypted":
+      return "E2E Encrypted";
+    case "local-first":
+      return "Local-First";
+    case "p2p":
+      return "P2P";
+    default:
+      return tag;
+  }
+}
+function primaryCatColor(post: Post): string {
+  const cats = catsFor(post);
+  return cats.length ? catalog.categories[cats[0]]?.color || "#FF5A5F" : "#FF5A5F";
 }
 function countText(post: Post): string {
   return isDeepDive(post)
@@ -231,12 +260,35 @@ function getStats(text: string) {
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
   return { chars, words };
 }
+function scrollToCard() {
+  const hash = route.hash;
+  if (!hash) return;
+  setTimeout(() => {
+    const el = document.querySelector(hash);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.add("batch-card-highlight");
+      setTimeout(() => el.classList.remove("batch-card-highlight"), 2400);
+    }
+  }, 120);
+}
+
 function removeDraft(postId: string) {
   drafts.remove(postId);
   posts.value = posts.value.filter((p) => p.id !== postId);
 }
 
-onMounted(load);
+onMounted(async () => {
+  await load();
+  scrollToCard();
+});
+
+watch(
+  () => route.hash,
+  () => {
+    scrollToCard();
+  },
+);
 </script>
 
 <template>
@@ -297,9 +349,10 @@ onMounted(load);
       <div
         v-for="(post, i) in posts"
         :key="post.id"
+        :id="`batch-card-${post.id}`"
         class="batch-post-card relative overflow-hidden rounded-2xl border border-white/[0.07] bg-gradient-to-b from-white/[0.05] to-white/[0.02] shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-0.5 hover:border-white/[0.14] hover:shadow-xl hover:shadow-black/30"
         :class="{ 'batch-post-deep': isDeepDive(post) }"
-        :style="{ '--card-index': i }"
+        :style="{ '--card-index': i, '--card-accent': primaryCatColor(post) }"
       >
         <div class="batch-post-header flex items-start justify-between gap-3">
           <h2 class="batch-post-title">{{ post.title }}</h2>
@@ -309,7 +362,17 @@ onMounted(load);
             </span>
             <RouterLink
               class="batch-post-preview inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/80 no-underline transition hover:border-white/25 hover:bg-white/10 hover:text-white"
-              :to="{ path: '/slide', query: { post: post.id, type: 'intro' } }"
+              :to="{
+                path: '/slide',
+                query: {
+                  post: post.id,
+                  type: 'intro',
+                  from: 'batch',
+                  preset: batch.presetFor(post.id),
+                  theme: batch.themeFor(post.id) ? 'light' : 'dark'
+                },
+                hash: `#batch-card-${post.id}`
+              }"
             >
               <AppIcon name="eye" /> Preview
             </RouterLink>
@@ -319,6 +382,17 @@ onMounted(load);
           <span class="batch-intro-eyebrow">{{ post.intro.eyebrow }}</span>
           <p class="batch-intro-headline">{{ post.intro.headline }}</p>
           <p class="batch-intro-subhead">{{ post.intro.subhead }}</p>
+        </div>
+        <div class="batch-swaps-strip">
+          <span
+            v-for="t in toolsFor(post)"
+            :key="t.id"
+            class="batch-swap-chip"
+          >
+            <span class="batch-swap-from">{{ t.insteadOf.split(' / ')[0] }}</span>
+            <AppIcon name="arrow-right-01" :size="10" />
+            <span class="batch-swap-to">{{ t.name }}</span>
+          </span>
         </div>
         <div class="batch-post-tools">
           <span class="batch-tools-label">{{ isDeepDive(post) ? "Featured app:" : "Tools included:" }}</span>
@@ -342,6 +416,13 @@ onMounted(load);
             :style="{ '--pill-color': catalog.categories[c]?.color }"
           >
             {{ catalog.categories[c]?.label }}
+          </span>
+          <span
+            v-for="tag in tagsFor(post)"
+            :key="tag"
+            class="batch-tag-chip"
+          >
+            {{ formatTagLabel(tag) }}
           </span>
         </div>
         <div class="batch-post-controls">
