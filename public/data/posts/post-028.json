@@ -1,0 +1,16 @@
+{
+  "id": "post-028",
+  "title": "Two open-source ways to retire Gmail",
+  "intro": {
+    "eyebrow": "Big Tech swaps, part 28",
+    "headline": "Your email, minus the ads, trackers, and telemetry.",
+    "subhead": "Thunderbird and FairEmail are fully open-source mail clients that plug straight into the address you already own — no ads, no scanning, no lock-in.",
+    "pills": ["Unified inbox", "Tracker blocking", "OpenPGP", "No ads"],
+    "hl": { "word": "minus the ads", "color": "#F59E0B" }
+  },
+  "tools": ["thunderbird", "fairemail"],
+  "outro": {
+    "headline": "Same inbox. None of the surveillance.",
+    "subhead": "Keep your address, keep your history, and stop paying for mail with your data. Which client are you trying first?"
+  }
+}

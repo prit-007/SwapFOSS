@@ -296,6 +296,36 @@
       "repo": "beemdevelopment/Aegis",
       "host": "github",
       "stars": 13599
+    },
+    "thunderbird": {
+      "repo": "thunderbird/thunderbird-android",
+      "host": "github",
+      "stars": 14257
+    },
+    "fairemail": {
+      "repo": "M66B/FairEmail",
+      "host": "github",
+      "stars": 4807
+    },
+    "simplex-chat": {
+      "repo": "simplex-chat/simplex-chat",
+      "host": "github",
+      "stars": 19738
+    },
+    "breezy-weather": {
+      "repo": "breezy-weather/breezy-weather",
+      "host": "github",
+      "stars": 12058
+    },
+    "material-files": {
+      "repo": "zhanghai/MaterialFiles",
+      "host": "github",
+      "stars": 9513
+    },
+    "termux": {
+      "repo": "termux/termux-app",
+      "host": "github",
+      "stars": 65359
     }
   }
 }

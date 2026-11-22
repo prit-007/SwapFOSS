@@ -38,5 +38,9 @@
   "reading": {
     "label": "Reading & News",
     "color": "#6366F1"
+  },
+  "email": {
+    "label": "Email",
+    "color": "#F59E0B"
   }
 }

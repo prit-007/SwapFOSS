@@ -58,6 +58,12 @@
     "scrcpy",
     "notesnook",
     "koreader",
-    "aegis-authenticator"
+    "aegis-authenticator",
+    "thunderbird",
+    "fairemail",
+    "simplex-chat",
+    "breezy-weather",
+    "material-files",
+    "termux"
   ]
 }

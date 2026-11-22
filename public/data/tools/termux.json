@@ -1,0 +1,35 @@
+{
+  "id": "termux",
+  "name": "Termux",
+  "category": "dev",
+  "insteadOf": "Hauling out a laptop whenever you need a real shell",
+  "hook": "A full Linux terminal environment on your phone — over 1,000 packages including git, Python, Node.js, and OpenSSH, with no root required.",
+  "bullets": [
+    "Install real packages with pkg/apt: git, python, nodejs, vim, nmap, and more",
+    "No root — a complete Linux userland runs inside the app sandbox",
+    "SSH client and server, so your phone can reach or host remote machines",
+    "Termux:API bridges the shell to device hardware: SMS, camera, sensors"
+  ],
+  "features": ["1,000+ packages", "No root", "SSH", "Python & Node.js", "Termux:API", "GPL-3.0"],
+  "benefits": [
+    "A genuine command-line environment — not a toy shell with five commands",
+    "Automate your phone, run a dev server, or SSH into your machines from anywhere",
+    "Scripting and tooling behave like a familiar Linux box",
+    "Free, open source, and the de facto standard terminal on Android"
+  ],
+  "setupSteps": [
+    "Install Termux from F-Droid or GitHub releases — never the Play Store build",
+    "Run pkg update && pkg upgrade to refresh the package repos",
+    "Install what you need: pkg install git python openssh …",
+    "Run termux-setup-storage to share files with the rest of Android"
+  ],
+  "details": "Termux is an Android terminal emulator with its own Linux userland: it ships a package manager (pkg/apt) with over 1,000 installable packages, so git, Python, Node.js, Rust, vim, tmux, openssh, nmap, and the rest of a normal toolkit run natively — without root, in a sandboxed app. Add Termux:API and the shell can read SMS, place calls, trigger the camera, and query sensors, which makes it a legitimate automation hub. It is also a competent remote machine: run an SSH client to reach your servers, or an sshd to let them reach your phone. The one rule the project insists on: install from F-Droid or the project's GitHub releases, because the Play Store build is an outdated, Google-signed version that no longer receives updates, and the two signatures are incompatible — do not mix APKs between channels. GPL-3.0 (with Apache-2.0 exceptions for the embedded terminal-emulator libraries).",
+  "setup": "App (Android) — install from F-Droid, then pkg install",
+  "difficulty": "medium",
+  "link": "https://github.com/termux/termux-app",
+  "repo": "https://github.com/termux/termux-app",
+  "logo": "assets/logos/termux.png",
+  "screenshot": "assets/screenshots/termux.jpg",
+  "screenshotType": "portrait",
+  "tags": ["install-and-use", "offline-first"]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "thunderbird",
+  "name": "Thunderbird",
+  "category": "email",
+  "insteadOf": "Gmail app / Outlook / Samsung Email",
+  "hook": "The 20-year veteran of email, now on Android — one unified inbox for every account, push notifications, and zero ads or trackers.",
+  "bullets": [
+    "Unified inbox that folds Gmail, Outlook, Yahoo, and any IMAP account into one view",
+    "Push notifications via IMAP IDLE — mail arrives without polling the battery dry",
+    "OpenPGP encryption built in, no separate plugin to install",
+    "The codebase is k-9 Mail, now maintained as the official Thunderbird for Android"
+  ],
+  "features": ["Unified inbox", "Push notifications", "OpenPGP", "Unlimited accounts", "Apache-2.0", "20+ languages"],
+  "benefits": [
+    "Every account in one place — check mail once, not app by app",
+    "Backed by the Thunderbird project: audited, ad-free, and tracking-free by design",
+    "Sign in with OAuth or an app password; no proprietary sync service required",
+    "Conversations, stars, search, and folders behave like desktop Thunderbird"
+  ],
+  "setupSteps": [
+    "Install Thunderbird from F-Droid, Play Store, or the project's GitHub releases",
+    "Add each account — sign in with OAuth where your provider supports it",
+    "Switch on the unified inbox to see all accounts in one stream",
+    "Tune per-account notifications so only what matters buzzes your phone"
+  ],
+  "details": "Thunderbird for Android is the official mobile client from the Thunderbird project, born from the merger of the long-running k-9 Mail and Thunderbird desktop lineages. It handles IMAP, POP3, and Exchange accounts with OAuth sign-in, pushes new mail through IMAP IDLE instead of scheduled polling, and folds any number of accounts into a single unified inbox. Conversations, unified folders, full-text search, and per-account identities behave like the desktop app, and OpenPGP encryption is built in through Autocrypt — no plugin to hunt down. The app is Apache-2.0 licensed, contains no ads or analytics, and ships in over 20 languages. Like its desktop sibling, it is a pure email client: your address stays with your provider, and Thunderbird never sees your mail on a server of its own.",
+  "setup": "App (Android) — sign in to your accounts",
+  "difficulty": "easy",
+  "link": "https://thunderbird.net/mobile",
+  "repo": "https://github.com/thunderbird/thunderbird-android",
+  "logo": "assets/logos/thunderbird.png",
+  "screenshot": "assets/screenshots/thunderbird.jpg",
+  "screenshotType": "portrait",
+  "tags": ["install-and-use"]
+}

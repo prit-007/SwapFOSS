@@ -1,0 +1,35 @@
+{
+  "id": "fairemail",
+  "name": "FairEmail",
+  "category": "email",
+  "insteadOf": "Gmail app / Outlook / stock mail clients with trackers",
+  "hook": "A privacy-first email client that blocks trackers by default and gives you unlimited accounts with a unified inbox — 100% open source.",
+  "bullets": [
+    "Blocks remote images and tracking pixels until you explicitly allow them",
+    "Unlimited accounts and addresses with a unified inbox and conversation view",
+    "Push notifications, offline storage, and two-way sync that is battery friendly",
+    "Works with virtually any provider: Gmail, Outlook, Yahoo, Fastmail, self-hosted"
+  ],
+  "features": ["Tracker blocking", "Unified inbox", "Conversation view", "Push notifications", "Offline storage", "GPL-3.0"],
+  "benefits": [
+    "No ads, no analytics, no remote content loading behind your back",
+    "Read receipts and pixel trackers die at the door — senders learn nothing",
+    "Small (~30 MB), low data usage, and deliberate about battery life",
+    "Bring your own address: it is a client only, so your mail stays with your provider"
+  ],
+  "setupSteps": [
+    "Install FairEmail from F-Droid or the project's GitHub releases",
+    "Add an account — OAuth on the GitHub/Play builds, or server settings on F-Droid",
+    "Turn on the unified inbox if you run several accounts",
+    "Review the privacy defaults: remote images and trackers are blocked out of the box"
+  ],
+  "details": "FairEmail is a fully featured, privacy-oriented email client by Marcel Bokhorst, licensed GPL-3.0 and built around one idea: your inbox should not be a telemetry surface. It loads no remote images or tracking pixels until you allow them, so open-beacon pixels and read receipts never fire. Technically it covers unlimited accounts and addresses, unified inbox (by account or folder), conversation threading, two-way sync, push notifications, offline operations, and Material design with dark and true-black themes — at roughly 30 MB with low data usage. Two honest caveats from the project itself: Google never approved OAuth for the F-Droid build, so on F-Droid you sign in with an app password or manual server settings (use the GitHub release or Play build if you want OAuth), and it deliberately does not support Microsoft Exchange EWS or ActiveSync. It is an email client only — you bring your own address.",
+  "setup": "App (Android) — add your accounts",
+  "difficulty": "medium",
+  "link": "https://email.faircode.eu/",
+  "repo": "https://github.com/M66B/FairEmail",
+  "logo": "assets/logos/fairemail.png",
+  "screenshot": "assets/screenshots/fairemail.jpg",
+  "screenshotType": "portrait",
+  "tags": ["install-and-use"]
+}
