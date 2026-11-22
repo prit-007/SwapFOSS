@@ -1,0 +1,35 @@
+{
+  "id": "material-files",
+  "name": "Material Files",
+  "category": "utility",
+  "insteadOf": "Files by Google / Mi File Manager / ad-supported file managers",
+  "hook": "A clean, ad-free file manager with root access, archive handling, and network shares over FTP, SFTP, SMB, and WebDAV.",
+  "bullets": [
+    "Material Design file browsing with dark theme and no ads anywhere",
+    "Root support for viewing and managing system files",
+    "Create, extract, and browse zip, tar, gz, and other common archives",
+    "Mount network storage: FTP, SFTP, SMB, and WebDAV servers"
+  ],
+  "features": ["Root access", "Archive support", "FTP/SFTP/SMB/WebDAV", "Material Design", "No ads", "GPL-3.0"],
+  "benefits": [
+    "Does the file-manager job properly and then gets out of your way",
+    "Replaces three apps: local files, archive tool, and network client",
+    "Root and SAF access in one place for power users and tinkerers",
+    "Small, fast, and maintained — no bundled cleaners or 'boosters'"
+  ],
+  "setupSteps": [
+    "Install Material Files from F-Droid, Play Store, or GitHub releases",
+    "Open it and grant storage access when prompted",
+    "Add a network location from the side menu if you use FTP, SMB, or WebDAV",
+    "Enable root access in settings if your device is rooted"
+  ],
+  "details": "Material Files is an open-source file manager for Android 5.0 and up, built by Zhang Hai around one principle: clean Material Design, done properly. It covers the fundamentals with no ads and no junk — browse and manage local and SD-card storage, work with root access on rooted devices, and view, extract, and create common compressed formats (zip, tar, gz, and friends) without a separate archive app. Where it pulls ahead of the stock managers is network storage: it speaks FTP, SFTP, SMB, and WebDAV, so NAS shares and remote servers sit alongside local folders in one tree. It is GPL-3.0, roughly a few megabytes, available on F-Droid and GitHub releases, and deliberately contains none of the cleaners, boosters, or promotional cards that ship in the proprietary alternatives.",
+  "setup": "App (Android) — grant storage access and browse",
+  "difficulty": "easy",
+  "link": "https://github.com/zhanghai/MaterialFiles",
+  "repo": "https://github.com/zhanghai/MaterialFiles",
+  "logo": "assets/logos/material-files.png",
+  "screenshot": "assets/screenshots/material-files.jpg",
+  "screenshotType": "portrait",
+  "tags": ["install-and-use", "offline-first", "local-first"]
+}

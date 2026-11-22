@@ -1,0 +1,35 @@
+{
+  "id": "breezy-weather",
+  "name": "Breezy Weather",
+  "category": "utility",
+  "insteadOf": "Google Weather / ad-loaded weather apps that sell your location",
+  "hook": "A feature-rich, ad-free weather app with Material 3 visuals and 50+ sources — forecasts, air quality, pollen, and alerts without a tracker in sight.",
+  "bullets": [
+    "Forecasts up to 16 days from 50+ sources, including fully libre providers",
+    "Hourly and daily views with detailed 24-hour charts and nowcasting",
+    "Air quality, pollen, UV, and severe weather alerts alongside the forecast",
+    "Widgets, live wallpaper, custom icon packs, and automatic dark mode"
+  ],
+  "features": ["50+ sources", "Material 3 Expressive", "Widgets", "Severe alerts", "Air quality & pollen", "LGPL-3.0"],
+  "benefits": [
+    "No ads, no tracking — your location never becomes someone's revenue",
+    "Pick your own provider, from national met offices to self-hosted Open-Meteo",
+    "Beautiful, glanceable charts instead of a wall of numbers",
+    "Libre-only build available for anyone who wants strictly free sources"
+  ],
+  "setupSteps": [
+    "Install Breezy Weather from F-Droid or the project's GitHub releases",
+    "Add your location and let it pick a default source",
+    "Choose which blocks to show: precipitation, air quality, pollen, UV",
+    "Drop a widget on your home screen and set alert preferences"
+  ],
+  "details": "Breezy Weather is a free and open-source weather app in the Material 3 Expressive style, carrying forward the lineage of Geometric Weather after that project went closed-source. It draws on more than 50 weather sources — national services like NWS, Met Office, and Met Éireann alongside open ones like Open-Meteo and Pirate Weather — and serves forecasts up to 16 days out with hourly granularity, next-hour precipitation, nowcasting, air quality, pollen and ephemeris data, and severe weather alerts. The presentation is the point: detailed 24-hour charts, a large selection of widgets, a live wallpaper, custom icon packs, and automatic dark mode. Two things worth knowing: F-Droid ships a libre flavor (_freenet) that excludes non-free sources like AccuWeather if you want strictly open data, and the app can opt into sharing readings with other apps such as Gadgetbridge. It is LGPL-3.0 with no ads and no analytics.",
+  "setup": "App (Android) — add a location and pick a source",
+  "difficulty": "easy",
+  "link": "https://github.com/breezy-weather/breezy-weather",
+  "repo": "https://github.com/breezy-weather/breezy-weather",
+  "logo": "assets/logos/breezy-weather.png",
+  "screenshot": "assets/screenshots/breezy-weather.jpg",
+  "screenshotType": "portrait",
+  "tags": ["install-and-use", "offline-first"]
+}

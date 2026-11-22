@@ -1,0 +1,16 @@
+{
+  "id": "post-029",
+  "title": "The Pocket Power Stack: forecast, files, and shell",
+  "intro": {
+    "eyebrow": "Big Tech swaps, part 29",
+    "headline": "Ad-free weather, a real file manager, and a Linux terminal in your pocket.",
+    "subhead": "Breezy Weather, Material Files, and Termux replace Google's weather, Files by Google, and the laptop you drag around for a shell.",
+    "pills": ["50+ weather sources", "Root & network shares", "1,000+ packages", "No ads"],
+    "hl": { "word": "Linux terminal", "color": "#4EA8DE" }
+  },
+  "tools": ["breezy-weather", "material-files", "termux"],
+  "outro": {
+    "headline": "Three stock-app swaps that earn their place.",
+    "subhead": "No ads, no trackers, no telemetry — just the weather, your files, and a shell that does what you tell it."
+  }
+}

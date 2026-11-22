@@ -1,0 +1,35 @@
+{
+  "id": "simplex-chat",
+  "name": "SimpleX Chat",
+  "category": "messaging",
+  "insteadOf": "WhatsApp / Telegram / Signal (all built on your phone number)",
+  "hook": "The first messenger with no user identifiers at all — no phone number, no email, no username — just private chats you accept by invitation.",
+  "bullets": [
+    "No user IDs: you are never addressable without first sending an invitation link",
+    "End-to-end encrypted by default for messages, files, images, and calls",
+    "Decentralized — chat over servers you can run yourself, which store no metadata",
+    "Groups, voice and video calls, multi-device profiles, and huge file transfers"
+  ],
+  "features": ["No user IDs", "E2E encrypted", "Decentralized", "Self-hostable servers", "Voice & video calls", "AGPL-3.0"],
+  "benefits": [
+    "Nobody can enumerate, scrape, or spam you — contact only happens by your invitation",
+    "Metadata-private: servers cannot see who talks to whom, only encrypted payloads",
+    "Your identity is whatever link you share — rotate it and start fresh",
+    "Works in censored networks and over Tor without special configuration"
+  ],
+  "setupSteps": [
+    "Install SimpleX from F-Droid, the website, or GitHub releases",
+    "Create a local profile — no phone number or email is ever requested",
+    "Share your one-time invitation link or QR code with people you want to reach",
+    "Optionally point the app at your own SMP server for full self-hosting"
+  ],
+  "details": "SimpleX Chat is a messenger built on a genuinely different premise: instead of assigning users identifiers — phone numbers, emails, even random handles — it connects people through one-time invitation links and rotating private keys, so there is nothing on any server to enumerate or breach. Messages, files, and calls are end-to-end encrypted with the Double Ratchet algorithm, and the network itself is decentralized: the SMP servers that relay messages can be self-hosted, hold no user accounts, and are designed so they cannot even tell who is talking to whom. On top of that sit the conveniences you expect — group chats, voice and video calls, multiple devices per profile, message forwarding across servers for censorship resistance, and multi-gigabyte file transfers. It is AGPL-3.0, audited, and available on F-Droid; the trade-off is a slightly different mental model, since every conversation starts from an invitation link rather than a contact list.",
+  "setup": "App (Android) — create a profile, share an invitation link",
+  "difficulty": "medium",
+  "link": "https://simplex.chat",
+  "repo": "https://github.com/simplex-chat/simplex-chat",
+  "logo": "assets/logos/simplex-chat.png",
+  "screenshot": "assets/screenshots/simplex-chat.jpg",
+  "screenshotType": "portrait",
+  "tags": ["install-and-use", "e2e-encrypted"]
+}

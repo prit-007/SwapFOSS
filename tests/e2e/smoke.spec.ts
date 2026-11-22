@@ -33,9 +33,9 @@ test("infinite scroll loads more tools when scrolling near bottom", async ({ pag
       },
       { timeout: 15_000 },
     )
-    .toBe(59);
+    .toBe(65);
   await expect(page.locator(".load-more-end")).toBeVisible();
-  await expect(page.locator(".load-more-end")).toContainText("You've explored all 59 tools");
+  await expect(page.locator(".load-more-end")).toContainText("You've explored all 65 tools");
 });
 
 test("clicking search clear button clears the search query", async ({ page }) => {

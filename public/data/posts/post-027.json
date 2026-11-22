@@ -1,0 +1,17 @@
+{
+  "id": "post-027",
+  "format": "deep-dive",
+  "title": "SimpleX Chat: messaging without an identity",
+  "intro": {
+    "eyebrow": "Deep dive — SimpleX Chat",
+    "headline": "A messenger with no phone number, no username, no user ID.",
+    "subhead": "SimpleX connects people through one-time invitation links and end-to-end encryption instead of user accounts — so there is nothing on any server to leak, scrape, or spam.",
+    "pills": ["No user IDs", "E2E encrypted", "Self-hostable", "AGPL-3.0"],
+    "hl": { "word": "no user ID", "color": "#2DD4BF" }
+  },
+  "tools": ["simplex-chat"],
+  "outro": {
+    "headline": "Message like it's nobody's business — because it isn't.",
+    "subhead": "No phone number to harvest, no profile to breach, no metadata to subpoena. Share an invitation link and start talking."
+  }
+}
